@@ -14,22 +14,20 @@ public class ArticleVendu implements Serializable {
 	private int miseAPrix;
 	private int prixVente;
 	private Categorie categorie;
-	private Utilisateur acheteur;
 	private Utilisateur vendeur;
 	private boolean vendu = false;
-	
-	
+	private Retrait lieuRetrait;
 
 	// CONSTRUCTEURS
 
+
 	public ArticleVendu() {
-		super();
+
 	}
 
 	public ArticleVendu(String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			int miseAPrix, int prixVente, Categorie categorie, Utilisateur acheteur, Utilisateur vendeur,
-			boolean vendu) {
-		super();
+			int miseAPrix, int prixVente, Categorie categorie, Utilisateur vendeur, boolean vendu,
+			Retrait lieuRetrait) {
 		this.nom = nom;
 		this.description = description;
 		this.dateDebutEncheres = dateDebutEncheres;
@@ -37,26 +35,18 @@ public class ArticleVendu implements Serializable {
 		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
 		this.categorie = categorie;
-		this.acheteur = acheteur;
 		this.vendeur = vendeur;
 		this.vendu = vendu;
+		this.lieuRetrait = lieuRetrait;
 	}
 
 	public ArticleVendu(int id, String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			int miseAPrix, int prixVente, Categorie categorie, Utilisateur acheteur, Utilisateur vendeur,
-			boolean vendu) {
-		super();
+			int miseAPrix, int prixVente, Categorie categorie, Utilisateur vendeur, boolean vendu,
+			Retrait lieuRetrait) {
+		this(nom, description, dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente, categorie, vendeur, vendu,
+				lieuRetrait);
 		this.id = id;
-		this.nom = nom;
-		this.description = description;
-		this.dateDebutEncheres = dateDebutEncheres;
-		this.dateFinEncheres = dateFinEncheres;
-		this.miseAPrix = miseAPrix;
-		this.prixVente = prixVente;
-		this.categorie = categorie;
-		this.acheteur = acheteur;
-		this.vendeur = vendeur;
-		this.vendu = vendu;
+
 	}
 
 	// GETTERS AND SETTERS
@@ -124,14 +114,6 @@ public class ArticleVendu implements Serializable {
 		this.categorie = categorie;
 	}
 
-	public Utilisateur getAcheteur() {
-		return acheteur;
-	}
-
-	public void setAcheteur(Utilisateur acheteur) {
-		this.acheteur = acheteur;
-	}
-
 	public Utilisateur getVendeur() {
 		return vendeur;
 	}
@@ -148,15 +130,23 @@ public class ArticleVendu implements Serializable {
 		this.vendu = vendu;
 	}
 
-	//TO STRING 
+	public Retrait getLieuRetrait() {
+		return lieuRetrait;
+	}
+
+	public void setLieuRetrait(Retrait lieuRetrait) {
+		this.lieuRetrait = lieuRetrait;
+	}
+
+	/**
+	 * Méthode ToString 
+	 */
 	@Override
 	public String toString() {
 		return "ArticleVendu [id=" + id + ", nom=" + nom + ", description=" + description + ", dateDebutEncheres="
 				+ dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", miseAPrix=" + miseAPrix
-				+ ", prixVente=" + prixVente + ", categorie=" + categorie + ", acheteur=" + acheteur + ", vendeur="
-				+ vendeur + ", vendu=" + vendu + "]";
+				+ ", prixVente=" + prixVente + ", categorie=" + categorie + ", vendeur=" + vendeur + ", vendu=" + vendu
+				+ ", lieuRetrait=" + lieuRetrait + "]";
 	}
-	
-	
 
 }
