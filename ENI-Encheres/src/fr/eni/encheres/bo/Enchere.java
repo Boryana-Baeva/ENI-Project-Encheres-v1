@@ -1,5 +1,7 @@
 package fr.eni.encheres.bo;
 
-public class Enchere {
+import java.io.Serializable;
 
+public class Enchere implements Serializable{
+	private static final long serialVersionUID = 1L;
 }

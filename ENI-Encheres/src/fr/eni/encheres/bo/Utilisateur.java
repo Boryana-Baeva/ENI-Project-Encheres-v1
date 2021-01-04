@@ -21,7 +21,7 @@ public class Utilisateur implements Serializable {
     
     
     
-    // Constructeur vide
+    // Constructeur 
     public Utilisateur() {
 		
 	}
