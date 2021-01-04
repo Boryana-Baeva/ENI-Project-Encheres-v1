@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+  	    <meta name="viewport"content="width=device-width, initial-scale=1.">
+  	    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <!-- Place your kit's code here -->
+        <script src="https://kit.fontawesome.com/1cbc331981.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="../css/style.css">
+        <title>ENI-Enchères</title>
+    </head>
+
+    <body>
+
+    <header>
+      <h1>ENI-Enchères</h1>
+    </header>
+
+    <h2>Nouvelle vente</h2>
+    <section class="AchatForm">
+      
+      <form action="result.html" method="GET" enctype="multipart/form-data"> <!-- change methode to POST to get results on server, i used GET to show the result in html file-->
+
+<!-- Colonee de gauche-->
+        <div>
+          <label for="article">Article :</label>
+          <input name="article" id="article" type="text" required>
+        </div>
+
+        <div>
+            <label for="description">Description :</label>
+            <textarea name="description" id="description">Entrez une description de l'article</textarea>
+        </div>
+
+        <div>
+            <label for="categorie">Catégorie :</label>
+            <select id="categorie">
+                <option value ="">--Choisir une option--</option>
+                <option value ="">Voiture</option>
+                <option value ="">éléctronique</option>
+                <option value ="">Vélo</option>
+                <option value ="">Mobilier</option>
+                <option value ="">Animaux</option>
+            </select>
+        </div>
+        
+        <div>
+           <label for="file">Photo de l'article :</label> 
+           <input id="file" type="file" name="file">
+        </div>
+        
+        <div>
+                <label for="mPrix">Mise à prix :</label>
+                <input name="mPrix" id="mPrix" type="number" 
+                step="1" maxlength= 7  minlength= 1 required>
+        </div>
+
+        <div>
+            <label for="dEnchere">Début de l'enchère :</label>
+            <input name="dEnchere" id="dEnchere" type="date" required> 
+        </div>
+
+        <div>
+            <label for="fEnchere">Fin de l'enchère :</label>
+            <input name="fEnchere" id="fEnchere" type="date" required> 
+        </div>
+
+    <!-- Retrait-->
+      <div class="Retrait>
+        <div>
+            <label for="rue">Rue :</label>
+            <input name="rue" id="rue" type="text" required>
+        </div>
+
+        <div>
+            <label for="cp">Code Postale :</label>
+            <input name="codepostale" id="cp" type="number" 
+            maxlength= 5  minlength= 5 required>
+        </div>
+
+        <div>
+            <label for="ville">Ville :</label>
+            <input name="ville" id="ville" type="text" required>
+        </div>
+
+
+        <div class=btn-large>
+          <button class="btn" type="submit">Enregistrer</button>
+        </div>
+
+        <div class=btn-large>
+          <a href ='PageConnexion.html'><button class="btn" type="button"> <!--change that with index.html file location-->
+            Annuler
+          </button>
+          </a>
+          </div>
+
+          <a href ='PageConnexion.html'><button class="button" type="button">
+            Test
+          </button>
+        </div>
+      </form>
+    </section>
+    </body>
+</html>
