@@ -36,7 +36,9 @@ public class Utilisateur implements Serializable {
 		this.password = password;
 		this.credit = credit;
 		this.administrateur = administrateur;
-	}​ ​ // Getters & Setters
+	}​ ​ 
+	
+	// Getters & Setters
 
 	public int getId() {​​
 	return id;
