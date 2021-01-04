@@ -1,5 +1,6 @@
 package fr.eni.encheres.bo;
 
-public class ArticleVendu {
+public class ArticleVendu implements Serializable {
 
+	 p
 }
