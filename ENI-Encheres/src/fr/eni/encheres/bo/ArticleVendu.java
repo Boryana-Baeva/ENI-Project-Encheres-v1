@@ -1,20 +1,24 @@
 package fr.eni.encheres.bo;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class ArticleVendu implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int noArticle;
-	private String nomArticle;
+	private int id;
+	private String nom;
 	private String description;
-	private Date debutEncheres;
-	private Date finEncheres;
-	private int prixInitial;
+	private LocalDate dateDebutEncheres;
+	private LocalDate dateFinEncheres;
+	private int miseAPrix;
 	private int prixVente;
-	private Utilisateur id;
-	private int noCategorie;
+	private Categorie categorie;
+	private Utilisateur acheteur;
+	private Utilisateur vendeur;
+	private boolean vendu = false;
+	
+	
 
 	// CONSTRUCTEURS
 
@@ -22,49 +26,54 @@ public class ArticleVendu implements Serializable {
 		super();
 	}
 
-	public ArticleVendu(String nomArticle, String description, Date debutEncheres, Date finEncheres, int prixInitial,
-			int prixVente, Utilisateur id, int noCategorie) {
+	public ArticleVendu(String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+			int miseAPrix, int prixVente, Categorie categorie, Utilisateur acheteur, Utilisateur vendeur,
+			boolean vendu) {
 		super();
-		this.nomArticle = nomArticle;
+		this.nom = nom;
 		this.description = description;
-		this.debutEncheres = debutEncheres;
-		this.finEncheres = finEncheres;
-		this.prixInitial = prixInitial;
+		this.dateDebutEncheres = dateDebutEncheres;
+		this.dateFinEncheres = dateFinEncheres;
+		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
-		this.id = id;
-		this.noCategorie = noCategorie;
+		this.categorie = categorie;
+		this.acheteur = acheteur;
+		this.vendeur = vendeur;
+		this.vendu = vendu;
 	}
 
-	public ArticleVendu(int noArticle, String nomArticle, String description, Date debutEncheres, Date finEncheres,
-			int prixInitial, int prixVente, Utilisateur id, int noCategorie) {
+	public ArticleVendu(int id, String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+			int miseAPrix, int prixVente, Categorie categorie, Utilisateur acheteur, Utilisateur vendeur,
+			boolean vendu) {
 		super();
-		this.noArticle = noArticle;
-		this.nomArticle = nomArticle;
-		this.description = description;
-		this.debutEncheres = debutEncheres;
-		this.finEncheres = finEncheres;
-		this.prixInitial = prixInitial;
-		this.prixVente = prixVente;
 		this.id = id;
-		this.noCategorie = noCategorie;
+		this.nom = nom;
+		this.description = description;
+		this.dateDebutEncheres = dateDebutEncheres;
+		this.dateFinEncheres = dateFinEncheres;
+		this.miseAPrix = miseAPrix;
+		this.prixVente = prixVente;
+		this.categorie = categorie;
+		this.acheteur = acheteur;
+		this.vendeur = vendeur;
+		this.vendu = vendu;
 	}
 
 	// GETTERS AND SETTERS
-
-	public int getNoArticle() {
-		return noArticle;
+	public int getId() {
+		return id;
 	}
 
-	public void setNoArticle(int noArticle) {
-		this.noArticle = noArticle;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public String getNomArticle() {
-		return nomArticle;
+	public String getNom() {
+		return nom;
 	}
 
-	public void setNomArticle(String nomArticle) {
-		this.nomArticle = nomArticle;
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 
 	public String getDescription() {
@@ -75,28 +84,28 @@ public class ArticleVendu implements Serializable {
 		this.description = description;
 	}
 
-	public Date getDebutEncheres() {
-		return debutEncheres;
+	public LocalDate getDateDebutEncheres() {
+		return dateDebutEncheres;
 	}
 
-	public void setDebutEncheres(Date debutEncheres) {
-		this.debutEncheres = debutEncheres;
+	public void setDateDebutEncheres(LocalDate dateDebutEncheres) {
+		this.dateDebutEncheres = dateDebutEncheres;
 	}
 
-	public Date getFinEncheres() {
-		return finEncheres;
+	public LocalDate getDateFinEncheres() {
+		return dateFinEncheres;
 	}
 
-	public void setFinEncheres(Date finEncheres) {
-		this.finEncheres = finEncheres;
+	public void setDateFinEncheres(LocalDate dateFinEncheres) {
+		this.dateFinEncheres = dateFinEncheres;
 	}
 
-	public int getPrixInitial() {
-		return prixInitial;
+	public int getMiseAPrix() {
+		return miseAPrix;
 	}
 
-	public void setPrixInitial(int prixInitial) {
-		this.prixInitial = prixInitial;
+	public void setMiseAPrix(int miseAPrix) {
+		this.miseAPrix = miseAPrix;
 	}
 
 	public int getPrixVente() {
@@ -107,20 +116,47 @@ public class ArticleVendu implements Serializable {
 		this.prixVente = prixVente;
 	}
 
-	public Utilisateur getId() {
-		return id;
+	public Categorie getCategorie() {
+		return categorie;
 	}
 
-	public void setId(Utilisateur id) {
-		this.id = id;
+	public void setCategorie(Categorie categorie) {
+		this.categorie = categorie;
 	}
 
-	public int getNoCategorie() {
-		return noCategorie;
+	public Utilisateur getAcheteur() {
+		return acheteur;
 	}
 
-	public void setNoCategorie(int noCategorie) {
-		this.noCategorie = noCategorie;
+	public void setAcheteur(Utilisateur acheteur) {
+		this.acheteur = acheteur;
 	}
+
+	public Utilisateur getVendeur() {
+		return vendeur;
+	}
+
+	public void setVendeur(Utilisateur vendeur) {
+		this.vendeur = vendeur;
+	}
+
+	public boolean isVendu() {
+		return vendu;
+	}
+
+	public void setVendu(boolean vendu) {
+		this.vendu = vendu;
+	}
+
+	//TO STRING 
+	@Override
+	public String toString() {
+		return "ArticleVendu [id=" + id + ", nom=" + nom + ", description=" + description + ", dateDebutEncheres="
+				+ dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", miseAPrix=" + miseAPrix
+				+ ", prixVente=" + prixVente + ", categorie=" + categorie + ", acheteur=" + acheteur + ", vendeur="
+				+ vendeur + ", vendu=" + vendu + "]";
+	}
+	
+	
 
 }
