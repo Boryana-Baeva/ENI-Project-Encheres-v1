@@ -11,6 +11,7 @@ public class Enchere implements Serializable{
 	private ArticleVendu article;
 	private Utilisateur encherisseur;
 	
+	
 	// Constructeurs
 	
 	public Enchere() {
