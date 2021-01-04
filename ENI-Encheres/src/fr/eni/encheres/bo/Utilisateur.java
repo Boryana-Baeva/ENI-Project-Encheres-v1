@@ -2,6 +2,12 @@ package fr.eni.encheres.bo;
 
 import java.io.Serializable;
 
+/**
+ * ceci est la classe Utilisateur
+ * @author sarah
+ *
+ */
+
 public class Utilisateur implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
@@ -15,6 +21,7 @@ public class Utilisateur implements Serializable {
 	private String password; 
 	private int credit;
     private boolean administrateur;
+    
     
     // Constructeur vide
     public Utilisateur() {
