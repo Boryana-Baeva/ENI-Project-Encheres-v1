@@ -2,9 +2,6 @@ package fr.eni.encheres.bo;
 
 import java.io.Serializable;
 
-//ceci est une classe
-
-
 public class Utilisateur implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
@@ -18,6 +15,10 @@ public class Utilisateur implements Serializable {
 	private String password; 
 	private int credit;
     private boolean administrateur;
+    private ArticleVendu[] articlesVendus = null;
+    private ArticleVendu[] articlesAchetes = null;
+    private Enchere[] encheres = null;
+    
     
     
     // Constructeur vide
@@ -26,7 +27,7 @@ public class Utilisateur implements Serializable {
 	}
     
     public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String code_postal,
-			String ville, String password, int credit, boolean administrateur) {
+			String ville, String password, int credit, boolean administrateur, ArticleVendu[] articlesVendus, ArticleVendu[] articlesAchetes, Enchere[] encheres ) {
 		super();
 		this.pseudo = pseudo;
 		this.nom = nom;
@@ -38,6 +39,14 @@ public class Utilisateur implements Serializable {
 		this.password = password;
 		this.credit = credit;
 		this.administrateur = administrateur;
+	}
+
+    
+	public Utilisateur(int id, String pseudo, String nom, String prenom, String email, String telephone,
+			String code_postal, String ville, String password, int credit, boolean administrateur, ArticleVendu[] articlesVendus, ArticleVendu[] articlesAchetes, Enchere[] encheres) {
+		this(pseudo, nom, prenom, email, telephone, code_postal, ville, password, credit, administrateur, articlesVendus, articlesAchetes, encheres );
+		this.id = id;
+		
 	}
 
 	// Getters & Setters
@@ -129,5 +138,33 @@ public class Utilisateur implements Serializable {
 		this.administrateur = administrateur;
 	}
     
-    
+	
+    public ArticleVendu[] getArticlesVendus() {
+		return articlesVendus;
+	}
+
+	public void setArticlesVendus(ArticleVendu[] articlesVendus) {
+		this.articlesVendus = articlesVendus;
+	}
+
+	public ArticleVendu[] getArticlesAchetes() {
+		return articlesAchetes;
+	}
+
+	public void setArticlesAchetes(ArticleVendu[] articlesAchetes) {
+		this.articlesAchetes = articlesAchetes;
+	}
+
+	public Enchere[] getEncheres() {
+		return encheres;
+	}
+
+	public void setEnchere(Enchere[] encheres) {
+		this.encheres = encheres;
+	}
+
+	@Override
+    public String toString() {
+    	return super.toString();
+    }
 }
