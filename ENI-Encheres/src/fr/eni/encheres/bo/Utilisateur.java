@@ -3,7 +3,11 @@ package fr.eni.encheres.bo;
 
 import java.io.Serializable;
 
+/**
+ * Ceci est la classe Utilisateur
+ */
 public class Utilisateur implements Serializable {
+
 	​ ​
 
 	private static final long serialVersionUID = 1L;
