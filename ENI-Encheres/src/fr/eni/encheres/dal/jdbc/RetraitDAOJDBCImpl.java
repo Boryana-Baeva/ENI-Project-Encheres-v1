@@ -8,21 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.encheres.bo.Retrait;
+import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.RetraitDAO;
 
 
 
 public class RetraitDAOJDBCImpl implements RetraitDAO{
 	private static final String INSERT="INSERT INTO RETRAITS VALUES(?,?,?)";
-	private static final String GET_BY_ID="SELECT * FROM RETRAITS WHERE no_article = ?";
+	private static final String GET_BY_ID="SELECT * FROM RETRAITS WHERE no_retrait = ?";
 	private static final String GET_ALL="SELECT * FROM RETRAITS";
 	private static final String UPDATE="UPDATE RETRAITS SET rue = ?, code_postal = ?, ville = ?";
-	private static final String DELETE="DELETE RETRAITS WHERE no_article = ?";
+	private static final String DELETE="DELETE RETRAITS WHERE no_retrait = ?";
 	
-	
+	@Override
 	public static void insert(Retrait retrait) //INSERT
 	{
-		try(Connection connection = Utils.getConnection())
+		try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement statement = connection.prepareStatement(INSERT);
 			statement.setString(1, retrait.getRue());
@@ -36,10 +37,11 @@ public class RetraitDAOJDBCImpl implements RetraitDAO{
 		}
 	}
 	
+	@Override
 	public static Retrait get(int id) //GET_BY_ID
 	{
 		Retrait retrait = null;
-		try(Connection connection = Utils.getConnection())
+		try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement statement = connection.prepareStatement(GET_BY_ID);
 			statement.setInt(1, id);
@@ -60,11 +62,12 @@ public class RetraitDAOJDBCImpl implements RetraitDAO{
 		return retrait;
 	}
 	
+	@Override
 	public static List<Retrait> get() // GET_ALL
 	{
 		List<Retrait> listes = new ArrayList<>();
 		
-		try(Connection connection = Utils.getConnection())
+		try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement statement = connection.prepareStatement(GET_ALL);
 			ResultSet rs = statement.executeQuery();
@@ -87,9 +90,10 @@ public class RetraitDAOJDBCImpl implements RetraitDAO{
 		return listes;
 	}
 	
+	@Override
 	public static void update(Retrait retrait) //UPDATE
 	{
-		try(Connection conenction = Utils.getConnection())
+		try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement statement = connection.prepareStatement(UPDATE);
 			
@@ -104,9 +108,10 @@ public class RetraitDAOJDBCImpl implements RetraitDAO{
 		}
 	}
 	
+	@Override
 	public static void delete(int id) //DELETE
 	{
-		try(Connection connection = Utils.getConnection())
+		try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement statement = connection.prepareStatement(DELETE);
 			statement.setInt(1,id);
@@ -116,37 +121,5 @@ public class RetraitDAOJDBCImpl implements RetraitDAO{
 		{
 			
 		}
-	}
-	
-	
-	
-	@Override
-	public void insert(Retrait retrait) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Retrait getById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Retrait> getAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void update(Retrait retrait) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete(int id) {
-		// TODO Auto-generated method stub
-		
 	}
 }
