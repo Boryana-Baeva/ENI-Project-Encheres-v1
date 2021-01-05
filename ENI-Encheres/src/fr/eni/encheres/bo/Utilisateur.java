@@ -1,6 +1,7 @@
 package fr.eni.encheres.bo;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class Utilisateur implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -10,7 +11,8 @@ public class Utilisateur implements Serializable {
 	private String prenom;
 	private String email;
 	private String telephone;
-	private String code_postal;
+	private String rue;
+	private String codePostal;
 	private String ville;
 	private String password; 
 	private int credit;
@@ -26,7 +28,7 @@ public class Utilisateur implements Serializable {
 		
 	}
     
-    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String code_postal,
+    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal,
 			String ville, String password, int credit, boolean administrateur, ArticleVendu[] articlesVendus, ArticleVendu[] articlesAchetes, Enchere[] encheres ) {
 		super();
 		this.pseudo = pseudo;
@@ -34,7 +36,8 @@ public class Utilisateur implements Serializable {
 		this.prenom = prenom;
 		this.email = email;
 		this.telephone = telephone;
-		this.code_postal = code_postal;
+		this.rue = rue;
+		this.codePostal = codePostal;
 		this.ville = ville;
 		this.password = password;
 		this.credit = credit;
@@ -42,13 +45,18 @@ public class Utilisateur implements Serializable {
 	}
 
     
-	public Utilisateur(int id, String pseudo, String nom, String prenom, String email, String telephone,
-			String code_postal, String ville, String password, int credit, boolean administrateur, ArticleVendu[] articlesVendus, ArticleVendu[] articlesAchetes, Enchere[] encheres) {
-		this(pseudo, nom, prenom, email, telephone, code_postal, ville, password, credit, administrateur, articlesVendus, articlesAchetes, encheres );
+	public Utilisateur(int id, String pseudo, String nom, String prenom, String email, String telephone, String rue,
+			String codePostal, String ville, String password, int credit, boolean administrateur, ArticleVendu[] articlesVendus, ArticleVendu[] articlesAchetes, Enchere[] encheres) {
+		this(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, password, credit, administrateur, articlesVendus, articlesAchetes, encheres );
 		this.id = id;
 		
 	}
 
+	public Retrait getLieuRetraitParDefaut()
+	{
+		return new Retrait(this.rue, this.codePostal, this.ville);
+	}
+	
 	// Getters & Setters
 	public int getId() {
 		return id;
@@ -98,12 +106,20 @@ public class Utilisateur implements Serializable {
 		this.telephone = telephone;
 	}
 	
+	public String getRue() {
+		return rue;
+	}
+
+	public void setRue(String rue) {
+		this.rue = rue;
+	}
+
 	public String getCode_postal() {
-		return code_postal;
+		return codePostal;
 	}
 	
-	public void setCode_postal(String code_postal) {
-		this.code_postal = code_postal;
+	public void setCode_postal(String codePostal) {
+		this.codePostal = codePostal;
 	}
 	
 	public String getVille() {
@@ -163,8 +179,17 @@ public class Utilisateur implements Serializable {
 		this.encheres = encheres;
 	}
 
+	/**
+	 * Méthode ToString 
+	 */
 	@Override
-    public String toString() {
-    	return super.toString();
-    }
+	public String toString() {
+		return "Utilisateur [id=" + id + ", pseudo=" + pseudo + ", nom=" + nom + ", prenom=" + prenom + ", email="
+				+ email + ", telephone=" + telephone + ", rue=" + rue + ", codePostal=" + codePostal + ", ville="
+				+ ville + ", password=" + password + ", credit=" + credit + ", administrateur=" + administrateur
+				+ ", articlesVendus=" + Arrays.toString(articlesVendus) + ", articlesAchetes="
+				+ Arrays.toString(articlesAchetes) + ", encheres=" + Arrays.toString(encheres) + "]";
+	}
+
+	
 }
