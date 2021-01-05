@@ -15,6 +15,6 @@
 		maxIdle="30"
 		maxWaitMillis="10000"
 	/>
-	<Resource></Resource>
+	
 
 </CONTEXT> 

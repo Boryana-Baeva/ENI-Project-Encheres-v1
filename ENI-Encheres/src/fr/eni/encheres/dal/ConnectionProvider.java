@@ -13,8 +13,7 @@ public abstract class ConnectionProvider {
 	
 private static DataSource dataSource;
 
-// connection
-	
+
 	/**
 	 * Au chargement de la classe, la DataSource est recherchée dans l'arbre JNDI
 	 */
