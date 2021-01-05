@@ -1,5 +1,5 @@
 package fr.eni.encheres.dal;
 
-public class ArticleVenduDAO {
+public interface ArticleVenduDAO {
 
 }

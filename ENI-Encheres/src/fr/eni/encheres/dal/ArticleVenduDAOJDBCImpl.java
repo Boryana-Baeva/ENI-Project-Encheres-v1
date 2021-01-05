@@ -1,5 +1,5 @@
 package fr.eni.encheres.dal;
 
-public class ArticleVenduDAOJDBCImpl extends ArticleVenduDAO {
+public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 }
