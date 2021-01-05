@@ -114,11 +114,11 @@ public class Utilisateur implements Serializable {
 		this.rue = rue;
 	}
 
-	public String getCode_postal() {
+	public String getCodePostal() {
 		return codePostal;
 	}
 	
-	public void setCode_postal(String codePostal) {
+	public void setCodePostal(String codePostal) {
 		this.codePostal = codePostal;
 	}
 	
