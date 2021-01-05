@@ -15,7 +15,7 @@ public class ArticleVendu implements Serializable {
 	private int prixVente;
 	private Categorie categorie;
 	private Utilisateur vendeur;
-	private boolean vendu = false;
+	private EtatVente etatVente;
 	private Retrait lieuRetrait;
 
 	// CONSTRUCTEURS
@@ -26,7 +26,7 @@ public class ArticleVendu implements Serializable {
 	}
 
 	public ArticleVendu(String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			int miseAPrix, int prixVente, Categorie categorie, Utilisateur vendeur, boolean vendu,
+			int miseAPrix, int prixVente, Categorie categorie, Utilisateur vendeur, EtatVente etatVente ,
 			Retrait lieuRetrait) {
 		this.nom = nom;
 		this.description = description;
@@ -36,14 +36,24 @@ public class ArticleVendu implements Serializable {
 		this.prixVente = prixVente;
 		this.categorie = categorie;
 		this.vendeur = vendeur;
-		this.vendu = vendu;
+		this.etatVente = etatVente;
 		this.lieuRetrait = lieuRetrait;
 	}
+	
+	
+
+	public ArticleVendu(String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+			int miseAPrix, int prixVente, Categorie categorie, Utilisateur vendeur) {
+		this(nom,description,dateDebutEncheres,dateFinEncheres,miseAPrix,prixVente,categorie,vendeur,EtatVente.CREE, vendeur.getLieuRetraitParDefaut());
+			
+	}
+	
+	
 
 	public ArticleVendu(int id, String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			int miseAPrix, int prixVente, Categorie categorie, Utilisateur vendeur, boolean vendu,
+			int miseAPrix, int prixVente, Categorie categorie, Utilisateur vendeur, EtatVente etatVente,
 			Retrait lieuRetrait) {
-		this(nom, description, dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente, categorie, vendeur, vendu,
+		this(nom, description, dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente, categorie, vendeur, etatVente,
 				lieuRetrait);
 		this.id = id;
 
@@ -122,14 +132,6 @@ public class ArticleVendu implements Serializable {
 		this.vendeur = vendeur;
 	}
 
-	public boolean isVendu() {
-		return vendu;
-	}
-
-	public void setVendu(boolean vendu) {
-		this.vendu = vendu;
-	}
-
 	public Retrait getLieuRetrait() {
 		return lieuRetrait;
 	}
@@ -138,6 +140,7 @@ public class ArticleVendu implements Serializable {
 		this.lieuRetrait = lieuRetrait;
 	}
 
+
 	/**
 	 * Méthode ToString 
 	 */
@@ -145,8 +148,8 @@ public class ArticleVendu implements Serializable {
 	public String toString() {
 		return "ArticleVendu [id=" + id + ", nom=" + nom + ", description=" + description + ", dateDebutEncheres="
 				+ dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", miseAPrix=" + miseAPrix
-				+ ", prixVente=" + prixVente + ", categorie=" + categorie + ", vendeur=" + vendeur + ", vendu=" + vendu
-				+ ", lieuRetrait=" + lieuRetrait + "]";
+				+ ", prixVente=" + prixVente + ", categorie=" + categorie + ", vendeur=" + vendeur + ", etatVente="
+				+ etatVente + ", lieuRetrait=" + lieuRetrait + "]";
 	}
 
 }
