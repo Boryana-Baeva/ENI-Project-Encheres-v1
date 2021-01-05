@@ -1,4 +1,4 @@
-package fr.eni.encheres.dal;
+package fr.eni.encheres.dal.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.encheres.bo.Retrait;
+import fr.eni.encheres.dal.RetraitDAO;
 
 
 
