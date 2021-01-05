@@ -21,11 +21,11 @@ public class RetraitDAOJDBCImpl implements RetraitDAO{
 	private static final String DELETE="DELETE RETRAITS WHERE no_retrait = ?";
 	
 	@Override
-	public static void insert(Retrait retrait) //INSERT
+	public void insert(Retrait retrait) //INSERT
 	{
 		try(Connection cnx = ConnectionProvider.getConnection())
 		{
-			PreparedStatement statement = connection.prepareStatement(INSERT);
+			PreparedStatement statement = cnx.prepareStatement(INSERT);
 			statement.setString(1, retrait.getRue());
 			statement.setString(2, retrait.getCodePostal());
 			statement.setString(3, retrait.getVille());
@@ -38,20 +38,20 @@ public class RetraitDAOJDBCImpl implements RetraitDAO{
 	}
 	
 	@Override
-	public static Retrait get(int id) //GET_BY_ID
+	public Retrait getById(int id) //GET_BY_ID
 	{
 		Retrait retrait = null;
 		try(Connection cnx = ConnectionProvider.getConnection())
 		{
-			PreparedStatement statement = connection.prepareStatement(GET_BY_ID);
+			PreparedStatement statement = cnx.prepareStatement(GET_BY_ID);
 			statement.setInt(1, id);
 			ResultSet rs = statement.executeQuery();
 			if (rs.next())
 			{
 				retrait = new Retrait();
 				retrait.setId(rs.getInt("id"));
-				retrait.setRue(rs.getInt("rue"));
-				retrait.setCodePostal(rs.getInt("codePostal"));
+				retrait.setRue(rs.getString("rue"));
+				retrait.setCodePostal(rs.getString("codePostal"));
 				retrait.setVille(rs.getString("ville"));
 			}
 		}
@@ -63,13 +63,13 @@ public class RetraitDAOJDBCImpl implements RetraitDAO{
 	}
 	
 	@Override
-	public static List<Retrait> get() // GET_ALL
+	public List<Retrait> getAll() // GET_ALL
 	{
 		List<Retrait> listes = new ArrayList<>();
 		
 		try(Connection cnx = ConnectionProvider.getConnection())
 		{
-			PreparedStatement statement = connection.prepareStatement(GET_ALL);
+			PreparedStatement statement = cnx.prepareStatement(GET_ALL);
 			ResultSet rs = statement.executeQuery();
 			
 			while(rs.next()) 
@@ -77,7 +77,7 @@ public class RetraitDAOJDBCImpl implements RetraitDAO{
 				Retrait retrait = new Retrait();
 				retrait.setId(rs.getInt("id"));
 				retrait.setRue(rs.getString("rue"));
-				retrait.setCodePostal(rs.getInt("codePostal"));
+				retrait.setCodePostal(rs.getString("codePostal"));
 				retrait.setVille(rs.getString("ville"));
 				listes.add(retrait);
 			}
@@ -91,11 +91,11 @@ public class RetraitDAOJDBCImpl implements RetraitDAO{
 	}
 	
 	@Override
-	public static void update(Retrait retrait) //UPDATE
+	public void update(Retrait retrait) //UPDATE
 	{
 		try(Connection cnx = ConnectionProvider.getConnection())
 		{
-			PreparedStatement statement = connection.prepareStatement(UPDATE);
+			PreparedStatement statement = cnx.prepareStatement(UPDATE);
 			
 			statement.setString(1, retrait.getRue());
 			statement.setString(2, retrait.getCodePostal());
@@ -109,11 +109,11 @@ public class RetraitDAOJDBCImpl implements RetraitDAO{
 	}
 	
 	@Override
-	public static void delete(int id) //DELETE
+	public void delete(int id) //DELETE
 	{
 		try(Connection cnx = ConnectionProvider.getConnection())
 		{
-			PreparedStatement statement = connection.prepareStatement(DELETE);
+			PreparedStatement statement = cnx.prepareStatement(DELETE);
 			statement.setInt(1,id);
 			statement.executeUpdate();
 		}
