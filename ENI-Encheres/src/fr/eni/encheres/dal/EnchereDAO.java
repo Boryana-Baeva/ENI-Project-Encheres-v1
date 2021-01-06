@@ -15,6 +15,8 @@ public interface EnchereDAO {
 	
 	public List<Enchere> getByEncherisseur() throws BusinessException;
 	
+	public List<Enchere> getRemportesParEncherisseur() throws BusinessException;
+	
 	public void update(Enchere enchere) throws BusinessException;
 	
 	public void delete(int id) throws BusinessException;

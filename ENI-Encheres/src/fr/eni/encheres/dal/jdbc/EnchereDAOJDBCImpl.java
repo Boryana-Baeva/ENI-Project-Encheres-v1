@@ -20,6 +20,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 	private static final String GET_ALL = "SELECT * FROM ENCHERES";
 	private static final String GET_BY_ID = "SELECT * FROM ENCHERES WHERE no_enchere=?";
 	private static final String GET_BY_ENCHERISSEUR = "SELECT * FROM ENCHERES WHERE no_utilisateur=?";
+	private static final String GET_REMPORTES_PAR_ENCHERISSEUR = "SELECT * FROM ENCHERES WHERE no_utilisateur=? AND remporte=?";
 	private static final String UPDATE = "UPDATE ENCHERES SET date_enchere=?, montant_enchere=?,"  +
 											"no_article=?, no_utilisateur=?";
 	private static final String DELETE = "DELETE ENCHERES WHERE no_enchere=?";
@@ -70,6 +71,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 				enchere.setMontant(rs.getInt("montant_enchere"));
 				enchere.setArticle(articleDao.getById(rs.getInt("no_article")));
 				enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
+				enchere.setRemporte(rs.getBoolean("remporte"));
 				
 				list.add(enchere);
 			}
@@ -102,6 +104,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 				enchere.setMontant(rs.getInt("montant_enchere"));
 				enchere.setArticle(articleDao.getById(rs.getInt("no_article")));
 				enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
+				enchere.setRemporte(rs.getBoolean("remporte"));
 				
 			}
 						
@@ -132,6 +135,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 				enchere.setMontant(rs.getInt("montant_enchere"));
 				enchere.setArticle(articleDao.getById(rs.getInt("no_article")));
 				enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
+				enchere.setRemporte(rs.getBoolean("remporte"));
 				
 				list.add(enchere);
 			}
@@ -147,6 +151,33 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 	}
 	
 	@Override
+	public List<Enchere> getRemportesParEncherisseur() {
+		
+		List<Enchere> list = new ArrayList<>();
+		
+		try(Connection cnx = ConnectionProvider.getConnection()) {
+			 PreparedStatement requete = cnx.prepareStatement(GET_REMPORTES_PAR_ENCHERISSEUR);
+			 ResultSet rs = requete.executeQuery();
+			 
+			while (rs.next()) {
+				Enchere enchere = new Enchere();
+				enchere.setId(rs.getInt("no_enchere"));
+				enchere.setDate(rs.getDate("date_enchere").toLocalDate());
+				enchere.setMontant(rs.getInt("montant_enchere"));
+				enchere.setArticle(articleDao.getById(rs.getInt("no_article")));
+				enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
+				enchere.setRemporte(rs.getBoolean("remporte"));
+				
+				list.add(enchere);
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return list;
+	}
+	
+	@Override
 	public void update(Enchere enchere) throws BusinessException {
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
@@ -155,6 +186,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 			requete.setInt(2, enchere.getMontant());
             requete.setInt(3, enchere.getArticle().getId());
             requete.setInt(4, enchere.getEncherisseur().getId());
+            requete.setBoolean(5, enchere.isRemporte());
             
             requete.executeUpdate();
            
