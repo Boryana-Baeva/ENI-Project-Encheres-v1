@@ -6,7 +6,7 @@ import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.RetraitDAO;
 
 public class RetraitManager {
-	
+	//gestion des erreurs
 	private RetraitDAO retraitDAO;
 	
 	public RetraitManager() {

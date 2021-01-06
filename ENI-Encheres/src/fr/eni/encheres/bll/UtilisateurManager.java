@@ -9,6 +9,7 @@ import fr.eni.encheres.dal.UtilisateurDAO;
 
 public class UtilisateurManager {
 
+	//gestion des erreurs
 	private UtilisateurDAO utilisateurDAO;
 
 	public UtilisateurManager() {

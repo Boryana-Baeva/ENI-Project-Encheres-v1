@@ -7,7 +7,7 @@ import fr.eni.encheres.dal.jdbc.RetraitDAOJDBCImpl;
 import fr.eni.encheres.dal.jdbc.UtilisateurDAOJDBCImpl;
 
 public abstract class DAOFactory {
-	
+	//gestion des erreurs
 	public static UtilisateurDAO getUtilisateurDAO()
 	{
 		return new UtilisateurDAOJDBCImpl();		
