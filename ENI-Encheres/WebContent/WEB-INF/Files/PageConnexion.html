@@ -3,93 +3,78 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--Utilities StyleSheet-->
-        <link rel="stylesheet" href="css/utilities.css">
         <!--StyleSheet-->
-        <link rel="stylesheet" href="css/style.css">
-        <!-- Font Awesome CDN-->
+        <link rel="stylesheet" href="style.css">
+        <!--Font Awesome CDN-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+        <!--Script-->
+        <script src="script.js" defer></script>
         <title>Eni-Enchères | Connexion</title>
+        
     </head>
 
   <body>
 
-     <!--Navbar-->
-    <div class="navbar">
-      <div class="container flex">
-        <h1 class="logo">Eni-Enchères</h1>
-        <div class="search-bar">
-          <select class="categories" name="pets" id="pet-select"> 
-            <option value="">Toutes nos catégories</option>
-            <option value="dog">Dog</option>
-            <option value="cat">Cat</option>
-            <option value="hamster">Hamster</option>
-            <option value="parrot">Parrot</option>
-            <option value="spider">Spider</option>
-            <option value="goldfish">Goldfish</option>
-          </select>
-        
-          <input type="text" placeholder="Le nom de l'article">
-          <button type="submit" class="searchButton"><i class="fa fa-search"></i></button>
-        </div>
-          <nav>
-            <ul>
-              <li><a href="#">Enchères</a></li>
-              <li><a href="#">Vendre un article</a></li>
-              <li><a href="#">Mon profil</a></li>
-              <li><a href="#">Déconnexion</a></li>
-            </ul>
-          </nav>
-        </div>
+    <!--Navbar-->
+    <nav class="navbar">
+      <div class="brand-title">Eni-Enchères</div>
+      
+      <a href="#" class="toggle-button">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+      </a>
       </div>
+      <div class="navbar-links">
+          <ul>
+              <li><a href="PageListeEncheresNonConnecte.html">Enchères  <i class="fas fa-bullhorn"></i></i></a></li>
+              <li><a href="PageConnexion.html">Vendre  <i class="fas fa-hand-holding-usd"></i></a></li>
+              <li><a href="PageConnexion.html">Mon Profil  <i class="fas fa-user-circle"></i></a></li>
+              <li><a href="PageConnexion.html">Connexion  <i class="fas fa-sign-in-alt"></i></a></li>
+          </ul>
+      </div>
+    </nav>
+    <!--Banner-->
+    <div class="header">
     </div>
-
-    <div class="banner-header img">
+    <!--Head-->
+    <div class="head">
+      <h1>Connexion</h1>
     </div>
-
-    <div class="showcase">
-        <div class="banner-text">
-          <h2 class="text-center md">Connexion</h2>
-        </div>
-    </div>
-
 
     <!--Logging form-->
-    <div class="form-control">
-      <div class="login">
-        <form action="result.html" method="GET"> <!-- change methode to POST to get results on server, i used GET to show the result in html file-->
+    <section class="register-form">
+      <form class="register" action="result.html" method="GET"> <!-- change methode to POST to get results on server, i used GET to show the result in html file-->
+        <div class="input-field">
+          <label for="id">Identifiant: </label>
+          <input class="input" name="id" id="id" placeholder="Identifiant">
+        </div>
 
-          <div class="input-element">
-            <input class="input-box" name="id" id="id" placeholder="Identifiant">
-          </div>
+        <div class="input-field">
+          <label for="mdp">Mot De Passe: </label>
+          <input class="input" name="mdp" id="mdp" type="password" placeholder="Mot De Passe"required>
+        </div>
+        
+        <div>
+          <label class="ssdm" for="Ssdm">Se souvenir de moi</label>
+          <input name="Ssdm" id="Ssdm" type="checkbox" >
+        </div>
 
-          <div class="input-element">
-            <input class="input-box" name="mdp" id="mdp" type="password" placeholder="Mot De Passe"required>
-          </div>
-          
-          <div>
-          <label for="Ssdm" class="sm">Se souvenir de moi</label>
-            <input name="Ssdm" id="Ssdm" type="checkbox" >
-          </div>
+        <div class="mdpo">
+          <a href="#">Mot de passe oublié?</a>
+        </div>
 
-          <div class="input-element">
-            <a href="#">Mot de passe oublié</a>
-          </div>
+        <div>
+          <button class="btn-login" type="submit">Connexion</button> </a>
+        </div>
 
-          <div class=btn-large>
-            <button class="btn" type="submit">Connexion</button> </a>
-          </div>
-
-          <div class=btn-large>
-            <a href ='PageCreerCompte.html'><button class="btn" type="button"> 
-              Créer un compte
-            </button>
-            </a>
-          </div>
-
-        </form>
-      </div>
-    </div>
+        <div>
+          <a href ='PageCreerCompte.html'><button class="btn-login" type="button"> 
+            Créer un compte
+          </button></a>
+        </div>
+      </form>
+    </section>
   </body>
 
 </html>
