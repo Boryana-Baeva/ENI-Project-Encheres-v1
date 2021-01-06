@@ -7,9 +7,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.CategorieDAO;
+import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.UtilisateurDAO;
 
@@ -29,8 +31,14 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 	private static CategorieDAO categorieDAO = new CategorieDAOJDBCImpl();
 	
 	@Override
-	public void insert(ArticleVendu articleVendu) {
+	public void insert(ArticleVendu articleVendu) throws BusinessException {
 
+		if (articleVendu == null) {
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
+			throw businessException;
+		}
+		
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -46,14 +54,16 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			pstmt.executeUpdate();
 
 		} catch (Exception e) {
-
 			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_ECHEC);
+			throw businessException;
 		}
 
 	}
 
 	@Override
-	public ArticleVendu getById(int id) {
+	public ArticleVendu getById(int id) throws BusinessException {
 		
 		ArticleVendu articleVendu = null;
 		
@@ -78,14 +88,17 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			}
 
 		} catch (Exception e) {
-
 			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.LECTURE_ARTICLES_ECHEC);
+			throw businessException;
+
 		}
 		return articleVendu;
 	}
 
 	@Override
-	public List<ArticleVendu> getAll() {
+	public List<ArticleVendu> getAll() throws BusinessException {
 
 		List<ArticleVendu>  articlesVendus = new ArrayList<>();
 		
@@ -108,14 +121,17 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			}
 			
 		} catch (Exception e) {
-			
 			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.LECTURE_ARTICLES_ECHEC);
+			throw businessException;
+
 		}
 		return articlesVendus;
 	}
 
 	@Override
-	public List<ArticleVendu> getByVendeur() {
+	public List<ArticleVendu> getByVendeur() throws BusinessException {
 		
 		List<ArticleVendu>  articlesVendus = new ArrayList<>();
 		
@@ -138,14 +154,17 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			}
 			
 		} catch (Exception e) {
-			
 			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.LECTURE_ARTICLES_ECHEC);
+			throw businessException;
+
 		}
 		return articlesVendus;
 	}
 	
 	@Override
-	public void update(ArticleVendu articleVendu) {
+	public void update(ArticleVendu articleVendu) throws BusinessException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
@@ -162,13 +181,16 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			pstmt.executeUpdate();
 
 		} catch (Exception e) {
-
 			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.UPDATE_OBJET_ECHEC);
+			throw businessException;
+
 		}
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(int id) throws BusinessException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
@@ -179,8 +201,11 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			pstmt.executeUpdate();
 
 		} catch (Exception e) {
-
 			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.DELETE_OBJET_ECHEC);
+			throw businessException;
+
 		}
 	}
 

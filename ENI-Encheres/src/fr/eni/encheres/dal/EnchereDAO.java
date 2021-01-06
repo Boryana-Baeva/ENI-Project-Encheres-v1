@@ -2,19 +2,20 @@ package fr.eni.encheres.dal;
 
 import java.util.List;
 
+import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.Enchere;
 
 public interface EnchereDAO {
 	
-	public void insert(Enchere enchere);
+	public void insert(Enchere enchere) throws BusinessException;
 	
-	public List<Enchere> getAll();
+	public List<Enchere> getAll() throws BusinessException;
 	
-	public Enchere getById(int id);
+	public Enchere getById(int id) throws BusinessException;
 	
-	public List<Enchere> getByEncherisseur();
+	public List<Enchere> getByEncherisseur() throws BusinessException;
 	
-	public void update(Enchere enchere);
+	public void update(Enchere enchere) throws BusinessException;
 	
-	public void delete(int id);
+	public void delete(int id) throws BusinessException;
 }

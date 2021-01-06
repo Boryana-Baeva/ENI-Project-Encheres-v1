@@ -4,12 +4,13 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.dal.ArticleVenduDAO;
+import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.EnchereDAO;
 import fr.eni.encheres.dal.UtilisateurDAO;
@@ -27,7 +28,13 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 	private static UtilisateurDAO utilisateurDAO = new UtilisateurDAOJDBCImpl();
 	
 	@Override
-	public void insert(Enchere enchere) {
+	public void insert(Enchere enchere) throws BusinessException {
+		
+		if (enchere == null) {
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
+			throw businessException;
+		}
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement requete = cnx.prepareStatement(INSERT);
@@ -38,13 +45,16 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
            
             requete.executeUpdate();
 
-        } catch (SQLException e) {
-           System.out.println(e.getMessage());
-        }
+		} catch (Exception e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_ECHEC);
+			throw businessException;
+		}
 	}
 
 	@Override
-	public List<Enchere> getAll() {
+	public List<Enchere> getAll() throws BusinessException {
 		
 		List<Enchere> list = new ArrayList<>();
 		
@@ -64,13 +74,17 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 			}
 			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.LECTURE_ENCHERES_ECHEC);
+			throw businessException;
+
 		}
 		return list;
 	}
 
 	@Override
-	public Enchere getById(int id) {
+	public Enchere getById(int id) throws BusinessException {
 		
 		Enchere enchere = null;
 		
@@ -91,14 +105,18 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 			}
 						
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.LECTURE_ENCHERES_ECHEC);
+			throw businessException;
+
 		}
 				
 		return enchere;
 	}
 
 	@Override
-	public List<Enchere> getByEncherisseur() {
+	public List<Enchere> getByEncherisseur() throws BusinessException {
 		
 		List<Enchere> list = new ArrayList<>();
 		
@@ -118,13 +136,17 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 			}
 			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.LECTURE_ENCHERES_ECHEC);
+			throw businessException;
+
 		}
 		return list;
 	}
 	
 	@Override
-	public void update(Enchere enchere) {
+	public void update(Enchere enchere) throws BusinessException {
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(UPDATE);
@@ -136,20 +158,28 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
             requete.executeUpdate();
            
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.UPDATE_OBJET_ECHEC);
+			throw businessException;
+
 		}
 		
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(int id) throws BusinessException {
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(DELETE);
             requete.setInt(1, id);
             requete.executeUpdate();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}	
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.DELETE_OBJET_ECHEC);
+			throw businessException;
+
+		}
 	}
 
 	
