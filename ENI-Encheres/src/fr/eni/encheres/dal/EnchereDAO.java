@@ -14,6 +14,8 @@ public interface EnchereDAO {
 	
 	public List<Enchere> getByEncherisseur();
 	
+	public List<Enchere> getRemportesParEncherisseur();
+	
 	public void update(Enchere enchere);
 	
 	public void delete(int id);

@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.ConnectionProvider;
@@ -55,6 +57,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	public List<Utilisateur> getAll() {
 		
 		List<Utilisateur> list = new ArrayList<>();
+		List<ArticleVendu> listArticlesAchetes = new ArrayList<>();
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 PreparedStatement requete = cnx.prepareStatement(GET_ALL);
@@ -75,6 +78,13 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 				utilisateur.setCredit(rs.getInt("credit"));
 				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
 				utilisateur.setArticlesVendus(articleDao.getByVendeur());
+				
+				
+				for (Enchere enchere : enchereDao.getRemportesParEncherisseur()) {
+					listArticlesAchetes.add(enchere.getArticle());
+				}
+				
+				utilisateur.setArticlesAchetes(listArticlesAchetes);
 				utilisateur.setEncheres(enchereDao.getByEncherisseur());
 				
 				list.add(utilisateur);
@@ -90,6 +100,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	public Utilisateur getById(int id) {
 		
 		Utilisateur utilisateur = null;
+		List<ArticleVendu> listArticlesAchetes = new ArrayList<>();
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(GET_BY_ID);
@@ -111,6 +122,12 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 				utilisateur.setCredit(rs.getInt("credit"));
 				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
 				utilisateur.setArticlesVendus(articleDao.getByVendeur());
+				
+				for (Enchere enchere : enchereDao.getRemportesParEncherisseur()) {
+					listArticlesAchetes.add(enchere.getArticle());
+				}
+				
+				utilisateur.setArticlesAchetes(listArticlesAchetes);
 				utilisateur.setEncheres(enchereDao.getByEncherisseur());
 			}
 						

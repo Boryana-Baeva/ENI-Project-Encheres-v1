@@ -10,7 +10,7 @@ public class Enchere implements Serializable{
 	private int montant;
 	private ArticleVendu article;
 	private Utilisateur encherisseur;
-	
+	private boolean remporte;
 	
 	// Constructeurs
 	
@@ -23,11 +23,13 @@ public class Enchere implements Serializable{
 		this.montant = montant;
 		this.article = article;
 		this.encherisseur = encherisseur;
+		this.setRemporte(false);
 	}
 
 	public Enchere(int id, LocalDate date, int montant, ArticleVendu article, Utilisateur encherisseur) {
 		this(date, montant, article, encherisseur);
-		this.id = id;	
+		this.id = id;
+		this.setRemporte(false);
 	}
 
 	// Gettes & Setters
@@ -72,6 +74,14 @@ public class Enchere implements Serializable{
 		this.encherisseur = encherisseur;
 	}
 
+	public boolean isRemporte() {
+		return remporte;
+	}
+
+	public void setRemporte(boolean remporte) {
+		this.remporte = remporte;
+	}
+	
 	// ToString
 	@Override
 	public String toString() {
