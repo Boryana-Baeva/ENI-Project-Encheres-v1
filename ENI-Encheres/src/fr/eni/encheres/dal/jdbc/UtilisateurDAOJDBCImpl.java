@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.CodesResultatDAL;
@@ -107,6 +108,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	public Utilisateur getById(int id) throws BusinessException {
 
 		Utilisateur utilisateur = null;
+		List<ArticleVendu> listArticlesAchetes = new ArrayList<>();
 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(GET_BY_ID);

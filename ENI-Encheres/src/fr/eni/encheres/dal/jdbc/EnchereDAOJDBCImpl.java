@@ -42,6 +42,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
             requete.setInt(2, enchere.getMontant());
             requete.setInt(3, enchere.getArticle().getId());
             requete.setInt(4, enchere.getEncherisseur().getId());
+            requete.setBoolean(5, enchere.isRemporte());
            
             requete.executeUpdate();
 
@@ -182,6 +183,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 		}
 	}
 
+	
 	
 
 }
