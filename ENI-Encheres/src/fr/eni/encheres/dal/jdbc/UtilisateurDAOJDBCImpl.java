@@ -100,12 +100,12 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
 				utilisateur.setArticlesVendus(articleDao.getByVendeur());
 				
-				for(Enchere enchere : enchereDao.getRemportesParEncherisseur()) {
+				for(Enchere enchere : enchereDao.getRemportesParEncherisseur(utilisateur.getId())) {
 					listArticlesAchetes.add(enchere.getArticle());
 				}
 				
 				utilisateur.setArticlesAchetes(listArticlesAchetes);
-				utilisateur.setEncheres(enchereDao.getByEncherisseur());
+				utilisateur.setEncheres(enchereDao.getByEncherisseur(utilisateur.getId()));
 
 				list.add(utilisateur);
 			}
@@ -146,12 +146,12 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
 				utilisateur.setArticlesVendus(articleDao.getByVendeur());
 				
-				for (Enchere enchere : enchereDao.getRemportesParEncherisseur()) {
+				for (Enchere enchere : enchereDao.getRemportesParEncherisseur(utilisateur.getId())) {
 					listArticlesAchetes.add(enchere.getArticle());
 				}
 				
 				utilisateur.setArticlesAchetes(listArticlesAchetes);
-				utilisateur.setEncheres(enchereDao.getByEncherisseur());
+				utilisateur.setEncheres(enchereDao.getByEncherisseur(utilisateur.getId()));
 			}
 
 		} catch (Exception e) {

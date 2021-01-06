@@ -120,12 +120,13 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 	}
 
 	@Override
-	public List<Enchere> getByEncherisseur() throws BusinessException {
+	public List<Enchere> getByEncherisseur(int id) throws BusinessException {
 		
 		List<Enchere> list = new ArrayList<>();
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 PreparedStatement requete = cnx.prepareStatement(GET_BY_ENCHERISSEUR);
+			 requete.setInt(1, id);
 			 ResultSet rs = requete.executeQuery();
 			 
 			while (rs.next()) {
@@ -151,12 +152,14 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 	}
 	
 	@Override
-	public List<Enchere> getRemportesParEncherisseur() {
+	public List<Enchere> getRemportesParEncherisseur(int id) throws BusinessException {
 		
 		List<Enchere> list = new ArrayList<>();
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 PreparedStatement requete = cnx.prepareStatement(GET_REMPORTES_PAR_ENCHERISSEUR);
+			 requete.setInt(1, id);
+			 requete.setBoolean(2, true);
 			 ResultSet rs = requete.executeQuery();
 			 
 			while (rs.next()) {
@@ -172,7 +175,10 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 			}
 			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.LECTURE_ENCHERES_ECHEC);
+			throw businessException;
 		}
 		return list;
 	}
