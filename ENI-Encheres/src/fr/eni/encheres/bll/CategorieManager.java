@@ -7,7 +7,7 @@ import fr.eni.encheres.dal.DAOFactory;
 
 public class CategorieManager {
 	
-	//gestion des erreurs
+	
 	private CategorieDAO categorieDAO;
 	
 	public CategorieManager() {

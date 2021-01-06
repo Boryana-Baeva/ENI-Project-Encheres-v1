@@ -1,7 +1,7 @@
 package fr.eni.encheres.bll;
 
 public abstract class CodesResultatBLL {
-	//gestion des erreurs
+	
 	/**
 	 * Echec quand le libelle ne respecte pas les règles définies
 	 */

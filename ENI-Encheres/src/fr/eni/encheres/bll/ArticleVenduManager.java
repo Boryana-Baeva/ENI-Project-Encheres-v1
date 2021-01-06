@@ -12,7 +12,7 @@ import fr.eni.encheres.dal.DAOFactory;
 
 public class ArticleVenduManager {
 
-	//gestion des erreurs
+	
 	private ArticleVenduDAO articleVenduDAO;
 
 	public ArticleVenduManager() {

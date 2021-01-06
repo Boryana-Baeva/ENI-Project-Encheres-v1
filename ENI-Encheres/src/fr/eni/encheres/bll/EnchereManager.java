@@ -11,7 +11,7 @@ import fr.eni.encheres.dal.EnchereDAO;
 
 public class EnchereManager {
 	
-	//gestion des erreurs
+	
 	private EnchereDAO enchereDAO;
 	
 	public EnchereManager() {
