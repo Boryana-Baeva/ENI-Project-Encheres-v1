@@ -9,6 +9,8 @@ import java.util.List;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.dal.CategorieDAO;
 import fr.eni.encheres.dal.ConnectionProvider;
+import fr.eni.encheres.BusinessException;
+import fr.eni.encheres.dal.CodesResultatDAL;
 
 public class CategorieDAOJDBCImpl implements CategorieDAO {
 
@@ -19,7 +21,14 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 	private static final String DELETE = "delete CATEGORIES where no_categorie=?";
 
 	@Override
-	public void insert(Categorie categorie) {
+	public void insert(Categorie categorie) throws BusinessException {
+		
+		if(categorie == null)
+		{
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
+			throw businessException;
+		}
 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 
@@ -29,15 +38,17 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 			pstmt.executeUpdate();
 
 		} catch (Exception e) {
-
 			e.printStackTrace();
-
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
+			throw businessException;
 		}
+
 
 	}
 
 	@Override
-	public Categorie getById(int id) {
+	public Categorie getById(int id) throws BusinessException {
 
 		Categorie categorie = null;
 
@@ -56,8 +67,10 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 					
 
 		} catch (Exception e) {
-
 			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.LECTURE_CATEGORIES_ECHEC);
+			throw businessException;
 
 		}
 
@@ -65,7 +78,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 	}
 
 	@Override
-	public List<Categorie> getAll() {
+	public List<Categorie> getAll() throws BusinessException {
 		
 		List<Categorie> categories = new ArrayList<>();
 
@@ -83,15 +96,17 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 					
 
 		} catch (Exception e) {
-
 			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.LECTURE_CATEGORIES_ECHEC);
+			throw businessException;
 
 		}
 		return categories;
 	}
 
 	@Override
-	public void update(Categorie categorie) {
+	public void update(Categorie categorie) throws BusinessException {
 		
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 
@@ -102,15 +117,17 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 			pstmt.executeUpdate();
 
 		} catch (Exception e) {
-
 			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.UPDATE_OBJET_ECHEC);
+			throw businessException;
 
 		}
 
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(int id) throws BusinessException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
@@ -121,10 +138,12 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 			pstmt.executeUpdate();
 
 		} catch (Exception e) {
-
 			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.DELETE_OBJET_ECHEC);
+			throw businessException;
 
 		}
-	}
 
+	}
 }
