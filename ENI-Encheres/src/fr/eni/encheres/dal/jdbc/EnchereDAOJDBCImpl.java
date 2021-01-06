@@ -18,6 +18,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 	private static final String INSERT = "INSERT INTO ENCHERES VALUES(?,?,?,?)";
 	private static final String GET_ALL = "SELECT * FROM ENCHERES";
 	private static final String GET_BY_ID = "SELECT * FROM ENCHERES WHERE no_enchere=?";
+	private static final String GET_BY_ENCHERISSEUR = "SELECT * FROM ENCHERES WHERE no_utilisateur=?";
 	private static final String UPDATE = "UPDATE ENCHERES SET date_enchere=?, montant_enchere=?,"  +
 											"no_article=?, no_utilisateur=?";
 	private static final String DELETE = "DELETE ENCHERES WHERE no_enchere=?";
@@ -57,7 +58,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 				enchere.setDate(rs.getDate("date_enchere").toLocalDate());
 				enchere.setMontant(rs.getInt("montant_enchere"));
 				enchere.setArticle(articleDao.getById(rs.getInt("no_article")));
-				enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("utilisateur")));
+				enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
 				
 				list.add(enchere);
 			}
@@ -85,7 +86,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 				enchere.setDate(rs.getDate("date_enchere").toLocalDate());
 				enchere.setMontant(rs.getInt("montant_enchere"));
 				enchere.setArticle(articleDao.getById(rs.getInt("no_article")));
-				enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("utilisateur")));
+				enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
 				
 			}
 						
@@ -96,6 +97,32 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 		return enchere;
 	}
 
+	@Override
+	public List<Enchere> getByEncherisseur() {
+		
+		List<Enchere> list = new ArrayList<>();
+		
+		try(Connection cnx = ConnectionProvider.getConnection()) {
+			 PreparedStatement requete = cnx.prepareStatement(GET_BY_ENCHERISSEUR);
+			 ResultSet rs = requete.executeQuery();
+			 
+			while (rs.next()) {
+				Enchere enchere = new Enchere();
+				enchere.setId(rs.getInt("no_enchere"));
+				enchere.setDate(rs.getDate("date_enchere").toLocalDate());
+				enchere.setMontant(rs.getInt("montant_enchere"));
+				enchere.setArticle(articleDao.getById(rs.getInt("no_article")));
+				enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
+				
+				list.add(enchere);
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return list;
+	}
+	
 	@Override
 	public void update(Enchere enchere) {
 		
@@ -124,5 +151,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 			System.out.println(e.getMessage());
 		}	
 	}
+
+	
 
 }

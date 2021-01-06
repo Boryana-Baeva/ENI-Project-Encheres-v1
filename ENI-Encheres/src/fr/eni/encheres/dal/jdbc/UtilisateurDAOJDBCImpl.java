@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.ConnectionProvider;
+import fr.eni.encheres.dal.EnchereDAO;
 import fr.eni.encheres.dal.UtilisateurDAO;
 
 public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
@@ -21,6 +23,8 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 											" mot_de_passe=?, credit=?, administrateur=?";
 	private static final String DELETE = "DELETE UTILISATEURS WHERE no_utilisateur=?";
 	
+	private static EnchereDAO enchereDao = new EnchereDAOJDBCImpl();
+	private static ArticleVenduDAO articleDao = new ArticleVenduDAOJDBCImpl();
 	
 	@Override
 	public void insert(Utilisateur utilisateur) {
@@ -70,6 +74,8 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 				utilisateur.setPassword(rs.getString("mot_de_passe"));
 				utilisateur.setCredit(rs.getInt("credit"));
 				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
+				utilisateur.setArticlesVendus(articleDao.getByVendeur());
+				utilisateur.setEncheres(enchereDao.getByEncherisseur());
 				
 				list.add(utilisateur);
 			}
@@ -104,6 +110,8 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 				utilisateur.setVille(rs.getString("ville"));
 				utilisateur.setCredit(rs.getInt("credit"));
 				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
+				utilisateur.setArticlesVendus(articleDao.getByVendeur());
+				utilisateur.setEncheres(enchereDao.getByEncherisseur());
 			}
 						
 		} catch (Exception e) {

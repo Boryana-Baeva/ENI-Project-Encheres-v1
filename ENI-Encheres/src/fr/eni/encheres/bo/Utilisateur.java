@@ -1,7 +1,7 @@
 package fr.eni.encheres.bo;
 
 import java.io.Serializable;
-import java.util.Arrays;
+import java.util.List;
 
 public class Utilisateur implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -17,9 +17,9 @@ public class Utilisateur implements Serializable {
 	private String password; 
 	private int credit;
     private boolean administrateur;
-    private ArticleVendu[] articlesVendus = null;
-    private ArticleVendu[] articlesAchetes = null;
-    private Enchere[] encheres = null;
+    private List<ArticleVendu> articlesVendus;
+    private List<ArticleVendu> articlesAchetes;
+    private List<Enchere> encheres;
     
     
     
@@ -29,7 +29,7 @@ public class Utilisateur implements Serializable {
 	}
     
     public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal,
-			String ville, String password, int credit, boolean administrateur, ArticleVendu[] articlesVendus, ArticleVendu[] articlesAchetes, Enchere[] encheres ) {
+			String ville, String password, int credit, boolean administrateur, List<ArticleVendu> articlesVendus, List<ArticleVendu> articlesAchetes, List<Enchere> encheres ) {
 		super();
 		this.pseudo = pseudo;
 		this.nom = nom;
@@ -46,7 +46,7 @@ public class Utilisateur implements Serializable {
 
     
 	public Utilisateur(int id, String pseudo, String nom, String prenom, String email, String telephone, String rue,
-			String codePostal, String ville, String password, int credit, boolean administrateur, ArticleVendu[] articlesVendus, ArticleVendu[] articlesAchetes, Enchere[] encheres) {
+			String codePostal, String ville, String password, int credit, boolean administrateur, List<ArticleVendu> articlesVendus, List<ArticleVendu> articlesAchetes, List<Enchere> encheres) {
 		this(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, password, credit, administrateur, articlesVendus, articlesAchetes, encheres );
 		this.id = id;
 		
@@ -155,27 +155,27 @@ public class Utilisateur implements Serializable {
 	}
     
 	
-    public ArticleVendu[] getArticlesVendus() {
+    public List<ArticleVendu> getArticlesVendus() {
 		return articlesVendus;
 	}
 
-	public void setArticlesVendus(ArticleVendu[] articlesVendus) {
+	public void setArticlesVendus(List<ArticleVendu> articlesVendus) {
 		this.articlesVendus = articlesVendus;
 	}
 
-	public ArticleVendu[] getArticlesAchetes() {
+	public List<ArticleVendu> getArticlesAchetes() {
 		return articlesAchetes;
 	}
 
-	public void setArticlesAchetes(ArticleVendu[] articlesAchetes) {
+	public void setArticlesAchetes(List<ArticleVendu> articlesAchetes) {
 		this.articlesAchetes = articlesAchetes;
 	}
 
-	public Enchere[] getEncheres() {
+	public List<Enchere> getEncheres() {
 		return encheres;
 	}
 
-	public void setEnchere(Enchere[] encheres) {
+	public void setEncheres(List<Enchere> encheres) {
 		this.encheres = encheres;
 	}
 
@@ -186,9 +186,7 @@ public class Utilisateur implements Serializable {
 	public String toString() {
 		return "Utilisateur [id=" + id + ", pseudo=" + pseudo + ", nom=" + nom + ", prenom=" + prenom + ", email="
 				+ email + ", telephone=" + telephone + ", rue=" + rue + ", codePostal=" + codePostal + ", ville="
-				+ ville + ", password=" + password + ", credit=" + credit + ", administrateur=" + administrateur
-				+ ", articlesVendus=" + Arrays.toString(articlesVendus) + ", articlesAchetes="
-				+ Arrays.toString(articlesAchetes) + ", encheres=" + Arrays.toString(encheres) + "]";
+				+ ville + ", password=" + password + ", credit=" + credit + ", administrateur=" + administrateur;
 	}
 
 	

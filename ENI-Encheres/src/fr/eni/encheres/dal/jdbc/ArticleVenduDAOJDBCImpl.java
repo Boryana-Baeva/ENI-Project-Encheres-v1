@@ -19,11 +19,15 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 	private static final String INSERT = "insert into ARTICLES_VENDUS VALUES (?,?,?,?,?,?,?,?)";
 	private static final String GET_BY_ID = "select * from ARTICLES_VENDUS where no_article= ?";
 	private static final String GET_ALL = "select * from ARTICLES_VENDUS";
+	private static final String GET_BY_VENDEUR = "select * from ARTICLES_VENDUS where no_utilisateur= ?";
 	private static final String UPDATE = "update ARTICLES_VENDUS set nom_article = ?, description = ?,"
 			+ "							 date_debut_encheres=?, date_fin_encheres= ?, prix_initial= ?, prix_vente= ?, "
 			+ "							 no_utilisateur= ?, no_categorie=? where no_article= ? ";
 	private static final String DELETE = "delete ARTICLES_VENDUS where id = ?";
 
+	private static UtilisateurDAO utilisateurDAO = new UtilisateurDAOJDBCImpl();
+	private static CategorieDAO categorieDAO = new CategorieDAOJDBCImpl();
+	
 	@Override
 	public void insert(ArticleVendu articleVendu) {
 
@@ -58,9 +62,6 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			pstmt.setInt(1, id);
 
 			ResultSet rs = pstmt.executeQuery();
-			
-			UtilisateurDAO utilisateurDAO = new UtilisateurDAOJDBCImpl();
-			CategorieDAO categorieDAO = new CategorieDAOJDBCImpl();
 
 			if (rs.next()) {
 				articleVendu = new ArticleVendu();
@@ -88,16 +89,11 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 		List<ArticleVendu>  articlesVendus = new ArrayList<>();
 		
-		
-		
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(GET_ALL);
 			
 			ResultSet rs = pstmt.executeQuery();
-			
-			UtilisateurDAO utilisateurDAO = new UtilisateurDAOJDBCImpl();
-			CategorieDAO categorieDAO = new CategorieDAOJDBCImpl();
-			
+					
 			while(rs.next()) {
 				ArticleVendu articleVendu = new ArticleVendu();
 				articleVendu.setId(rs.getInt("no_article"));
@@ -118,6 +114,36 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 		return articlesVendus;
 	}
 
+	@Override
+	public List<ArticleVendu> getByVendeur() {
+		
+		List<ArticleVendu>  articlesVendus = new ArrayList<>();
+		
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement pstmt = cnx.prepareStatement(GET_BY_VENDEUR);
+			
+			ResultSet rs = pstmt.executeQuery();
+				
+			while(rs.next()) {
+				ArticleVendu articleVendu = new ArticleVendu();
+				articleVendu.setId(rs.getInt("no_article"));
+				articleVendu.setNom(rs.getString("nom_article"));
+				articleVendu.setDescription(rs.getString("description"));
+				articleVendu.setDateDebutEncheres((rs.getDate("date_debut_encheres").toLocalDate()));
+				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
+				articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
+				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				articleVendu.setVendeur(utilisateurDAO.getById(rs.getInt("no_utilisateur"))); 
+				articleVendu.setCategorie(categorieDAO.getById(rs.getInt("no_categorie")));
+			}
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return articlesVendus;
+	}
+	
 	@Override
 	public void update(ArticleVendu articleVendu) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -157,5 +183,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			e.printStackTrace();
 		}
 	}
+
+	
 
 }

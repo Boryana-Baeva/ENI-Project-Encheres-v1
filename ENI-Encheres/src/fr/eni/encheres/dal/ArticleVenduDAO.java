@@ -12,6 +12,8 @@ public interface ArticleVenduDAO {
 	
 	public List<ArticleVendu> getAll();
 	
+	public List<ArticleVendu> getByVendeur();
+	
 	public void update (ArticleVendu articleVendu);
 	
 	public void delete (int id);
