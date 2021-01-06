@@ -15,7 +15,6 @@ import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.UtilisateurDAO;
 
-
 public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 	private static final String INSERT = "insert into ARTICLES_VENDUS VALUES (?,?,?,?,?,?,?,?)";
@@ -29,7 +28,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 	private static UtilisateurDAO utilisateurDAO = new UtilisateurDAOJDBCImpl();
 	private static CategorieDAO categorieDAO = new CategorieDAOJDBCImpl();
-	
+
 	@Override
 	public void insert(ArticleVendu articleVendu) throws BusinessException {
 
@@ -38,7 +37,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
 			throw businessException;
 		}
-		
+
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -48,6 +47,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			pstmt.setDate(4, java.sql.Date.valueOf(articleVendu.getDateFinEncheres()));
 			pstmt.setInt(5, articleVendu.getMiseAPrix());
 			pstmt.setInt(6, articleVendu.getPrixVente());
+
 			pstmt.setInt(7, articleVendu.getVendeur().getId());
 			pstmt.setInt(8, articleVendu.getCategorie().getId());
 
@@ -64,9 +64,9 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 	@Override
 	public ArticleVendu getById(int id) throws BusinessException {
-		
+
 		ArticleVendu articleVendu = null;
-		
+
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(GET_BY_ID);
 			pstmt.setInt(1, id);
@@ -82,7 +82,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
 				articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
-				articleVendu.setVendeur(utilisateurDAO.getById(rs.getInt("no_utilisateur"))); 
+				articleVendu.setVendeur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
 				articleVendu.setCategorie(categorieDAO.getById(rs.getInt("no_categorie")));
 
 			}
@@ -100,14 +100,14 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 	@Override
 	public List<ArticleVendu> getAll() throws BusinessException {
 
-		List<ArticleVendu>  articlesVendus = new ArrayList<>();
-		
+		List<ArticleVendu> articlesVendus = new ArrayList<>();
+
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(GET_ALL);
-			
+
 			ResultSet rs = pstmt.executeQuery();
-					
-			while(rs.next()) {
+
+			while (rs.next()) {
 				ArticleVendu articleVendu = new ArticleVendu();
 				articleVendu.setId(rs.getInt("no_article"));
 				articleVendu.setNom(rs.getString("nom_article"));
@@ -116,10 +116,10 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
 				articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
-				articleVendu.setVendeur(utilisateurDAO.getById(rs.getInt("no_utilisateur"))); 
+				articleVendu.setVendeur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
 				articleVendu.setCategorie(categorieDAO.getById(rs.getInt("no_categorie")));
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
@@ -132,15 +132,15 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 	@Override
 	public List<ArticleVendu> getByVendeur() throws BusinessException {
-		
-		List<ArticleVendu>  articlesVendus = new ArrayList<>();
-		
+
+		List<ArticleVendu> articlesVendus = new ArrayList<>();
+
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(GET_BY_VENDEUR);
-			
+
 			ResultSet rs = pstmt.executeQuery();
-				
-			while(rs.next()) {
+
+			while (rs.next()) {
 				ArticleVendu articleVendu = new ArticleVendu();
 				articleVendu.setId(rs.getInt("no_article"));
 				articleVendu.setNom(rs.getString("nom_article"));
@@ -149,10 +149,10 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
 				articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
-				articleVendu.setVendeur(utilisateurDAO.getById(rs.getInt("no_utilisateur"))); 
+				articleVendu.setVendeur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
 				articleVendu.setCategorie(categorieDAO.getById(rs.getInt("no_categorie")));
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
@@ -162,7 +162,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 		}
 		return articlesVendus;
 	}
-	
+
 	@Override
 	public void update(ArticleVendu articleVendu) throws BusinessException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -194,9 +194,8 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
-			
+
 			pstmt.setInt(1, id);
-			
 
 			pstmt.executeUpdate();
 
@@ -208,7 +207,5 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 		}
 	}
-
-	
 
 }

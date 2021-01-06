@@ -53,7 +53,7 @@ public class UtilisateurManager {
 	private void validerCoordonnees(String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String codePostal, String ville, String password, BusinessException businessException) {
 		
-		if (pseudo == null || nom == null || email == null || rue == null || codePostal == null || ville == null
+		if (pseudo == null || nom == null || prenom==null || email == null || rue == null || codePostal == null || ville == null
 				|| password == null) {
 			
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEURS_COORDONNEES_ERREUR);
