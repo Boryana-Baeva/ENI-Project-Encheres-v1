@@ -113,12 +113,12 @@ public class UtilisateurManager {
 
 	}
 
-	public static Utilisateur selectionnerUtilisateurById(int id) throws BusinessException {
+	public static Utilisateur selectUserById(int id) throws BusinessException {
 		return utilisateurDAO.getById(id);
 
 	}
 
-	public static List<Utilisateur> selectionnerTousLesUtilisateurs() throws BusinessException {
+	public static List<Utilisateur> selectAllUsers() throws BusinessException {
 		return utilisateurDAO.getAll();
 	}
 

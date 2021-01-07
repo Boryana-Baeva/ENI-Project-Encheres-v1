@@ -39,6 +39,10 @@ public abstract class CodesResultatBLL {
 	/**
 	 * Echec quand la date de début et de fin des enchères  ne respectent pas les règles définies
 	 */
-	public static final int REGLE_ARTICLES_DATE_ERREUR=20004;
+	public static final int REGLE_ARTICLES_DATE_ERREUR=20007;
+	/**
+	 * Echec quand la date de début et de fin des enchères  ne respectent pas les règles définies
+	 */
+	public static final int REGLE_ARTICLES_ERREUR=20007;
 
 }

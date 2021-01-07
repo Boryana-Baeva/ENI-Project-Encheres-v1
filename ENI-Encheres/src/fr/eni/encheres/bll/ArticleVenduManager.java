@@ -1,6 +1,7 @@
 package fr.eni.encheres.bll;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
@@ -13,19 +14,21 @@ import fr.eni.encheres.dal.DAOFactory;
 public class ArticleVenduManager {
 
 	
-	private ArticleVenduDAO articleVenduDAO;
-
+	private static ArticleVenduDAO articleVenduDAO;
+	
+	private static BusinessException businessException;
+	
 	public ArticleVenduManager() {
-		this.articleVenduDAO = DAOFactory.getArticleDAO();
+		articleVenduDAO = DAOFactory.getArticleDAO();
 	}
 
 	public ArticleVendu nouvelleVente(String nom, String description, LocalDate dateDebutEncheres,
 			LocalDate dateFinEncheres, int miseAPrix, Categorie categorie, Utilisateur vendeur, Retrait lieuRetrait)
 			throws BusinessException {
 
-		BusinessException businessException = new BusinessException();
+		
 
-		this.validerDate(dateDebutEncheres, dateFinEncheres, businessException);
+		validerDate(dateDebutEncheres, dateFinEncheres, businessException);
 
 		ArticleVendu articleVendu = null;
 		if (!businessException.hasErreurs()) {
@@ -37,7 +40,7 @@ public class ArticleVenduManager {
 			articleVendu.setMiseAPrix(miseAPrix);
 			articleVendu.setCategorie(categorie);
 			articleVendu.setLieuRetrait(lieuRetrait);
-			this.articleVenduDAO.insert(articleVendu);
+			articleVenduDAO.insert(articleVendu);
 		} else {
 			throw businessException;
 		}
@@ -45,7 +48,7 @@ public class ArticleVenduManager {
 
 	}
 
-	private void validerDate(LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+	private static void validerDate(LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
 			BusinessException businessException) {
 		
 		if (dateDebutEncheres == null || dateFinEncheres == null || dateDebutEncheres.isBefore(LocalDate.now()) ||
@@ -55,4 +58,37 @@ public class ArticleVenduManager {
 		}
 		
 	}
+	
+	
+	public static void modifierArticlesVendus (ArticleVendu articleVendu) throws BusinessException{
+		
+		validerDate(articleVendu.getDateDebutEncheres(),articleVendu.getDateDebutEncheres(),businessException);
+		if(!businessException.hasErreurs())
+		{
+			articleVenduDAO.update(articleVendu);
+		}
+	}
+	
+	
+	public static void supprimerArticlesVendus (ArticleVendu articleVendu)throws BusinessException{
+		
+			articleVenduDAO.delete(articleVendu.getId());
+		
+	}
+	
+	public static List<ArticleVendu> selectAllArticles()throws BusinessException{
+		return articleVenduDAO.getAll();
+		
+	}
+	
+	public static ArticleVendu selectArticleById(int id)throws BusinessException{
+		return articleVenduDAO.getById(id);
+		
+	}
+	
+	public static List<ArticleVendu> selectArticlesByVendeur(int id)throws BusinessException{
+		return articleVenduDAO.getByVendeur(id);
+	}
+	
+	
 }
