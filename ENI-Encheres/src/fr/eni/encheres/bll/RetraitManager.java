@@ -8,7 +8,7 @@ import fr.eni.encheres.dal.RetraitDAO;
 public class RetraitManager {
 	
 	private static RetraitDAO retraitDAO;
-	private static BusinessException businessException;
+	private static BusinessException businessException = new BusinessException();
 	
 	public RetraitManager() {
 		retraitDAO = DAOFactory.getRetraitDAO();

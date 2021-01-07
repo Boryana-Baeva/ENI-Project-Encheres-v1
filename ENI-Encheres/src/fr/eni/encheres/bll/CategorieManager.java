@@ -11,7 +11,7 @@ public class CategorieManager {
 	
 	
 	private static CategorieDAO categorieDAO;
-	private static BusinessException businessException;
+	private static BusinessException businessException = new BusinessException();
 	
 	public CategorieManager() {
 		categorieDAO = DAOFactory.getCategorieDAO();

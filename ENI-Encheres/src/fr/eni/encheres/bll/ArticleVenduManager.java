@@ -16,7 +16,7 @@ public class ArticleVenduManager {
 	
 	private static ArticleVenduDAO articleVenduDAO;
 	
-	private static BusinessException businessException;
+	private static BusinessException businessException = new BusinessException();
 	
 	public ArticleVenduManager() {
 		articleVenduDAO = DAOFactory.getArticleDAO();

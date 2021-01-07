@@ -12,7 +12,7 @@ public class EnchereManager {
 	
 	
 	private static EnchereDAO enchereDAO;
-	private static BusinessException businessException;
+	private static BusinessException businessException = new BusinessException();
 	
 	public EnchereManager() {
 		
