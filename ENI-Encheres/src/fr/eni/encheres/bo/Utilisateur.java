@@ -20,17 +20,18 @@ public class Utilisateur implements Serializable {
     private List<ArticleVendu> articlesVendus;
     private List<ArticleVendu> articlesAchetes;
     private List<Enchere> encheres;
-    
-    
-    
+        
     // Constructeur 
     public Utilisateur() {
 		
 	}
     
-    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal,
-			String ville, String password, int credit, boolean administrateur, List<ArticleVendu> articlesVendus, List<ArticleVendu> articlesAchetes, List<Enchere> encheres ) {
-		super();
+    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone,
+    		String rue, String codePostal, String ville,
+    		String password, int credit, boolean administrateur,
+    		List<ArticleVendu> articlesVendus,
+    		List<ArticleVendu> articlesAchetes,
+    		List<Enchere> encheres ) {
 		this.pseudo = pseudo;
 		this.nom = nom;
 		this.prenom = prenom;
@@ -42,11 +43,18 @@ public class Utilisateur implements Serializable {
 		this.password = password;
 		this.credit = credit;
 		this.administrateur = administrateur;
+		this.articlesVendus = articlesVendus;
+		this.articlesAchetes = articlesAchetes;
+		this.encheres = encheres;
 	}
 
     
-	public Utilisateur(int id, String pseudo, String nom, String prenom, String email, String telephone, String rue,
-			String codePostal, String ville, String password, int credit, boolean administrateur, List<ArticleVendu> articlesVendus, List<ArticleVendu> articlesAchetes, List<Enchere> encheres) {
+	public Utilisateur(int id, String pseudo, String nom, String prenom, String email, String telephone,
+						String rue, String codePostal, String ville,
+						String password, int credit, boolean administrateur,
+						List<ArticleVendu> articlesVendus,
+						List<ArticleVendu> articlesAchetes,
+						List<Enchere> encheres) {
 		this(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, password, credit, administrateur, articlesVendus, articlesAchetes, encheres );
 		this.id = id;
 		

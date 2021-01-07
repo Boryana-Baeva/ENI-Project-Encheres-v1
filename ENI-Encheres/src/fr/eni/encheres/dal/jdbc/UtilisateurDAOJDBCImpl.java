@@ -3,9 +3,12 @@ package fr.eni.encheres.dal.jdbc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.CodesResultatDAL;
@@ -42,6 +45,13 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 			requete.setString(2, utilisateur.getNom());
 			requete.setString(3, utilisateur.getPrenom());
 			requete.setString(4, utilisateur.getEmail());
+			if (utilisateur.getTelephone() != null) {
+				requete.setString(5, utilisateur.getTelephone());
+			}
+			else 
+			{
+				requete.setNull(5, Types.VARCHAR);
+			}
 			requete.setString(5, utilisateur.getTelephone());
 			requete.setString(6, utilisateur.getRue());
 			requete.setString(7, utilisateur.getCodePostal());
@@ -68,6 +78,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	public List<Utilisateur> getAll() throws BusinessException {
 
 		List<Utilisateur> list = new ArrayList<>();
+		List<ArticleVendu> listArticlesAchetes = new ArrayList<>();
 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(GET_ALL);
@@ -88,7 +99,13 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 				utilisateur.setCredit(rs.getInt("credit"));
 				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
 				utilisateur.setArticlesVendus(articleDao.getByVendeur());
-				utilisateur.setEncheres(enchereDao.getByEncherisseur());
+				
+				for(Enchere enchere : enchereDao.getRemportesParEncherisseur(utilisateur.getId())) {
+					listArticlesAchetes.add(enchere.getArticle());
+				}
+				
+				utilisateur.setArticlesAchetes(listArticlesAchetes);
+				utilisateur.setEncheres(enchereDao.getByEncherisseur(utilisateur.getId()));
 
 				list.add(utilisateur);
 			}
@@ -107,6 +124,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	public Utilisateur getById(int id) throws BusinessException {
 
 		Utilisateur utilisateur = null;
+		List<ArticleVendu> listArticlesAchetes = new ArrayList<>();
 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(GET_BY_ID);
@@ -127,7 +145,13 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 				utilisateur.setCredit(rs.getInt("credit"));
 				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
 				utilisateur.setArticlesVendus(articleDao.getByVendeur());
-				utilisateur.setEncheres(enchereDao.getByEncherisseur());
+				
+				for (Enchere enchere : enchereDao.getRemportesParEncherisseur(utilisateur.getId())) {
+					listArticlesAchetes.add(enchere.getArticle());
+				}
+				
+				utilisateur.setArticlesAchetes(listArticlesAchetes);
+				utilisateur.setEncheres(enchereDao.getByEncherisseur(utilisateur.getId()));
 			}
 
 		} catch (Exception e) {
@@ -150,7 +174,13 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 			requete.setString(2, utilisateur.getNom());
 			requete.setString(3, utilisateur.getPrenom());
 			requete.setString(4, utilisateur.getEmail());
-			requete.setString(5, utilisateur.getTelephone());
+			if (utilisateur.getTelephone() != null) {
+				requete.setString(5, utilisateur.getTelephone());
+			}
+			else 
+			{
+				requete.setNull(5, Types.VARCHAR);
+			}
 			requete.setString(6, utilisateur.getRue());
 			requete.setString(7, utilisateur.getCodePostal());
 			requete.setString(8, utilisateur.getVille());
