@@ -12,7 +12,7 @@ public class UtilisateurManager {
 
 	private static UtilisateurDAO utilisateurDAO = new UtilisateurDAOJDBCImpl();
 
-	private static BusinessException businessException;
+	private static BusinessException businessException = new BusinessException();
 
 	public UtilisateurManager() {
 		UtilisateurManager.utilisateurDAO = DAOFactory.getUtilisateurDAO();
