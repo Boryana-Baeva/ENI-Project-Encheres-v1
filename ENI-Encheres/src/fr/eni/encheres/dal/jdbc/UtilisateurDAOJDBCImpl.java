@@ -98,7 +98,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 				utilisateur.setPassword(rs.getString("mot_de_passe"));
 				utilisateur.setCredit(rs.getInt("credit"));
 				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
-				utilisateur.setArticlesVendus(articleDao.getByVendeur());
+				utilisateur.setArticlesVendus(articleDao.getByVendeur(utilisateur.getId()));
 				
 				for(Enchere enchere : enchereDao.getRemportesParEncherisseur(utilisateur.getId())) {
 					listArticlesAchetes.add(enchere.getArticle());
@@ -144,7 +144,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 				utilisateur.setVille(rs.getString("ville"));
 				utilisateur.setCredit(rs.getInt("credit"));
 				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
-				utilisateur.setArticlesVendus(articleDao.getByVendeur());
+				utilisateur.setArticlesVendus(articleDao.getByVendeur(utilisateur.getId()));
 				
 				for (Enchere enchere : enchereDao.getRemportesParEncherisseur(utilisateur.getId())) {
 					listArticlesAchetes.add(enchere.getArticle());
