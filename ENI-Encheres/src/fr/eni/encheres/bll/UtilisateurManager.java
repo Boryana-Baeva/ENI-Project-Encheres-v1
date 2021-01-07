@@ -12,19 +12,15 @@ public class UtilisateurManager {
 
 	private static UtilisateurDAO utilisateurDAO = new UtilisateurDAOJDBCImpl();
 
+	private static BusinessException businessException;
+
 	public UtilisateurManager() {
 		UtilisateurManager.utilisateurDAO = DAOFactory.getUtilisateurDAO();
 	}
 
-	public static Utilisateur inscriptionUtilisateur(String pseudo, String nom, String prenom, String email,
-			String telephone, String rue, String codePostal, String ville, String password,
-			List<String> listeArticlesVendus, List<String> listeArticlesAchetes, List<String> listeEncheres)
-			throws BusinessException {
+	public static Utilisateur inscriptionUtilisateur(String pseudo, String nom,String prenom, String email, String telephone, String rue, String codePostal, String ville, String password) throws BusinessException {
 
-		BusinessException businessException = new BusinessException();
-
-		UtilisateurManager.validerCoordonnees(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, password,
-				businessException);
+		validerCoordonnees(pseudo, nom, prenom, email, rue, codePostal, ville, password);
 
 		Utilisateur utilisateur = null;
 
@@ -48,11 +44,20 @@ public class UtilisateurManager {
 		return utilisateur;
 	}
 
+	private static void validerCoordonnees(String pseudo, String nom,String prenom, String email, String rue, String codePostal, String ville, String password) {
+
+		if (pseudo.trim().equals("") || nom.trim().equals("")
+				|| prenom.trim().equals("") || email.trim().equals("")
+				|| rue.trim().equals("") || codePostal.trim().equals("")
+				|| ville.trim().equals("") || password.trim().equals("")) {
+
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEURS_COORDONNEES_ERREUR);
+		}
+	}
+
 	public static void modifierUtilisateur(Utilisateur utilisateur) throws BusinessException {
 
-		BusinessException businessException = new BusinessException();
-
-		UtilisateurManager.modifierCoordonnees(utilisateur,businessException);
+		modifierCoordonnees(utilisateur, businessException);
 
 		if (!businessException.hasErreurs()) {
 			utilisateurDAO.update(utilisateur);
@@ -72,35 +77,37 @@ public class UtilisateurManager {
 
 	}
 
-	private static void validerCoordonnees(String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, String codePostal, String ville, String password, BusinessException businessException) {
+	public static void ventesUtilisateur(Utilisateur utilisateur) throws BusinessException {
 
-		if (pseudo == null || nom == null || prenom == null || email == null || rue == null || codePostal == null
-				|| ville == null || password == null) {
-
-			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEURS_COORDONNEES_ERREUR);
-		}
+		validerListeArticlesVendus(utilisateur);
 
 	}
 
-	private static void validerListeEncheres(List<String> listeEncheres, BusinessException businessException) {
-		if (listeEncheres == null || listeEncheres.size() == 0) {
-			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEURS_ENCHERES_ERREUR);
-
-		}
-
-	}
-
-	private static void validerListeArticlesVendus(List<String> listeArticlesVendus,
-			BusinessException businessException) {
-		if (listeArticlesVendus == null || listeArticlesVendus.size() == 0) {
+	private static void validerListeArticlesVendus(Utilisateur utilisateur) {
+		if (utilisateur.getArticlesVendus() == null || utilisateur.getArticlesVendus().size() == 0) {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEURS_ARTICLE_VENDU_ERREUR);
 		}
 	}
 
-	private static void validerListeArticlesAchetes(List<String> listeArticlesAchetes,
-			BusinessException businessException) {
-		if (listeArticlesAchetes == null || listeArticlesAchetes.size() == 0) {
+	private static void validerListeEncheres(Utilisateur utilisateur) {
+		if (utilisateur.getEncheres() == null || utilisateur.getEncheres().size() == 0) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEURS_ENCHERES_ERREUR);
+		}
+	}
+
+	public static void encheresUtilisateur(Utilisateur utilisateur) throws BusinessException {
+
+		validerListeEncheres(utilisateur);
+
+	}
+	public static void achatsUtilisateur(Utilisateur utilisateur) throws BusinessException {
+
+		validerListeArticlesAchetes(utilisateur);
+
+	}
+
+	private static void validerListeArticlesAchetes(Utilisateur utilisateur) {
+		if (utilisateur.getArticlesAchetes() == null || utilisateur.getArticlesAchetes().size() == 0) {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEURS_ARTICLE_ACHETE_ERREUR);
 		}
 
