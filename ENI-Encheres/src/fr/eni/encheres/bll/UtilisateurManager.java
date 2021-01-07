@@ -10,22 +10,22 @@ import fr.eni.encheres.dal.UtilisateurDAO;
 public class UtilisateurManager {
 
 	
-	private UtilisateurDAO utilisateurDAO;
+	private static UtilisateurDAO utilisateurDAO;
 
 	public UtilisateurManager() {
-		this.utilisateurDAO = DAOFactory.getUtilisateurDAO();
+		UtilisateurManager.utilisateurDAO = DAOFactory.getUtilisateurDAO();
 	}
 
-	public Utilisateur inscriptionUtilisateur(String pseudo, String nom, String prenom, String email, String telephone,
+	public static Utilisateur inscriptionUtilisateur(String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String codePostal, String ville, String password, List<String> listeArticlesVendus,
 			List<String> listeArticlesAchetes, List<String> listeEncheres) throws BusinessException {
 
 		BusinessException businessException = new BusinessException();
 
-		this.validerListeArticlesVendus(listeArticlesVendus, businessException);
-		this.validerListeArticlesAchetes(listeArticlesAchetes, businessException);
-		this.validerListeEncheres(listeEncheres, businessException);
-		this.validerCoordonnees(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, password,
+		UtilisateurManager.validerListeArticlesVendus(listeArticlesVendus, businessException);
+		UtilisateurManager.validerListeArticlesAchetes(listeArticlesAchetes, businessException);
+		UtilisateurManager.validerListeEncheres(listeEncheres, businessException);
+		UtilisateurManager.validerCoordonnees(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, password,
 				businessException);
 
 		Utilisateur utilisateur = null;
@@ -41,7 +41,7 @@ public class UtilisateurManager {
 			utilisateur.setCodePostal(codePostal);
 			utilisateur.setVille(ville);
 			utilisateur.setPassword(password);
-			this.utilisateurDAO.insert(utilisateur);
+			utilisateurDAO.insert(utilisateur);
 
 		} else {
 
@@ -50,7 +50,7 @@ public class UtilisateurManager {
 		return utilisateur;
 	}
 
-	private void validerCoordonnees(String pseudo, String nom, String prenom, String email, String telephone,
+	private static void validerCoordonnees(String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String codePostal, String ville, String password, BusinessException businessException) {
 		
 		if (pseudo == null || nom == null || prenom==null || email == null || rue == null || codePostal == null || ville == null
@@ -61,24 +61,31 @@ public class UtilisateurManager {
 				
 	}
 
-	private void validerListeEncheres(List<String> listeEncheres, BusinessException businessException) {
+	private static void validerListeEncheres(List<String> listeEncheres, BusinessException businessException) {
 		if (listeEncheres == null || listeEncheres.size() == 0) {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEURS_ENCHERES_ERREUR);
-		}
+			
+		} 
 
 	}
 
-	private void validerListeArticlesVendus(List<String> listeArticlesVendus, BusinessException businessException) {
+	private static void validerListeArticlesVendus(List<String> listeArticlesVendus, BusinessException businessException) {
 		if (listeArticlesVendus == null || listeArticlesVendus.size() == 0) {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEURS_ARTICLE_VENDU_ERREUR);
 		}
 	}
 
-	public void validerListeArticlesAchetes(List<String> listeArticlesAchetes, BusinessException businessException) {
+	private static void validerListeArticlesAchetes(List<String> listeArticlesAchetes, BusinessException businessException) {
 		if (listeArticlesAchetes == null || listeArticlesAchetes.size() == 0) {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEURS_ARTICLE_ACHETE_ERREUR);
 		}
 
 	}
+	
+	 public static Utilisateur selectionnerUtilisateurById (int id)throws BusinessException
+	 {
+		return null;
+		 
+	 }
 
 }
