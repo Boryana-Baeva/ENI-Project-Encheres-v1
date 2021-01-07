@@ -9,7 +9,7 @@ public class TestBLL {
 		/**
 		 * TEST UTILISATEUR
 		 */
-		UtilisateurManager.
+		
 		
 		/**
 		 * TEST ARTICLE VENDU 
