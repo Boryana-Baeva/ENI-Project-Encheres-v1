@@ -7,24 +7,19 @@ import fr.eni.encheres.dal.RetraitDAO;
 
 public class RetraitManager {
 	
-	private RetraitDAO retraitDAO;
+	private static RetraitDAO retraitDAO;
+	private static BusinessException businessException = new BusinessException();
 	
 	public RetraitManager() {
-		this.retraitDAO= DAOFactory.getRetraitDAO();
+		retraitDAO = DAOFactory.getRetraitDAO();
 	}
 	
-	public Retrait ajoutLieuRetrait ( String rue, String codePostal, String ville ) throws BusinessException {
+	public static Retrait ajouterLieuRetrait (Retrait retrait) throws BusinessException {
+			
+		validerAdresse(retrait, businessException);
 		
-		BusinessException businessException = new BusinessException();
-		
-		this.validerAdresse(rue, codePostal, ville, businessException);
-		Retrait retrait = null;
 		if(!businessException.hasErreurs()) {
-			retrait = new Retrait();
-			retrait.setRue(rue);
-			retrait.setCodePostal(codePostal);
-			retrait.setVille(ville);
-			this.retraitDAO.insert(retrait);
+			retraitDAO.insert(retrait);
 		}
 		else
 		{
@@ -34,9 +29,25 @@ public class RetraitManager {
 		
 	}
 
-	private void validerAdresse(String rue, String codePostal, String ville, BusinessException businessException) {
+	public static void modifierRetrait(Retrait retrait) throws BusinessException
+	{
+		validerAdresse(retrait, businessException);
 		
-		if(rue == null || codePostal==null || ville==null)
+		if(!businessException.hasErreurs()) {
+			retraitDAO.update(retrait);
+		}
+		else
+		{
+			throw businessException;
+		}
+		
+	}
+	
+	private static void validerAdresse(Retrait retrait, BusinessException businessException) {
+		
+		if(retrait.getRue() == null || retrait.getCodePostal() == null || retrait.getVille() == null 
+				|| retrait.getRue().trim().equals("") ||  retrait.getCodePostal().trim().equals("") 
+				|| retrait.getVille().trim().equals(""))
 		{
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_RETRAITS_ADRESSE_ERREUR);
 		}

@@ -13,7 +13,7 @@ public interface ArticleVenduDAO {
 	
 	public List<ArticleVendu> getAll() throws BusinessException;
 	
-	public List<ArticleVendu> getByVendeur() throws BusinessException;
+	public List<ArticleVendu> getByVendeur(int id) throws BusinessException;
 	
 	public void update (ArticleVendu articleVendu) throws BusinessException;
 	

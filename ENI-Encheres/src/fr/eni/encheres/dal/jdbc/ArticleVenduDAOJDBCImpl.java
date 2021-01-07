@@ -132,12 +132,13 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 	}
 
 	@Override
-	public List<ArticleVendu> getByVendeur() throws BusinessException {
+	public List<ArticleVendu> getByVendeur(int id) throws BusinessException {
 
 		List<ArticleVendu> articlesVendus = new ArrayList<>();
 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(GET_BY_VENDEUR);
+			pstmt.setInt(1, id);
 
 			ResultSet rs = pstmt.executeQuery();
 
@@ -208,5 +209,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 		}
 	}
+
+
 
 }
