@@ -46,6 +46,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			pstmt.setDate(3, java.sql.Date.valueOf(articleVendu.getDateDebutEncheres()));
 			pstmt.setDate(4, java.sql.Date.valueOf(articleVendu.getDateFinEncheres()));
 			pstmt.setInt(5, articleVendu.getMiseAPrix());
+			
 			pstmt.setInt(6, articleVendu.getPrixVente());
 
 			pstmt.setInt(7, articleVendu.getVendeur().getId());
