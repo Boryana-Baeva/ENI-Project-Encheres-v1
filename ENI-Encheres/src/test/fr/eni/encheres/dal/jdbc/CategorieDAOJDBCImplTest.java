@@ -108,7 +108,7 @@ class CategorieDAOJDBCImplTest {
 		assertEquals(categorieModifier.getLibelle(), "cuisine");*/
 		
 		
-	
+
 
 	@Test
 	void testDelete() throws BusinessException {

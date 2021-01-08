@@ -5,6 +5,8 @@ package test.fr.eni.encheres.dal.jdbc;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,10 +57,54 @@ class UtilisateurDAOJDBCImplTest {
 
 	/**
 	 * Test method for {@link fr.eni.encheres.dal.jdbc.UtilisateurDAOJDBCImpl#getAll()}.
+	 * @throws BusinessException 
 	 */
 	@Test
-	void testGetAll() {
-		fail("Not yet implemented");
+	void testGetAll() throws BusinessException {
+		
+		/*Utilisateur user1 = new Utilisateur();
+		user1.setPseudo("sassou");
+		user1.setNom("Maerten");
+		user1.setPrenom("sarah");
+		user1.setEmail("sassoul@gmail.com");
+		user1.setRue("67 rue du moulin");
+		user1.setCodePostal("44567");
+		user1.setVille("Orleans");
+		user1.setPassword("druv");
+		
+		Utilisateur user2 = new Utilisateur();
+		user2.setPseudo("doudou");
+		user2.setNom("daerten");
+		user2.setPrenom("darah");
+		user2.setEmail("dassoul@gmail.com");
+		user2.setRue("67 rue du doulin");
+		user2.setCodePostal("44567");
+		user2.setVille("drleans");
+		user2.setPassword("druv");
+		
+		Utilisateur user3 = new Utilisateur();
+		user3.setPseudo("loulou");
+		user3.setNom("laerten");
+		user3.setPrenom("larah");
+		user3.setEmail("lassoul@gmail.com");
+		user3.setRue("67 rue du loulin");
+		user3.setCodePostal("44567");
+		user3.setVille("leans");
+		user3.setPassword("lruv");
+		
+		List<Utilisateur> utilisateurs = utilisateurDao.getAll();
+		utilisateurs.add(user1);
+		utilisateurs.add(user2);
+		utilisateurs.add(user3);
+		
+		utilisateurDao.insert(user1);
+		utilisateurDao.insert(user2);
+		utilisateurDao.insert(user3);
+		
+		List<Utilisateur> allUsers = utilisateurDao.getAll();
+		assertEquals(allUsers.size(), utilisateurs.size());*/
+		
+		
 	}
 
 	/**

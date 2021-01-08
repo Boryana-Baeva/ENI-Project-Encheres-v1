@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bll.ArticleVenduManager;
+import fr.eni.encheres.bll.CategorieManager;
+import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Utilisateur;
@@ -67,8 +69,38 @@ class ArticleVenduDAOJDBCImplTest {
 	}
 
 	@Test
-	void testGetById() {
-		fail("Not yet implemented");
+	void testGetById() throws BusinessException {
+		ArticleVendu  article1 = new ArticleVendu();
+		article1.setNom("macbookpro");
+		article1.setDescription("c'est un ordinateur vraiment cool");
+		article1.setDateDebutEncheres(LocalDate.of(2020, 01, 12));
+		article1.setDateFinEncheres(LocalDate.of(2020, 01, 18));
+		article1.setMiseAPrix(200);
+		article1.setVendeur(utilisateurDao.getById(3));
+		article1.setCategorie(categorieDao.getById(3));
+		
+		ArticleVendu  article2 = new ArticleVendu();
+		article2.setNom("tapis de course");
+		article2.setDescription("capacité d'aller jusqu'à 15 Km/h");
+		article2.setDateDebutEncheres(LocalDate.of(2020, 01, 17));
+		article2.setDateFinEncheres(LocalDate.of(2020, 02, 18));
+		article2.setMiseAPrix(100);
+		article1.setVendeur(utilisateurDao.getById(0));
+		article1.setCategorie(categorieDao.getById(0));
+		
+		
+		List<ArticleVendu> articles = articleVenduDao.getAll();
+		articles.add(article1);
+		articles.add(article2);
+		
+		
+		articleVenduDao.insert(article1);
+		articleVenduDao.insert(article2);
+		
+		List<ArticleVendu> allArticles = articleVenduDao.getAll();
+		assertEquals(allArticles.size(), articles.size());
+		
+		
 	}
 
 	@Test
