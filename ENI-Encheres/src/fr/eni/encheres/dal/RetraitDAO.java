@@ -7,7 +7,7 @@ import fr.eni.encheres.bo.Retrait;
 
 public interface RetraitDAO {
 	
-public void insert (Retrait retrait) throws BusinessException;
+public Retrait insert (Retrait retrait) throws BusinessException;
 public Retrait getById (int id) throws BusinessException;
 public List<Retrait> getAll() throws BusinessException;
 public void update(Retrait retrait) throws BusinessException;

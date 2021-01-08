@@ -9,7 +9,6 @@ import java.util.List;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.bo.EtatVente;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.CategorieDAO;
@@ -219,7 +218,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			article.setCategorie(null);
 			
 			// Supprimer le lieu de retrait défini pour cet article
-			retraitDAO.delete(article.getLieuRetrait().getId());
+			retraitDAO.delete(id);
 			article.setLieuRetrait(null);
 			
 			// Supprimer l'article

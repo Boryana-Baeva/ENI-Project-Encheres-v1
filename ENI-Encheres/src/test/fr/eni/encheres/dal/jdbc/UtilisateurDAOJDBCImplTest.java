@@ -62,7 +62,7 @@ class UtilisateurDAOJDBCImplTest {
 	@Test
 	void testGetAll() throws BusinessException {
 		
-		/*Utilisateur user1 = new Utilisateur();
+		Utilisateur user1 = new Utilisateur();
 		user1.setPseudo("sassou");
 		user1.setNom("Maerten");
 		user1.setPrenom("sarah");
@@ -102,7 +102,7 @@ class UtilisateurDAOJDBCImplTest {
 		utilisateurDao.insert(user3);
 		
 		List<Utilisateur> allUsers = utilisateurDao.getAll();
-		assertEquals(allUsers.size(), utilisateurs.size());*/
+		assertEquals(allUsers.size(), utilisateurs.size());
 		
 		
 	}

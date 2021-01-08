@@ -8,20 +8,22 @@ import java.util.List;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.Retrait;
+import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.RetraitDAO;
 import fr.eni.encheres.dal.Utils;
 
 public class RetraitDAOJDBCImpl implements RetraitDAO {
-	private static final String INSERT = "INSERT INTO RETRAITS VALUES(?,?,?)";
-	private static final String GET_BY_ID = "SELECT * FROM RETRAITS WHERE no_retrait = ?";
+	private static final String INSERT = "insert into RETRAITS (rue, code_postal, ville) values (?,?,?)";
+	private static final String GET_BY_ID = "SELECT * FROM RETRAITS WHERE no_article = ?";
 	private static final String GET_ALL = "SELECT * FROM RETRAITS";
-	private static final String UPDATE = "UPDATE RETRAITS SET rue = ?, code_postal = ?, ville = ?";
+	private static final String UPDATE = "UPDATE RETRAITS SET rue = ?, code_postal = ?, ville = ? WHERE no_article=?";
 	private static final String DELETE = "DELETE RETRAITS WHERE no_retrait = ?";
 
+	private static ArticleVenduDAO articleDao = new ArticleVenduDAOJDBCImpl();
 	@Override
-	public void insert(Retrait retrait) throws BusinessException // INSERT
+	public  Retrait insert(Retrait retrait) throws BusinessException // INSERT
 	{
 		if (retrait == null) {
 			BusinessException businessException = new BusinessException();
@@ -30,11 +32,20 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 		}
 
 		try (Connection cnx = Utils.getConnection()) {
-			PreparedStatement statement = cnx.prepareStatement(INSERT);
+			PreparedStatement statement = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			statement.setString(1, retrait.getRue());
 			statement.setString(2, retrait.getCodePostal());
 			statement.setString(3, retrait.getVille());
+			
+			
 			statement.executeUpdate();
+			
+			ResultSet rs = statement.getGeneratedKeys();
+			if(rs.next())
+			{
+				retrait.setArticle(articleDao.getById(rs.getInt(1)));
+			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -42,6 +53,8 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_ECHEC);
 			throw businessException;
 		}
+		return retrait;
+		
 	}
 
 	@Override
@@ -54,7 +67,7 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 			ResultSet rs = statement.executeQuery();
 			if (rs.next()) {
 				retrait = new Retrait();
-				retrait.setId(rs.getInt("id"));
+				retrait.setArticle(articleDao.getById(rs.getInt("no_article")));
 				retrait.setRue(rs.getString("rue"));
 				retrait.setCodePostal(rs.getString("codePostal"));
 				retrait.setVille(rs.getString("ville"));
@@ -80,7 +93,7 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 
 			while (rs.next()) {
 				Retrait retrait = new Retrait();
-				retrait.setId(rs.getInt("id"));
+				retrait.setArticle(articleDao.getById(rs.getInt("no_article")));
 				retrait.setRue(rs.getString("rue"));
 				retrait.setCodePostal(rs.getString("codePostal"));
 				retrait.setVille(rs.getString("ville"));

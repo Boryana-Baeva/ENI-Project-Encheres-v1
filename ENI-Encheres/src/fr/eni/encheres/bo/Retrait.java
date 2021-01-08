@@ -6,7 +6,7 @@ public class Retrait implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private int id;
+	private ArticleVendu article;
 	private String rue;
 	private String codePostal;
 	private String ville;
@@ -17,13 +17,15 @@ public class Retrait implements Serializable {
 		super();
 	}
 
-	public Retrait(int id, String rue, String codePostal, String ville) {
+	
+	public Retrait(ArticleVendu article, String rue, String codePostal, String ville) {
 		super();
-		this.id = id;
+		this.article = article;
 		this.rue = rue;
 		this.codePostal = codePostal;
 		this.ville = ville;
 	}
+
 
 	public Retrait(String rue, String codePostal, String ville) {
 		super();
@@ -58,19 +60,18 @@ public class Retrait implements Serializable {
 		this.ville = ville;
 	}
 
-	public int getId() {
-		return id;
+	public ArticleVendu getArticle() {
+		return article;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setArticle(ArticleVendu article) {
+		this.article = article;
 	}
 
 	// METHODE TO STRING
 	@Override
 	public String toString() {
-		return "Retrait [id=" + id + ", rue=" + rue + ", codePostal=" + codePostal + ", ville=" + ville + "]";
+		return "Retrait [id=" + article + ", rue=" + rue + ", codePostal=" + codePostal + ", ville=" + ville + "]";
 	}
 
-	
 }
