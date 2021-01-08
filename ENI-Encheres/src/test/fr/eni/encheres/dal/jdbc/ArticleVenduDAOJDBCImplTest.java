@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.CategorieDAO;
 import fr.eni.encheres.dal.UtilisateurDAO;
@@ -34,17 +36,18 @@ class ArticleVenduDAOJDBCImplTest {
 	@Test
 	void testInsert() {
 		
-		try {
+		/*try {
 			categorieDao.insert(CategorieDAOJDBCImplTest.getTestCategorie());
 		} catch (BusinessException e) {
 			e.printStackTrace();
-		}
+		}*/
 			
-		try {
+		/*try {
 			utilisateurDao.insert(UtilisateurDAOJDBCImplTest.getTestUtilisateur());
 		} catch (BusinessException e1) {
 			e1.printStackTrace();
-		}
+		} */
+		
 		
 		try {
 			articleVenduDao.insert(ArticleVenduDAOJDBCImplTest.getTestArticleVendu());
@@ -88,8 +91,20 @@ class ArticleVenduDAOJDBCImplTest {
 		article.setDateFinEncheres(LocalDate.now().plusDays(7));
 		article.setMiseAPrix(100);
 		article.setPrixVente(250);
-		article.setVendeur(UtilisateurDAOJDBCImplTest.getTestUtilisateur());
-		article.setCategorie(CategorieDAOJDBCImplTest.getTestCategorie());
+		Utilisateur vendeur = new Utilisateur("yana", "Baeva", "Boryana", "b.baeva@gamail.com", "0612345678", "47 rue Lucie Aubrac", "33300", "Bordeaux", "123456", 100, true);
+		try {
+			utilisateurDao.insert(vendeur);
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			article.setVendeur(utilisateurDao.getById(vendeur.getId()));
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		article.setCategorie(new Categorie("Some category"));
 		
 		return article;
 	}

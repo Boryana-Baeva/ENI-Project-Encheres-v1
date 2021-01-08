@@ -140,6 +140,13 @@ public class ArticleVendu implements Serializable {
 		this.lieuRetrait = lieuRetrait;
 	}
 
+	public EtatVente getEtatVente() {
+		return etatVente;
+	}
+
+	public void setEtatVente(EtatVente etatVente) {
+		this.etatVente = etatVente;
+	}
 
 	/**
 	 * Méthode ToString 

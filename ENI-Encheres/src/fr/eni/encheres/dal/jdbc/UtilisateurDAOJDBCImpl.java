@@ -15,6 +15,7 @@ import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.EnchereDAO;
 import fr.eni.encheres.dal.UtilisateurDAO;
+import fr.eni.encheres.dal.Utils;
 import fr.eni.encheres.BusinessException;
 
 public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
@@ -38,7 +39,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 			throw businessException;
 		}
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement requete = cnx.prepareStatement(INSERT);
 			requete.setString(1, utilisateur.getPseudo());
@@ -206,6 +207,24 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(DELETE);
 			requete.setInt(1, id);
+			
+			Utilisateur utilisateur = this.getById(id);
+			
+			// Supprimer toutes les encheres faite par cet utilisateur
+			for (Enchere enchere : enchereDao.getByEncherisseur(id)) {
+				enchereDao.delete(enchere.getId());
+			}
+			utilisateur.setEncheres(null);
+			
+			// Unset la collection des articles achetés par cet utilisateur
+			utilisateur.setArticlesAchetes(null);
+			
+			// Supprimer tous les articles vendus par cet utilisateur 
+			for (ArticleVendu article : articleDao.getByVendeur(id)) {
+				articleDao.delete(article.getId());
+			}
+			utilisateur.setArticlesVendus(null);
+			
 			requete.executeUpdate();
 
 		} catch (Exception e) {

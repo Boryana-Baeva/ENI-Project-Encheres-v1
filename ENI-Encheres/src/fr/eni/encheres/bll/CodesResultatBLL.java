@@ -40,6 +40,9 @@ public abstract class CodesResultatBLL {
 	 * Echec quand la date de début et de fin des enchères  ne respectent pas les règles définies
 	 */
 	public static final int REGLE_ARTICLES_DATE_ERREUR=20007;
-	
+	/**
+	 * Echec lors d'une tentative de supprimer un article déjà acheté
+	 */
+	public static final int REGLE_ARTICLES_ETAT_VENTE_ERREUR=20008;
 
 }

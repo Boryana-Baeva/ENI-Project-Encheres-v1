@@ -9,11 +9,22 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.dal.ArticleVenduDAO;
+import fr.eni.encheres.dal.CategorieDAO;
+import fr.eni.encheres.dal.UtilisateurDAO;
+import fr.eni.encheres.dal.jdbc.ArticleVenduDAOJDBCImpl;
+import fr.eni.encheres.dal.jdbc.CategorieDAOJDBCImpl;
+import fr.eni.encheres.dal.jdbc.UtilisateurDAOJDBCImpl;
 
 
 class UtilisateurDAOJDBCImplTest {
 
+	private static ArticleVenduDAO articleVenduDao = new ArticleVenduDAOJDBCImpl();
+	private static CategorieDAO categorieDao = new CategorieDAOJDBCImpl();
+	private static UtilisateurDAO utilisateurDao = new UtilisateurDAOJDBCImpl();
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -33,7 +44,13 @@ class UtilisateurDAOJDBCImplTest {
 	 */
 	@Test
 	void testInsert() {
-		fail("Not yet implemented");
+		try {
+			utilisateurDao.insert(UtilisateurDAOJDBCImplTest.getTestUtilisateur());
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
