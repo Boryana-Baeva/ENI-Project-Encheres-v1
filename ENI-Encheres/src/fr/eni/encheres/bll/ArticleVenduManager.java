@@ -6,6 +6,7 @@ import java.util.List;
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.EtatVente;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleVenduDAO;
@@ -68,14 +69,7 @@ public class ArticleVenduManager {
 			articleVenduDAO.update(articleVendu);
 		}
 	}
-	
-	
-	public static void supprimerArticlesVendus (ArticleVendu articleVendu)throws BusinessException{
 		
-			articleVenduDAO.delete(articleVendu.getId());
-		
-	}
-	
 	public static List<ArticleVendu> selectAllArticles()throws BusinessException{
 		return articleVenduDAO.getAll();
 		
@@ -90,5 +84,29 @@ public class ArticleVenduManager {
 		return articleVenduDAO.getByVendeur(id);
 	}
 	
+	public static void supprimerArticlesVendus (ArticleVendu articleVendu)throws BusinessException{
+		
+		annulerVente(articleVendu);
+		if(articleVendu.getEtatVente() == EtatVente.ANNULE)
+		{
+			articleVenduDAO.delete(articleVendu.getId());
+		}
+	}
+	
+	private static void validerEtatVente(ArticleVendu articleVendu, BusinessException businessException ) throws BusinessException
+	{
+		if (articleVendu.getEtatVente() == EtatVente.ENCHERES_TERMINEES  
+				|| articleVendu.getEtatVente() == EtatVente.RETRAIT_EFFECTUE) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_ARTICLES_ETAT_VENTE_ERREUR);
+		}
+	}
+	
+	public static void annulerVente(ArticleVendu articleVendu) throws BusinessException
+	{
+		validerEtatVente(articleVendu, businessException);
+		if (!businessException.hasErreurs()) {
+			articleVendu.setEtatVente(EtatVente.ANNULE);
+		}
+	}
 	
 }

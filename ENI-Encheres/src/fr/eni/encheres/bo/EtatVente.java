@@ -3,6 +3,7 @@ package fr.eni.encheres.bo;
 public enum EtatVente {
 	CREE("vente créée"),
 	EN_COURS("en cours"),
+	ANNULE("annulée"),
 	ENCHERES_TERMINEES("enchères terminées"),
 	RETRAIT_EFFECTUE("retrait effectué");
 	

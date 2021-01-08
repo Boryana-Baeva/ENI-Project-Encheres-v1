@@ -55,7 +55,7 @@ class CategorieDAOJDBCImplTest {
 	public static Categorie getTestCategorie()
 	{
 		Categorie categorie = new Categorie();
-		categorie.setLibelle("Périphériques");
+		categorie.setLibelle("Imprimantes");
 		
 		return categorie;
 	}

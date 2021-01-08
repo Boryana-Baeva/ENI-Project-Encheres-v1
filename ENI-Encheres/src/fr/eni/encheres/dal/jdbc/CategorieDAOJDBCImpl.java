@@ -9,6 +9,7 @@ import java.util.List;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.dal.CategorieDAO;
 import fr.eni.encheres.dal.ConnectionProvider;
+import fr.eni.encheres.dal.Utils;
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.dal.CodesResultatDAL;
 
@@ -30,7 +31,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 			throw businessException;
 		}
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, categorie.getLibelle());
@@ -52,7 +53,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 
 		Categorie categorie = null;
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(GET_BY_ID);
 			pstmt.setInt(1, id);
@@ -82,7 +83,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 		
 		List<Categorie> categories = new ArrayList<>();
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(GET_ALL);
 
@@ -108,7 +109,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 	@Override
 	public void update(Categorie categorie) throws BusinessException {
 		
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
 			pstmt.setInt(1, categorie.getId());
@@ -128,7 +129,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 
 	@Override
 	public void delete(int id) throws BusinessException {
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
 			

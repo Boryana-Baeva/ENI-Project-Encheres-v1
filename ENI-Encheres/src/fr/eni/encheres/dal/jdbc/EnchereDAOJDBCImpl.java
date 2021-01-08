@@ -14,6 +14,7 @@ import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.EnchereDAO;
 import fr.eni.encheres.dal.UtilisateurDAO;
+import fr.eni.encheres.dal.Utils;
 
 public class EnchereDAOJDBCImpl implements EnchereDAO{
 	private static final String INSERT = "INSERT INTO ENCHERES VALUES(?,?,?,?)";
@@ -37,7 +38,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 			throw businessException;
 		}
 		
-		try(Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
             PreparedStatement requete = cnx.prepareStatement(INSERT);
             requete.setDate(1, Date.valueOf(enchere.getDate()));
             requete.setInt(2, enchere.getMontant());
@@ -60,7 +61,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 		
 		List<Enchere> list = new ArrayList<>();
 		
-		try(Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			 PreparedStatement requete = cnx.prepareStatement(GET_ALL);
 			 ResultSet rs = requete.executeQuery();
 			 
@@ -91,7 +92,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 		
 		Enchere enchere = null;
 		
-		try(Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(GET_BY_ID);
 			requete.setInt(1, id);
 			ResultSet rs = requete.executeQuery();
@@ -124,7 +125,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 		
 		List<Enchere> list = new ArrayList<>();
 		
-		try(Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			 PreparedStatement requete = cnx.prepareStatement(GET_BY_ENCHERISSEUR);
 			 requete.setInt(1, id);
 			 ResultSet rs = requete.executeQuery();
@@ -156,7 +157,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 		
 		List<Enchere> list = new ArrayList<>();
 		
-		try(Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			 PreparedStatement requete = cnx.prepareStatement(GET_REMPORTES_PAR_ENCHERISSEUR);
 			 requete.setInt(1, id);
 			 requete.setBoolean(2, true);
@@ -186,7 +187,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 	@Override
 	public void update(Enchere enchere) throws BusinessException {
 		
-		try(Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(UPDATE);
 			requete.setDate(1, Date.valueOf(enchere.getDate()));
 			requete.setInt(2, enchere.getMontant());
@@ -208,7 +209,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 
 	@Override
 	public void delete(int id) throws BusinessException {
-		try(Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(DELETE);
             requete.setInt(1, id);
             requete.executeUpdate();

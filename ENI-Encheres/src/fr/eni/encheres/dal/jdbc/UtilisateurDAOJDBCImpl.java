@@ -15,6 +15,7 @@ import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.EnchereDAO;
 import fr.eni.encheres.dal.UtilisateurDAO;
+import fr.eni.encheres.dal.Utils;
 import fr.eni.encheres.BusinessException;
 
 public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
@@ -38,7 +39,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 			throw businessException;
 		}
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement requete = cnx.prepareStatement(INSERT);
 			requete.setString(1, utilisateur.getPseudo());
@@ -80,7 +81,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 		List<Utilisateur> list = new ArrayList<>();
 		List<ArticleVendu> listArticlesAchetes = new ArrayList<>();
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(GET_ALL);
 			ResultSet rs = requete.executeQuery();
 
@@ -98,7 +99,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 				utilisateur.setPassword(rs.getString("mot_de_passe"));
 				utilisateur.setCredit(rs.getInt("credit"));
 				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
-				utilisateur.setArticlesVendus(articleDao.getByVendeur());
+				utilisateur.setArticlesVendus(articleDao.getByVendeur(utilisateur.getId()));
 				
 				for(Enchere enchere : enchereDao.getRemportesParEncherisseur(utilisateur.getId())) {
 					listArticlesAchetes.add(enchere.getArticle());
@@ -126,7 +127,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 		Utilisateur utilisateur = null;
 		List<ArticleVendu> listArticlesAchetes = new ArrayList<>();
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(GET_BY_ID);
 			requete.setInt(1, id);
 			ResultSet rs = requete.executeQuery();
@@ -144,7 +145,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 				utilisateur.setVille(rs.getString("ville"));
 				utilisateur.setCredit(rs.getInt("credit"));
 				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
-				utilisateur.setArticlesVendus(articleDao.getByVendeur());
+				utilisateur.setArticlesVendus(articleDao.getByVendeur(utilisateur.getId()));
 				
 				for (Enchere enchere : enchereDao.getRemportesParEncherisseur(utilisateur.getId())) {
 					listArticlesAchetes.add(enchere.getArticle());
@@ -168,7 +169,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	@Override
 	public void update(Utilisateur utilisateur) throws BusinessException {
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(UPDATE);
 			requete.setString(1, utilisateur.getPseudo());
 			requete.setString(2, utilisateur.getNom());
@@ -203,9 +204,27 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	@Override
 	public void delete(int id) throws BusinessException {
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(DELETE);
 			requete.setInt(1, id);
+			
+			Utilisateur utilisateur = this.getById(id);
+			
+			// Supprimer toutes les encheres faite par cet utilisateur
+			for (Enchere enchere : enchereDao.getByEncherisseur(id)) {
+				enchereDao.delete(enchere.getId());
+			}
+			utilisateur.setEncheres(null);
+			
+			// Unset la collection des articles achetés par cet utilisateur
+			utilisateur.setArticlesAchetes(null);
+			
+			// Supprimer tous les articles vendus par cet utilisateur 
+			for (ArticleVendu article : articleDao.getByVendeur(id)) {
+				articleDao.delete(article.getId());
+			}
+			utilisateur.setArticlesVendus(null);
+			
 			requete.executeUpdate();
 
 		} catch (Exception e) {

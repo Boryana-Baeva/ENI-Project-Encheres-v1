@@ -9,15 +9,18 @@ import java.util.List;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.CategorieDAO;
 import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
+import fr.eni.encheres.dal.RetraitDAO;
 import fr.eni.encheres.dal.UtilisateurDAO;
+import fr.eni.encheres.dal.Utils;
 
 public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
-	private static final String INSERT = "insert into ARTICLES_VENDUS VALUES (?,?,?,?,?,?,?,?)";
+	private static final String INSERT = "insert into ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie) VALUES (?,?,?,?,?,?,?,?)";
 	private static final String GET_BY_ID = "select * from ARTICLES_VENDUS where no_article= ?";
 	private static final String GET_ALL = "select * from ARTICLES_VENDUS";
 	private static final String GET_BY_VENDEUR = "select * from ARTICLES_VENDUS where no_utilisateur= ?";
@@ -28,6 +31,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 	private static UtilisateurDAO utilisateurDAO = new UtilisateurDAOJDBCImpl();
 	private static CategorieDAO categorieDAO = new CategorieDAOJDBCImpl();
+	private static RetraitDAO retraitDAO = new RetraitDAOJDBCImpl();
 
 	@Override
 	public void insert(ArticleVendu articleVendu) throws BusinessException {
@@ -38,9 +42,9 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			throw businessException;
 		}
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
-			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
+			PreparedStatement pstmt = cnx.prepareStatement(INSERT);
 			pstmt.setString(1, articleVendu.getNom());
 			pstmt.setString(2, articleVendu.getDescription());
 			pstmt.setDate(3, java.sql.Date.valueOf(articleVendu.getDateDebutEncheres()));
@@ -68,7 +72,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 		ArticleVendu articleVendu = null;
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(GET_BY_ID);
 			pstmt.setInt(1, id);
 
@@ -103,7 +107,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 		List<ArticleVendu> articlesVendus = new ArrayList<>();
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(GET_ALL);
 
 			ResultSet rs = pstmt.executeQuery();
@@ -136,7 +140,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 		List<ArticleVendu> articlesVendus = new ArrayList<>();
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(GET_BY_VENDEUR);
 			pstmt.setInt(1, id);
 
@@ -167,7 +171,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 	@Override
 	public void update(ArticleVendu articleVendu) throws BusinessException {
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
 			pstmt.setInt(1, articleVendu.getId());
@@ -193,12 +197,28 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 	@Override
 	public void delete(int id) throws BusinessException {
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
-
 			pstmt.setInt(1, id);
-
+			
+			//::::Gestion des dépendances::::
+			// Supprimer l'article de la liste des articles vendus du vendeur
+			ArticleVendu article = this.getById(id);
+			Utilisateur vendeur = article.getVendeur();
+			
+			vendeur.getArticlesVendus().remove(article);
+			utilisateurDAO.update(vendeur);
+			article.setVendeur(null);
+			
+			// Unset de la categorie de l'article
+			article.setCategorie(null);
+			
+			// Supprimer le lieu de retrait défini pour cet article
+			retraitDAO.delete(article.getLieuRetrait().getId());
+			article.setLieuRetrait(null);
+			
+			// Supprimer l'article
 			pstmt.executeUpdate();
 
 		} catch (Exception e) {
