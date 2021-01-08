@@ -3,12 +3,14 @@ package test.fr.eni.encheres.dal.jdbc;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fr.eni.encheres.BusinessException;
+import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Utilisateur;
@@ -31,6 +33,7 @@ class ArticleVenduDAOJDBCImplTest {
 
 	@AfterEach
 	void tearDown() throws Exception {
+		
 	}
 
 	@Test

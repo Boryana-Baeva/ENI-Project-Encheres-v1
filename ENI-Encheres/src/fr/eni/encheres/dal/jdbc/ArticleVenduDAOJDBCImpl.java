@@ -9,6 +9,7 @@ import java.util.List;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.EtatVente;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.CategorieDAO;
@@ -20,7 +21,7 @@ import fr.eni.encheres.dal.Utils;
 
 public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
-	private static final String INSERT = "insert into ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie) VALUES (?,?,?,?,?,?,?,?)";
+	private static final String INSERT = "insert into ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres,prix_initial,no_utilisateur,no_categorie) VALUES (?,?,?,?,?,?,?)";
 	private static final String GET_BY_ID = "select * from ARTICLES_VENDUS where no_article= ?";
 	private static final String GET_ALL = "select * from ARTICLES_VENDUS";
 	private static final String GET_BY_VENDEUR = "select * from ARTICLES_VENDUS where no_utilisateur= ?";
@@ -50,9 +51,8 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			pstmt.setDate(3, java.sql.Date.valueOf(articleVendu.getDateDebutEncheres()));
 			pstmt.setDate(4, java.sql.Date.valueOf(articleVendu.getDateFinEncheres()));
 			pstmt.setInt(5, articleVendu.getMiseAPrix());	
-			pstmt.setInt(6, articleVendu.getPrixVente());
-			pstmt.setInt(7, articleVendu.getVendeur().getId());
-			pstmt.setInt(8, articleVendu.getCategorie().getId());
+			pstmt.setInt(6, articleVendu.getVendeur().getId());
+			pstmt.setInt(7, articleVendu.getCategorie().getId());
 
 			pstmt.executeUpdate();
 			

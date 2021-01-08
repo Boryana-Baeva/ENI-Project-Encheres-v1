@@ -22,7 +22,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 	private static final String DELETE = "delete CATEGORIES where no_categorie=?";
 
 	@Override
-	public void insert(Categorie categorie) throws BusinessException {
+	public Categorie insert(Categorie categorie) throws BusinessException {
 		
 		if(categorie == null)
 		{
@@ -50,6 +50,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
 			throw businessException;
 		}
+		return categorie;
 
 
 	}
@@ -99,6 +100,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 				Categorie categorie = new Categorie();
 				categorie.setId(rs.getInt("no_categorie"));
 				categorie.setLibelle(rs.getString("libelle"));
+				categories.add(categorie);
 			}
 					
 
@@ -122,7 +124,6 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 			pstmt.setString(2, categorie.getLibelle());
 
 			pstmt.executeUpdate();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
@@ -130,7 +131,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 			throw businessException;
 
 		}
-
+		
 	}
 
 	@Override

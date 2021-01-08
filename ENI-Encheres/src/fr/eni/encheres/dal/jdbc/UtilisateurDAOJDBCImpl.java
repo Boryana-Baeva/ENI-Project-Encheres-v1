@@ -153,6 +153,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
 				utilisateur.setArticlesVendus(articleDao.getByVendeur(utilisateur.getId()));
 				
+				
 				for (Enchere enchere : enchereDao.getRemportesParEncherisseur(utilisateur.getId())) {
 					listArticlesAchetes.add(enchere.getArticle());
 				}
