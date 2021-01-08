@@ -36,24 +36,30 @@ class ArticleVenduDAOJDBCImplTest {
 	@Test
 	void testInsert() {
 		
-		/*try {
-			categorieDao.insert(CategorieDAOJDBCImplTest.getTestCategorie());
-		} catch (BusinessException e) {
-			e.printStackTrace();
-		}*/
-			
-		/*try {
-			utilisateurDao.insert(UtilisateurDAOJDBCImplTest.getTestUtilisateur());
-		} catch (BusinessException e1) {
-			e1.printStackTrace();
-		} */
-		
-		
+		Categorie categorie = CategorieDAOJDBCImplTest.getTestCategorie();
 		try {
-			articleVenduDao.insert(ArticleVenduDAOJDBCImplTest.getTestArticleVendu());
+			categorieDao.insert(categorie);
 		} catch (BusinessException e) {
 			e.printStackTrace();
 		}
+			
+		Utilisateur utilisateur = UtilisateurDAOJDBCImplTest.getTestUtilisateur();
+		try {
+			utilisateurDao.insert(utilisateur);
+		} catch (BusinessException e1) {
+			e1.printStackTrace();
+		} 
+		
+		ArticleVendu articleVendu = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur, categorie);
+		try {
+			articleVenduDao.insert(articleVendu);
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+		
+		assertNotNull(categorie.getId());
+		assertNotNull(utilisateur.getId());
+		assertNotNull(articleVendu.getId());
 		
 	}
 
@@ -82,7 +88,7 @@ class ArticleVenduDAOJDBCImplTest {
 		fail("Not yet implemented");
 	}
 	
-	public static ArticleVendu getTestArticleVendu()
+	public static ArticleVendu getTestArticleVendu(Utilisateur utilisateur, Categorie categorie)
 	{
 		ArticleVendu article = new ArticleVendu();
 		article.setNom("HP Deskjet 2723");
@@ -91,20 +97,23 @@ class ArticleVenduDAOJDBCImplTest {
 		article.setDateFinEncheres(LocalDate.now().plusDays(7));
 		article.setMiseAPrix(100);
 		article.setPrixVente(250);
-		Utilisateur vendeur = new Utilisateur("yana", "Baeva", "Boryana", "b.baeva@gamail.com", "0612345678", "47 rue Lucie Aubrac", "33300", "Bordeaux", "123456", 100, true);
+		article.setVendeur(utilisateur);
+		article.setCategorie(categorie);
+		
+		/*Utilisateur vendeur = new Utilisateur("yana", "Baeva", "Boryana", "b.baeva@gamail.com", "0612345678", "47 rue Lucie Aubrac", "33300", "Bordeaux", "123456", 100, true);
 		try {
 			utilisateurDao.insert(vendeur);
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
+	
 			e.printStackTrace();
 		}
 		try {
 			article.setVendeur(utilisateurDao.getById(vendeur.getId()));
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		article.setCategorie(new Categorie("Some category"));
+		*/
 		
 		return article;
 	}

@@ -35,8 +35,14 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 
 			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, categorie.getLibelle());
-
+			
 			pstmt.executeUpdate();
+			
+			ResultSet rs = pstmt.getGeneratedKeys();
+			
+			if (rs.next()) {
+				categorie.setId(rs.getInt(1));
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

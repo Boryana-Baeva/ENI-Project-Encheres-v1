@@ -44,27 +44,31 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 		try (Connection cnx = Utils.getConnection()) {
 
-			PreparedStatement pstmt = cnx.prepareStatement(INSERT);
+			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, articleVendu.getNom());
 			pstmt.setString(2, articleVendu.getDescription());
 			pstmt.setDate(3, java.sql.Date.valueOf(articleVendu.getDateDebutEncheres()));
 			pstmt.setDate(4, java.sql.Date.valueOf(articleVendu.getDateFinEncheres()));
-			pstmt.setInt(5, articleVendu.getMiseAPrix());
-			
+			pstmt.setInt(5, articleVendu.getMiseAPrix());	
 			pstmt.setInt(6, articleVendu.getPrixVente());
-
 			pstmt.setInt(7, articleVendu.getVendeur().getId());
 			pstmt.setInt(8, articleVendu.getCategorie().getId());
 
 			pstmt.executeUpdate();
-
+			
+			ResultSet rs = pstmt.getGeneratedKeys();
+			
+			if (rs.next()) {
+				articleVendu.setId(rs.getInt(1));
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
 			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_ECHEC);
 			throw businessException;
 		}
-
+		
 	}
 
 	@Override
