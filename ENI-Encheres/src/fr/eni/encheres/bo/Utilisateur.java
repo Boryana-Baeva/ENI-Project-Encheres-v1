@@ -76,6 +76,30 @@ public class Utilisateur implements Serializable {
 		
 	}
 
+	
+
+	public Utilisateur(int id, String pseudo, String nom, String prenom, String email, String telephone, String rue,
+			String codePostal, String ville, String password, int credit, boolean administrateur) {
+		super();
+		this.id = id;
+		this.pseudo = pseudo;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.telephone = telephone;
+		this.rue = rue;
+		this.codePostal = codePostal;
+		this.ville = ville;
+		this.password = password;
+		this.credit = credit;
+		this.administrateur = administrateur;
+	}
+
+	public Utilisateur(Utilisateur byId, String string, String string2, String string3, String string4, String string5,
+			String string6, String string7, String string8, String string9, int i, boolean b) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Retrait getLieuRetraitParDefaut()
 	{
 		return new Retrait(this.rue, this.codePostal, this.ville);

@@ -81,7 +81,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 		List<Utilisateur> list = new ArrayList<>();
 		List<ArticleVendu> listArticlesAchetes = new ArrayList<>();
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(GET_ALL);
 			ResultSet rs = requete.executeQuery();
 
@@ -127,7 +127,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 		Utilisateur utilisateur = null;
 		List<ArticleVendu> listArticlesAchetes = new ArrayList<>();
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(GET_BY_ID);
 			requete.setInt(1, id);
 			ResultSet rs = requete.executeQuery();
@@ -169,7 +169,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	@Override
 	public void update(Utilisateur utilisateur) throws BusinessException {
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(UPDATE);
 			requete.setString(1, utilisateur.getPseudo());
 			requete.setString(2, utilisateur.getNom());
@@ -204,7 +204,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	@Override
 	public void delete(int id) throws BusinessException {
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement requete = cnx.prepareStatement(DELETE);
 			requete.setInt(1, id);
 			

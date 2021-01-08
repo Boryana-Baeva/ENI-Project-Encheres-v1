@@ -72,7 +72,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 		ArticleVendu articleVendu = null;
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(GET_BY_ID);
 			pstmt.setInt(1, id);
 
@@ -107,7 +107,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 		List<ArticleVendu> articlesVendus = new ArrayList<>();
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(GET_ALL);
 
 			ResultSet rs = pstmt.executeQuery();
@@ -140,7 +140,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 		List<ArticleVendu> articlesVendus = new ArrayList<>();
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(GET_BY_VENDEUR);
 			pstmt.setInt(1, id);
 
@@ -171,7 +171,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 	@Override
 	public void update(ArticleVendu articleVendu) throws BusinessException {
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
 			pstmt.setInt(1, articleVendu.getId());
@@ -197,7 +197,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 	@Override
 	public void delete(int id) throws BusinessException {
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
 			pstmt.setInt(1, id);

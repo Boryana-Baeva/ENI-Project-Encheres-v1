@@ -11,6 +11,7 @@ import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.RetraitDAO;
+import fr.eni.encheres.dal.Utils;
 
 public class RetraitDAOJDBCImpl implements RetraitDAO {
 	private static final String INSERT = "INSERT INTO RETRAITS VALUES(?,?,?)";
@@ -28,7 +29,7 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 			throw businessException;
 		}
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(INSERT);
 			statement.setString(1, retrait.getRue());
 			statement.setString(2, retrait.getCodePostal());
@@ -47,7 +48,7 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 	public Retrait getById(int id) throws BusinessException // GET_BY_ID
 	{
 		Retrait retrait = null;
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(GET_BY_ID);
 			statement.setInt(1, id);
 			ResultSet rs = statement.executeQuery();
@@ -73,7 +74,7 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 	{
 		List<Retrait> listes = new ArrayList<>();
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(GET_ALL);
 			ResultSet rs = statement.executeQuery();
 
@@ -99,7 +100,7 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 	@Override
 	public void update(Retrait retrait) throws BusinessException // UPDATE
 	{
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(UPDATE);
 
 			statement.setString(1, retrait.getRue());
@@ -118,7 +119,7 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 	@Override
 	public void delete(int id) throws BusinessException // DELETE
 	{
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(DELETE);
 			statement.setInt(1, id);
 			statement.executeUpdate();

@@ -53,7 +53,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 
 		Categorie categorie = null;
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(GET_BY_ID);
 			pstmt.setInt(1, id);
@@ -83,7 +83,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 		
 		List<Categorie> categories = new ArrayList<>();
 
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(GET_ALL);
 
@@ -109,7 +109,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 	@Override
 	public void update(Categorie categorie) throws BusinessException {
 		
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
 			pstmt.setInt(1, categorie.getId());
@@ -129,7 +129,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 
 	@Override
 	public void delete(int id) throws BusinessException {
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
 			
