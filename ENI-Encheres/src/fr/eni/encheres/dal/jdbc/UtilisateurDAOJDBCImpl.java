@@ -3,6 +3,7 @@ package fr.eni.encheres.dal.jdbc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 
 		try (Connection cnx = Utils.getConnection()) {
 
-			PreparedStatement requete = cnx.prepareStatement(INSERT);
+			PreparedStatement requete = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			requete.setString(1, utilisateur.getPseudo());
 			requete.setString(2, utilisateur.getNom());
 			requete.setString(3, utilisateur.getPrenom());
@@ -62,6 +63,11 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 			requete.setBoolean(11, utilisateur.isAdministrateur());
 
 			requete.executeUpdate();
+			ResultSet rs = requete.getGeneratedKeys();
+			
+			if (rs.next()) {
+				utilisateur.setId(rs.getInt(1));
+			}
 
 			requete.close();
 			cnx.commit();
