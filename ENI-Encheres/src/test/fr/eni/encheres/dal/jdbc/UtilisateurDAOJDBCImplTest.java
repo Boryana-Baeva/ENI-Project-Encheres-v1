@@ -5,6 +5,7 @@ package test.fr.eni.encheres.dal.jdbc;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -43,15 +44,14 @@ class UtilisateurDAOJDBCImplTest {
 
 	/**
 	 * Test method for {@link fr.eni.encheres.dal.jdbc.UtilisateurDAOJDBCImpl#insert(fr.eni.encheres.bo.Utilisateur)}.
+	 * @throws BusinessException 
 	 */
 	@Test
-	void testInsert() {
-		try {
-			utilisateurDao.insert(UtilisateurDAOJDBCImplTest.getTestUtilisateur());
-		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	void testInsert() throws BusinessException {
+		
+		Utilisateur user = utilisateurDao.insert(getTestUtilisateur());
+		
+		assertNotNull(user.getId());
 		
 	}
 
@@ -62,6 +62,101 @@ class UtilisateurDAOJDBCImplTest {
 	@Test
 	void testGetAll() throws BusinessException {
 		
+		List<Utilisateur> utilisateurs = utilisateurDao.getAll();
+		
+		for (Utilisateur utilisateur : getTestListUtilisateurs()) {
+			utilisateurs.add(utilisateur);
+			utilisateurDao.insert(utilisateur);
+		}
+			
+		List<Utilisateur> allUsers = utilisateurDao.getAll();
+		
+		assertEquals(allUsers.size(), utilisateurs.size());
+	
+	}
+
+	/**
+	 * Test method for {@link fr.eni.encheres.dal.jdbc.UtilisateurDAOJDBCImpl#getById(int)}.
+	 * @throws BusinessException 
+	 */
+	@Test
+	void testGetById() throws BusinessException {
+	
+		utilisateurDao.insert(getTestUtilisateur());
+		
+		List<Utilisateur> users = utilisateurDao.getAll();
+		Utilisateur userAttendu = users.get(users.size()-1);
+		Utilisateur userRecupere = utilisateurDao.getById(userAttendu.getId());
+		
+		assertEquals(userAttendu.getId(), userRecupere.getId());
+			
+	}
+
+	/**
+	 * Test method for {@link fr.eni.encheres.dal.jdbc.UtilisateurDAOJDBCImpl#update(fr.eni.encheres.bo.Utilisateur)}.
+	 * @throws BusinessException 
+	 */
+	@Test
+	void testUpdate() throws BusinessException {
+		
+		utilisateurDao.insert(getTestUtilisateur());
+		
+		List<Utilisateur> users = utilisateurDao.getAll();
+		
+		Utilisateur userAUpdate = users.get(users.size()-1);
+		
+		userAUpdate.setPrenom("Yana");
+		
+		utilisateurDao.update(userAUpdate);
+		
+		Utilisateur userUpdated = utilisateurDao.getById(userAUpdate.getId());
+		
+		assertEquals(userUpdated.getPrenom(), "Yana");
+	}
+
+	/**
+	 * Test method for {@link fr.eni.encheres.dal.jdbc.UtilisateurDAOJDBCImpl#delete(int)}.
+	 * @throws BusinessException 
+	 */
+	@Test
+	void testDelete() throws BusinessException {
+		
+		utilisateurDao.insert(getTestUtilisateur());
+		
+		List<Utilisateur> users = utilisateurDao.getAll();
+		
+		users.remove(users.size()-1);
+		
+		utilisateurDao.delete(users.size()-1);
+		
+		List<Utilisateur> newUsers = utilisateurDao.getAll();
+		
+		assertEquals(users.size(), newUsers.size());
+	}
+	
+	
+	public static Utilisateur getTestUtilisateur() 
+	{
+		Utilisateur utilisateur = new Utilisateur();
+		utilisateur.setPseudo("beatle123");
+		utilisateur.setNom("McCartney");
+		utilisateur.setPrenom("Pault");
+		utilisateur.setEmail("beatle@gmail.com");
+		utilisateur.setTelephone("06 12 34 56 78");
+		utilisateur.setRue("47 rue Penny Lane");
+		utilisateur.setCodePostal("L18");
+		utilisateur.setVille("Liverpool");
+		utilisateur.setPassword("xxxxxx");
+		utilisateur.setCredit(500);
+		utilisateur.setAdministrateur(false);
+		
+		return utilisateur;
+	}
+	
+	public static List<Utilisateur> getTestListUtilisateurs()
+	{
+		List<Utilisateur> users = new ArrayList<>();
+		
 		Utilisateur user1 = new Utilisateur();
 		user1.setPseudo("sassou");
 		user1.setNom("Maerten");
@@ -71,6 +166,7 @@ class UtilisateurDAOJDBCImplTest {
 		user1.setCodePostal("44567");
 		user1.setVille("Orleans");
 		user1.setPassword("druv");
+		users.add(user1);
 		
 		Utilisateur user2 = new Utilisateur();
 		user2.setPseudo("doudou");
@@ -81,6 +177,8 @@ class UtilisateurDAOJDBCImplTest {
 		user2.setCodePostal("44567");
 		user2.setVille("drleans");
 		user2.setPassword("druv");
+		users.add(user2);
+		
 		
 		Utilisateur user3 = new Utilisateur();
 		user3.setPseudo("loulou");
@@ -91,63 +189,9 @@ class UtilisateurDAOJDBCImplTest {
 		user3.setCodePostal("44567");
 		user3.setVille("leans");
 		user3.setPassword("lruv");
+		users.add(user3);
 		
-		List<Utilisateur> utilisateurs = utilisateurDao.getAll();
-		utilisateurs.add(user1);
-		utilisateurs.add(user2);
-		utilisateurs.add(user3);
-		
-		utilisateurDao.insert(user1);
-		utilisateurDao.insert(user2);
-		utilisateurDao.insert(user3);
-		
-		List<Utilisateur> allUsers = utilisateurDao.getAll();
-		assertEquals(allUsers.size(), utilisateurs.size());
-		
-		
-	}
-
-	/**
-	 * Test method for {@link fr.eni.encheres.dal.jdbc.UtilisateurDAOJDBCImpl#getById(int)}.
-	 */
-	@Test
-	void testGetById() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link fr.eni.encheres.dal.jdbc.UtilisateurDAOJDBCImpl#update(fr.eni.encheres.bo.Utilisateur)}.
-	 */
-	@Test
-	void testUpdate() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link fr.eni.encheres.dal.jdbc.UtilisateurDAOJDBCImpl#delete(int)}.
-	 */
-	@Test
-	void testDelete() {
-		fail("Not yet implemented");
-	}
-	
-	
-	public static Utilisateur getTestUtilisateur() 
-	{
-		Utilisateur utilisateur = new Utilisateur();
-		utilisateur.setPseudo("user123");
-		utilisateur.setNom("Doe");
-		utilisateur.setPrenom("John");
-		utilisateur.setEmail("john.doe@gmail.com");
-		utilisateur.setTelephone("06 12 34 56 78");
-		utilisateur.setRue("47 rue Penny Lane");
-		utilisateur.setCodePostal("L18");
-		utilisateur.setVille("Liverpool");
-		utilisateur.setPassword("xxxxxx");
-		utilisateur.setCredit(500);
-		utilisateur.setAdministrateur(false);
-		
-		return utilisateur;
+		return users;
 	}
 
 }

@@ -32,7 +32,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	private static ArticleVenduDAO articleDao = new ArticleVenduDAOJDBCImpl();
 
 	@Override
-	public void insert(Utilisateur utilisateur) throws BusinessException {
+	public Utilisateur insert(Utilisateur utilisateur) throws BusinessException {
 
 		if (utilisateur == null) {
 			BusinessException businessException = new BusinessException();
@@ -78,7 +78,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_ECHEC);
 			throw businessException;
 		}
-
+		return utilisateur;
 	}
 
 	@Override
@@ -149,6 +149,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 				utilisateur.setRue(rs.getString("rue"));
 				utilisateur.setCodePostal(rs.getString("code_postal"));
 				utilisateur.setVille(rs.getString("ville"));
+				utilisateur.setPassword(rs.getString("mot_de_passe"));
 				utilisateur.setCredit(rs.getInt("credit"));
 				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
 				utilisateur.setArticlesVendus(articleDao.getByVendeur(utilisateur.getId()));

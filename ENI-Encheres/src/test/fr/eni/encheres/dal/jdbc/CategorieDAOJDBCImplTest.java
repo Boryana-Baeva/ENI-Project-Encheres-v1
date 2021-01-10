@@ -2,9 +2,9 @@ package test.fr.eni.encheres.dal.jdbc;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jdt.internal.compiler.ast.AssertStatement;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,26 +27,21 @@ class CategorieDAOJDBCImplTest {
 	}
 
 	@Test
-	void testInsert() {
-		try {
-			categorieDao.insert(CategorieDAOJDBCImplTest.getTestCategorie());
-		} catch (BusinessException e) {
-			e.printStackTrace();
-		}
+	void testInsert() throws BusinessException {
+
+		categorieDao.insert(getTestCategorie());
+		
 	}
 
 	@Test
 	void testGetById() throws BusinessException {
 		
-		Categorie cat1 = new Categorie("Multimédia");
-		Categorie cat2 = new Categorie("Textile");
-		Categorie cat3 = new Categorie("Bijoux");
-		
-		categorieDao.insert(cat1);
-		categorieDao.insert(cat2);
-		categorieDao.insert(cat3);
-		
 		List<Categorie> categories = categorieDao.getAll();
+		
+		for (Categorie categorie : getTestListCategories()) {
+			categories.add(categorie);
+			categorieDao.insert(categorie);
+		}
 		
 		Categorie categorieAttendu = categories.get(categories.size()-1);
 		
@@ -58,57 +53,36 @@ class CategorieDAOJDBCImplTest {
 
 	@Test
 	void testGetAll() throws BusinessException {
-		
-		Categorie cat4 = new Categorie("food");
-		Categorie cat5 = new Categorie("sport");
-		Categorie cat6 = new Categorie("téléphonie");
-		
+			
 		List<Categorie> categories = categorieDao.getAll();
-		categories.add(cat4);
-		categories.add(cat5);
-		categories.add(cat6);
 		
-		
-		categorieDao.insert(cat4);
-		categorieDao.insert(cat5);
-		categorieDao.insert(cat6);
-		
+		for (Categorie categorie : getTestListCategories()) {
+			categories.add(categorie);
+			categorieDao.insert(categorie);
+		}
+			
 		List<Categorie> allCategories = categorieDao.getAll();
 		assertEquals(allCategories.size(), categories.size());
 	}
 
-	/*@Test
+	@Test
 	void testUpdate() throws BusinessException {
-		/*Categorie cat7 = new Categorie("literie");
-		cat7 = categorieDao.insert(cat7);
 		
-		cat7.setLibelle("cuisine");
-		
-		Categorie newCategorie = categorieDao.update(cat7);
-		
-		
-		System.out.println(cat7.getLibelle());
-		System.out.println(newCategorie.getLibelle());*/
-		
-		
-		
-		/*Categorie cat7 = new Categorie("literie");
-		categorieDao.insert(cat7);
+		categorieDao.insert(getTestCategorie());
 		
 		List<Categorie> categories = categorieDao.getAll();
 		
 		Categorie categorieAModifier = categories.get(categories.size()-1);
 		
-		categorieAModifier.setLibelle("ghzi");
+		categorieAModifier.setLibelle("cuisine");
 		
 		categorieDao.update(categorieAModifier);
 		
 		Categorie categorieModifier = categorieDao.getById(categorieAModifier.getId());
 		
-		assertEquals(categorieModifier.getLibelle(), "cuisine");*/
+		assertEquals(categorieModifier.getLibelle(), "cuisine");
+	}
 		
-		
-
 
 	@Test
 	void testDelete() throws BusinessException {
@@ -131,4 +105,19 @@ class CategorieDAOJDBCImplTest {
 		return categorie;
 	}
 
+	public static List<Categorie> getTestListCategories()
+	{
+		List<Categorie> categories = new ArrayList<>();
+		
+		categories.add(new Categorie("Multimedia"));
+		categories.add(new Categorie("Textile"));
+		categories.add(new Categorie("Bijoux"));
+		categories.add(new Categorie("food"));
+		categories.add(new Categorie("sport"));
+		categories.add(new Categorie("tï¿½lï¿½phonie"));
+		
+		return categories;
+		
+	}
+	
 }
