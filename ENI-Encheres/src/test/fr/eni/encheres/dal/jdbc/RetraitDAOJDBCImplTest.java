@@ -2,6 +2,10 @@ package test.fr.eni.encheres.dal.jdbc;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,13 +29,15 @@ class RetraitDAOJDBCImplTest {
 
 	@AfterEach
 	void tearDown() throws Exception {
+		
+
 	}
 
 	@Test
 	Retrait testInsert(ArticleVendu article) {
 		
 		Retrait retrait = new Retrait();
-		retrait.setArticle(article);
+		retrait.setArticle(articleDao.getById(id));
 		retrait.setRue("8 Impasse des Colombes");
 		retrait.setCodePostal("56789");
 		retrait.setVille("Paris");
@@ -40,8 +46,20 @@ class RetraitDAOJDBCImplTest {
 
 
 	@Test
-	void testGetById() {
-		fail("Not yet implemented");
+	void testGetById() throws BusinessException {
+		
+		Retrait retrait1 = new Retrait();
+		retrait1.setRue("67 rue general leclerc");
+		retrait1.setCodePostal("75988");
+		retrait1.setVille("Paris");
+		
+		Retrait retraitinserer = retraitDAO.insert(retrait1);
+		
+		Retrait retraitRecuperer = retraitDAO.getById(retraitinserer.getArticle().getId());
+		
+		assertEquals(retraitinserer, retraitRecuperer);
+		
+		
 	}
 
 	@Test

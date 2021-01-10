@@ -20,14 +20,14 @@ import fr.eni.encheres.dal.Utils;
 
 public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
-	private static final String INSERT = "insert into ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres,prix_initial,no_utilisateur,no_categorie) VALUES (?,?,?,?,?,?,?)";
+	private static final String INSERT = "insert into ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres,prix_initial,no_utilisateur,no_categorie,no_retrait) VALUES (?,?,?,?,?,?,?,?)";
 	private static final String GET_BY_ID = "select * from ARTICLES_VENDUS where no_article= ?";
 	private static final String GET_ALL = "select * from ARTICLES_VENDUS";
 	private static final String GET_BY_VENDEUR = "select * from ARTICLES_VENDUS where no_utilisateur= ?";
 	private static final String UPDATE = "update ARTICLES_VENDUS set nom_article = ?, description = ?,"
 			+ "							 date_debut_encheres=?, date_fin_encheres= ?, prix_initial= ?, prix_vente= ?, "
-			+ "							 no_utilisateur= ?, no_categorie=? where no_article= ? ";
-	private static final String DELETE = "delete ARTICLES_VENDUS where id = ?";
+			+ "							 no_utilisateur= ?, no_categorie=?, no_retrait=? where no_article= ? ";
+	private static final String DELETE = "delete ARTICLES_VENDUS where no_article = ?";
 
 	private static UtilisateurDAO utilisateurDAO = new UtilisateurDAOJDBCImpl();
 	private static CategorieDAO categorieDAO = new CategorieDAOJDBCImpl();
@@ -52,6 +52,8 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			pstmt.setInt(5, articleVendu.getMiseAPrix());	
 			pstmt.setInt(6, articleVendu.getVendeur().getId());
 			pstmt.setInt(7, articleVendu.getCategorie().getId());
+			retraitDAO.insert(articleVendu.getLieuRetrait());
+			pstmt.setInt(8, articleVendu.getLieuRetrait().getId());
 
 			pstmt.executeUpdate();
 			
@@ -92,6 +94,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
 				articleVendu.setVendeur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
 				articleVendu.setCategorie(categorieDAO.getById(rs.getInt("no_categorie")));
+				articleVendu.setLieuRetrait(retraitDAO.getById(rs.getInt("no_retrait")));
 
 			}
 
@@ -126,6 +129,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
 				articleVendu.setVendeur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
 				articleVendu.setCategorie(categorieDAO.getById(rs.getInt("no_categorie")));
+				articleVendu.setLieuRetrait(retraitDAO.getById(rs.getInt("no_retrait")));
 			}
 
 		} catch (Exception e) {
@@ -186,6 +190,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			pstmt.setInt(7, articleVendu.getPrixVente());
 			pstmt.setInt(8, articleVendu.getVendeur().getId());
 			pstmt.setInt(9, articleVendu.getCategorie().getId());
+			pstmt.setInt(10, articleVendu.getLieuRetrait().getId());
 
 			pstmt.executeUpdate();
 
@@ -218,8 +223,8 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			article.setCategorie(null);
 			
 			// Supprimer le lieu de retrait défini pour cet article
-			retraitDAO.delete(id);
 			article.setLieuRetrait(null);
+			retraitDAO.delete(article.getLieuRetrait().getId());
 			
 			// Supprimer l'article
 			pstmt.executeUpdate();
