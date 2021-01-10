@@ -164,6 +164,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
 				articleVendu.setVendeur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
 				articleVendu.setCategorie(categorieDAO.getById(rs.getInt("no_categorie")));
+				articleVendu.setLieuRetrait(retraitDAO.getById(rs.getInt("no_retrait")));
 			}
 
 		} catch (Exception e) {

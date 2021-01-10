@@ -20,6 +20,7 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 	private static final String UPDATE = "UPDATE RETRAITS SET rue = ?, code_postal = ?, ville = ? WHERE no_retrait=?";
 	private static final String DELETE = "DELETE RETRAITS WHERE no_retrait = ?";
 
+	//pour commit
 	@Override
 	public  Retrait insert(Retrait retrait) throws BusinessException // INSERT
 	{
@@ -71,7 +72,7 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 				retrait = new Retrait();
 				retrait.setId(rs.getInt("no_retrait"));
 				retrait.setRue(rs.getString("rue"));
-				retrait.setCodePostal(rs.getString("codePostal"));
+				retrait.setCodePostal(rs.getString("code_postal"));
 				retrait.setVille(rs.getString("ville"));
 			}
 		} catch (Exception e) {
@@ -97,7 +98,7 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 				Retrait retrait = new Retrait();
 				retrait.setId(rs.getInt("no_retrait"));
 				retrait.setRue(rs.getString("rue"));
-				retrait.setCodePostal(rs.getString("codePostal"));
+				retrait.setCodePostal(rs.getString("code_postal"));
 				retrait.setVille(rs.getString("ville"));
 				retraits.add(retrait);
 			}

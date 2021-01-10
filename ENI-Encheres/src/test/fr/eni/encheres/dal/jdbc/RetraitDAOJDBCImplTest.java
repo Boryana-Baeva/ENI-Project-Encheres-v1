@@ -19,6 +19,7 @@ import fr.eni.encheres.dal.jdbc.ArticleVenduDAOJDBCImpl;
 import fr.eni.encheres.dal.jdbc.RetraitDAOJDBCImpl;
 
 class RetraitDAOJDBCImplTest {
+	//pour commit
 	
 	private static RetraitDAO retraitDAO = new RetraitDAOJDBCImpl();
 	private static ArticleVenduDAO articleDao = new ArticleVenduDAOJDBCImpl();
@@ -34,14 +35,16 @@ class RetraitDAOJDBCImplTest {
 	}
 
 	@Test
-	Retrait testInsert(ArticleVendu article) {
+	void  testInsert() {
 		
 		Retrait retrait = new Retrait();
-		retrait.setArticle(articleDao.getById(id));
 		retrait.setRue("8 Impasse des Colombes");
 		retrait.setCodePostal("56789");
 		retrait.setVille("Paris");
-		return retrait;
+		
+		
+		assertNotNull(retrait.getId());
+		
 	}
 
 
@@ -53,11 +56,14 @@ class RetraitDAOJDBCImplTest {
 		retrait1.setCodePostal("75988");
 		retrait1.setVille("Paris");
 		
-		Retrait retraitinserer = retraitDAO.insert(retrait1);
+		retraitDAO.insert(retrait1);
 		
-		Retrait retraitRecuperer = retraitDAO.getById(retraitinserer.getArticle().getId());
+		List<Retrait> retraits = retraitDAO.getAll();
+		Retrait retraitAttendu = retraits.get(retraits.size()-1);
+		Retrait retraitRecupere = retraitDAO.getById(retraitAttendu.getId())
+;
 		
-		assertEquals(retraitinserer, retraitRecuperer);
+		assertEquals(retraitAttendu.getId(), retraitRecupere.getId());
 		
 		
 	}
