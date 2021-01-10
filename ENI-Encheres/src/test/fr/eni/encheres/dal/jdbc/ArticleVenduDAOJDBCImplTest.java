@@ -92,7 +92,7 @@ class ArticleVenduDAOJDBCImplTest {
 		
 		ArticleVendu  article2 = new ArticleVendu();
 		article2.setNom("tapis de course");
-		article2.setDescription("capacité d'aller jusqu'à 15 Km/h");
+		article2.setDescription("capacitï¿½ d'aller jusqu'ï¿½ 15 Km/h");
 		article2.setDateDebutEncheres(LocalDate.of(2020, 01, 17));
 		article2.setDateFinEncheres(LocalDate.of(2020, 02, 18));
 		article2.setMiseAPrix(100);
@@ -147,6 +147,7 @@ class ArticleVenduDAOJDBCImplTest {
 		article.setPrixVente(250);
 		article.setVendeur(utilisateur);
 		article.setCategorie(categorie);
+		article.setLieuRetrait(utilisateur.getLieuRetraitParDefaut());
 		
 		/*Utilisateur vendeur = new Utilisateur("yana", "Baeva", "Boryana", "b.baeva@gamail.com", "0612345678", "47 rue Lucie Aubrac", "33300", "Bordeaux", "123456", 100, true);
 		try {

@@ -33,12 +33,12 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 
 		try (Connection cnx = Utils.getConnection()) {
 
-			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
-			pstmt.setString(1, categorie.getLibelle());
+			PreparedStatement statement = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
+			statement.setString(1, categorie.getLibelle());
 			
-			pstmt.executeUpdate();
+			statement.executeUpdate();
 			
-			ResultSet rs = pstmt.getGeneratedKeys();
+			ResultSet rs = statement.getGeneratedKeys();
 			
 			if (rs.next()) {
 				categorie.setId(rs.getInt(1));
@@ -62,10 +62,10 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 
 		try (Connection cnx = Utils.getConnection()) {
 
-			PreparedStatement pstmt = cnx.prepareStatement(GET_BY_ID);
-			pstmt.setInt(1, id);
+			PreparedStatement statement = cnx.prepareStatement(GET_BY_ID);
+			statement.setInt(1, id);
 
-			ResultSet rs = pstmt.executeQuery();
+			ResultSet rs = statement.executeQuery();
 			
 			if(rs.next()) {
 				categorie= new Categorie();
@@ -92,9 +92,9 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 
 		try (Connection cnx = Utils.getConnection()) {
 
-			PreparedStatement pstmt = cnx.prepareStatement(GET_ALL);
+			PreparedStatement statement = cnx.prepareStatement(GET_ALL);
 
-			ResultSet rs = pstmt.executeQuery();
+			ResultSet rs = statement.executeQuery();
 			
 			while(rs.next()) {
 				Categorie categorie = new Categorie();
@@ -119,11 +119,11 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 		
 		try (Connection cnx = Utils.getConnection()) {
 
-			PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
-			pstmt.setInt(1, categorie.getId());
-			pstmt.setString(2, categorie.getLibelle());
+			PreparedStatement statement = cnx.prepareStatement(UPDATE);
+			statement.setInt(1, categorie.getId());
+			statement.setString(2, categorie.getLibelle());
 
-			pstmt.executeUpdate();
+			statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
@@ -138,12 +138,12 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 	public void delete(int id) throws BusinessException {
 		try (Connection cnx = Utils.getConnection()) {
 
-			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
+			PreparedStatement statement = cnx.prepareStatement(DELETE);
 			
-			pstmt.setInt(1, id);
+			statement.setInt(1, id);
 			
 
-			pstmt.executeUpdate();
+			statement.executeUpdate();
 
 		} catch (Exception e) {
 			e.printStackTrace();
