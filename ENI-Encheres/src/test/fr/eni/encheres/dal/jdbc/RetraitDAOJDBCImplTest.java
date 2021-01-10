@@ -69,18 +69,54 @@ class RetraitDAOJDBCImplTest {
 	}
 
 	@Test
-	void testGetAll() {
-		fail("Not yet implemented");
+	void testGetAll() throws BusinessException {
+		
+		Retrait retrait2 = new Retrait("57 rue general leclerc","56789","Paris");
+		Retrait retrait3 = new Retrait("68 rue marechal juin", "34567", "Bordeaux");
+		Retrait retrait4 = new Retrait("76 avenue montmartre","28100","Dreux");
+		
+		List<Retrait> retraits = retraitDAO.getAll();
+		retraits.add(retrait2);
+		retraits.add(retrait3);
+		retraits.add(retrait4);
+		
+		retraitDAO.insert(retrait2);
+		retraitDAO.insert(retrait3);
+		retraitDAO.insert(retrait4);
+		
+		List<Retrait> allRetraits = retraitDAO.getAll();
+		assertEquals(allRetraits.size(), retraits.size());
+		
+		
 	}
 
 	@Test
-	void testUpdate() {
-		fail("Not yet implemented");
+	void testUpdate() throws BusinessException {
+		List<Retrait> retraits = retraitDAO.getAll();
+		
+		Retrait retraitAUpdate = retraits.get(retraits.size()-1);
+		
+		retraitAUpdate.setCodePostal("45678");
+		
+		retraitDAO.update(retraitAUpdate);
+		
+		Retrait retraitUpdate = retraitDAO.getById(retraitAUpdate.getId());
+		
+		assertEquals(retraitUpdate.getCodePostal(), "45678");
 	}
 
 	@Test
-	void testDelete() {
-		fail("Not yet implemented");
+	void testDelete() throws BusinessException {
+		
+		List<Retrait> retraits = retraitDAO.getAll();
+		
+		retraits.remove(retraits.size()-1);
+		
+		retraitDAO.delete(retraits.size()-1);
+		
+		List<Retrait> newRetraits = retraitDAO.getAll();
+		
+		assertEquals(retraits.size(), newRetraits.size());
 	}
 
 }

@@ -118,10 +118,12 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 	{
 		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(UPDATE);
-
-			statement.setString(1, retrait.getRue());
-			statement.setString(2, retrait.getCodePostal());
-			statement.setString(3, retrait.getVille());
+			
+			statement.setInt(1, retrait.getId());
+			statement.setString(2, retrait.getRue());
+			statement.setString(3, retrait.getCodePostal());
+			statement.setString(4, retrait.getVille());
+			
 			statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
