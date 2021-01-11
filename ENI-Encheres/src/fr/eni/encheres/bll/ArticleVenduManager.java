@@ -16,31 +16,23 @@ public class ArticleVenduManager {
 
 	
 	private static ArticleVenduDAO articleVenduDAO;
-	
+	private static ArticleVendu articleVendu = new ArticleVendu();
+	private static  EtatVente etatVente;
+			
 	private static BusinessException businessException = new BusinessException();
 	
 	public ArticleVenduManager() {
 		articleVenduDAO = DAOFactory.getArticleDAO();
 	}
 
-	public ArticleVendu nouvelleVente(String nom, String description, LocalDate dateDebutEncheres,
-			LocalDate dateFinEncheres, int miseAPrix, Categorie categorie, Utilisateur vendeur, Retrait lieuRetrait)
+	public static  ArticleVendu nouvelleVente(ArticleVendu articleVendu)
 			throws BusinessException {
 
 		
 
-		validerDate(dateDebutEncheres, dateFinEncheres, businessException);
+		validerDate(articleVendu);
 
-		ArticleVendu articleVendu = null;
 		if (!businessException.hasErreurs()) {
-			articleVendu = new ArticleVendu();
-			articleVendu.setNom(nom);
-			articleVendu.setDescription(description);
-			articleVendu.setDateDebutEncheres(dateDebutEncheres);
-			articleVendu.setDateFinEncheres(dateFinEncheres);
-			articleVendu.setMiseAPrix(miseAPrix);
-			articleVendu.setCategorie(categorie);
-			articleVendu.setLieuRetrait(lieuRetrait);
 			articleVenduDAO.insert(articleVendu);
 		} else {
 			throw businessException;
@@ -49,11 +41,10 @@ public class ArticleVenduManager {
 
 	}
 
-	private static void validerDate(LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			BusinessException businessException) {
+	private static void validerDate(ArticleVendu articleVendu) {
 		
-		if (dateDebutEncheres == null || dateFinEncheres == null || dateDebutEncheres.isBefore(LocalDate.now()) ||
-				dateFinEncheres.isBefore(dateDebutEncheres)) 
+		if (articleVendu.getDateDebutEncheres() == null || articleVendu.getDateFinEncheres() == null || articleVendu.getDateDebutEncheres().isBefore(LocalDate.now()) ||
+				articleVendu.getDateFinEncheres().isBefore(articleVendu.getDateDebutEncheres())) 
 		{
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_ENCHERES_DATE_ERREUR);
 		}
@@ -61,9 +52,9 @@ public class ArticleVenduManager {
 	}
 	
 	
-	public static void modifierArticlesVendus (ArticleVendu articleVendu) throws BusinessException{
+	public static void modifierArticlesVendus (LocalDate dateDebutEncheres, LocalDate dateFinEncheres) throws BusinessException{
 		
-		validerDate(articleVendu.getDateDebutEncheres(),articleVendu.getDateDebutEncheres(),businessException);
+		validerDate(articleVendu);
 		if(!businessException.hasErreurs())
 		{
 			articleVenduDAO.update(articleVendu);
@@ -84,16 +75,16 @@ public class ArticleVenduManager {
 		return articleVenduDAO.getByVendeur(id);
 	}
 	
-	public static void supprimerArticlesVendus (ArticleVendu articleVendu)throws BusinessException{
+	public static void supprimerArticlesVendus (int id)throws BusinessException{
 		
-		annulerVente(articleVendu);
+		annulerVente(etatVente);
 		if(articleVendu.getEtatVente() == EtatVente.ANNULE)
 		{
 			articleVenduDAO.delete(articleVendu.getId());
 		}
 	}
 	
-	private static void validerEtatVente(ArticleVendu articleVendu, BusinessException businessException ) throws BusinessException
+	private static void validerEtatVente(EtatVente etatVente) throws BusinessException
 	{
 		if (articleVendu.getEtatVente() == EtatVente.ENCHERES_TERMINEES  
 				|| articleVendu.getEtatVente() == EtatVente.RETRAIT_EFFECTUE) {
@@ -101,9 +92,9 @@ public class ArticleVenduManager {
 		}
 	}
 	
-	public static void annulerVente(ArticleVendu articleVendu) throws BusinessException
+	public static void annulerVente(EtatVente etatVente) throws BusinessException
 	{
-		validerEtatVente(articleVendu, businessException);
+		validerEtatVente(etatVente);
 		if (!businessException.hasErreurs()) {
 			articleVendu.setEtatVente(EtatVente.ANNULE);
 		}

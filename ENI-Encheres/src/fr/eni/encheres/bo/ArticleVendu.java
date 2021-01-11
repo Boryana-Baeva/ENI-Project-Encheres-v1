@@ -22,22 +22,32 @@ public class ArticleVendu implements Serializable {
 
 
 	public ArticleVendu() {
-
+		
 	}
 
+	
 	public ArticleVendu(String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			int miseAPrix, int prixVente, Categorie categorie, Utilisateur vendeur, EtatVente etatVente ,
-			Retrait lieuRetrait) {
+			int miseAPrix, Utilisateur vendeur, Categorie categorie) {
+		super();
 		this.nom = nom;
 		this.description = description;
 		this.dateDebutEncheres = dateDebutEncheres;
 		this.dateFinEncheres = dateFinEncheres;
 		this.miseAPrix = miseAPrix;
-		this.prixVente = prixVente;
 		this.categorie = categorie;
 		this.vendeur = vendeur;
-		this.etatVente = etatVente;
-		this.lieuRetrait = lieuRetrait;
+		this.etatVente = EtatVente.CREE;
+		this.lieuRetrait = vendeur.getLieuRetraitParDefaut();
+		
+	}
+
+	public ArticleVendu(String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+			int miseAPrix, int prixVente, Categorie categorie, Utilisateur vendeur, EtatVente etatVente ,
+			Retrait lieuRetrait) {
+		this(nom,description,dateDebutEncheres,dateFinEncheres,miseAPrix,vendeur,categorie);
+		this.etatVente=etatVente;
+		this.lieuRetrait=lieuRetrait;
+		
 	}
 	
 	
@@ -58,6 +68,7 @@ public class ArticleVendu implements Serializable {
 		this.id = id;
 
 	}
+
 
 	// GETTERS AND SETTERS
 	public int getId() {

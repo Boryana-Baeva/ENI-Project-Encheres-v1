@@ -9,7 +9,7 @@ import fr.eni.encheres.bo.Categorie;
 public interface CategorieDAO {
 	
 	
-	public void insert(Categorie categorie) throws BusinessException;
+	public Categorie insert(Categorie categorie) throws BusinessException;
 	
 	public Categorie getById(int id) throws BusinessException;
 	

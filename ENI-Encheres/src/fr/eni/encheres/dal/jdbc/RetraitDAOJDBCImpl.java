@@ -7,21 +7,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.encheres.BusinessException;
+import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Retrait;
+import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.RetraitDAO;
 import fr.eni.encheres.dal.Utils;
 
 public class RetraitDAOJDBCImpl implements RetraitDAO {
-	private static final String INSERT = "INSERT INTO RETRAITS VALUES(?,?,?)";
+	private static final String INSERT = "insert into RETRAITS (rue, code_postal, ville) values (?,?,?)";
 	private static final String GET_BY_ID = "SELECT * FROM RETRAITS WHERE no_retrait = ?";
 	private static final String GET_ALL = "SELECT * FROM RETRAITS";
-	private static final String UPDATE = "UPDATE RETRAITS SET rue = ?, code_postal = ?, ville = ?";
+	private static final String UPDATE = "UPDATE RETRAITS SET rue = ?, code_postal = ?, ville = ? WHERE no_retrait=?";
 	private static final String DELETE = "DELETE RETRAITS WHERE no_retrait = ?";
 
+	private static ArticleVenduDAO articleDao = new ArticleVenduDAOJDBCImpl();
+	
 	@Override
-	public void insert(Retrait retrait) throws BusinessException // INSERT
+	public  Retrait insert(Retrait retrait) throws BusinessException // INSERT
 	{
 		if (retrait == null) {
 			BusinessException businessException = new BusinessException();
@@ -29,12 +33,21 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 			throw businessException;
 		}
 
-		try (Connection cnx = Utils.getConnection()) {
-			PreparedStatement statement = cnx.prepareStatement(INSERT);
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement statement = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			statement.setString(1, retrait.getRue());
 			statement.setString(2, retrait.getCodePostal());
 			statement.setString(3, retrait.getVille());
+			
+			
 			statement.executeUpdate();
+			
+			ResultSet rs = statement.getGeneratedKeys();
+			if(rs.next())
+			{
+				retrait.setId(rs.getInt(1));
+			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -42,21 +55,27 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_ECHEC);
 			throw businessException;
 		}
+		return retrait;
+		
 	}
 
 	@Override
 	public Retrait getById(int id) throws BusinessException // GET_BY_ID
 	{
 		Retrait retrait = null;
-		try (Connection cnx = Utils.getConnection()) {
+		
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			
 			PreparedStatement statement = cnx.prepareStatement(GET_BY_ID);
 			statement.setInt(1, id);
+			
 			ResultSet rs = statement.executeQuery();
+			
 			if (rs.next()) {
 				retrait = new Retrait();
-				retrait.setId(rs.getInt("id"));
+				retrait.setId(rs.getInt("no_retrait"));
 				retrait.setRue(rs.getString("rue"));
-				retrait.setCodePostal(rs.getString("codePostal"));
+				retrait.setCodePostal(rs.getString("code_postal"));
 				retrait.setVille(rs.getString("ville"));
 			}
 		} catch (Exception e) {
@@ -72,19 +91,19 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 	@Override
 	public List<Retrait> getAll() throws BusinessException // GET_ALL
 	{
-		List<Retrait> listes = new ArrayList<>();
+		List<Retrait> retraits = new ArrayList<>();
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(GET_ALL);
 			ResultSet rs = statement.executeQuery();
 
 			while (rs.next()) {
 				Retrait retrait = new Retrait();
-				retrait.setId(rs.getInt("id"));
+				retrait.setId(rs.getInt("no_retrait"));
 				retrait.setRue(rs.getString("rue"));
-				retrait.setCodePostal(rs.getString("codePostal"));
+				retrait.setCodePostal(rs.getString("code_postal"));
 				retrait.setVille(rs.getString("ville"));
-				listes.add(retrait);
+				retraits.add(retrait);
 			}
 
 		} catch (Exception e) {
@@ -94,19 +113,22 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 			throw businessException;
 
 		}
-		return listes;
+		return retraits;
 	}
 
 	@Override
 	public void update(Retrait retrait) throws BusinessException // UPDATE
 	{
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(UPDATE);
-
+			
+			
 			statement.setString(1, retrait.getRue());
 			statement.setString(2, retrait.getCodePostal());
 			statement.setString(3, retrait.getVille());
+			statement.setInt(4, retrait.getId());
 			statement.executeUpdate();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
@@ -119,9 +141,16 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 	@Override
 	public void delete(int id) throws BusinessException // DELETE
 	{
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(DELETE);
 			statement.setInt(1, id);
+			
+			Retrait retrait =getById(id);
+			List<ArticleVendu> listeArticle = articleDao.getByRetrait(retrait);
+			for (ArticleVendu articleVendu : listeArticle) {
+				articleVendu.setLieuRetrait(null);
+			}
+			
 			statement.executeUpdate();
 
 		} catch (Exception e) {
@@ -132,4 +161,6 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 
 		}
 	}
+	
+	
 }

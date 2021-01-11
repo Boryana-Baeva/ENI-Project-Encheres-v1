@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,20 +18,20 @@ import fr.eni.encheres.dal.UtilisateurDAO;
 import fr.eni.encheres.dal.Utils;
 
 public class EnchereDAOJDBCImpl implements EnchereDAO{
-	private static final String INSERT = "INSERT INTO ENCHERES VALUES(?,?,?,?)";
+	private static final String INSERT = "INSERT INTO ENCHERES (date_enchere, montant_enchere, no_article, no_utilisateur, remporte) VALUES(?,?,?,?,?)";
 	private static final String GET_ALL = "SELECT * FROM ENCHERES";
 	private static final String GET_BY_ID = "SELECT * FROM ENCHERES WHERE no_enchere=?";
 	private static final String GET_BY_ENCHERISSEUR = "SELECT * FROM ENCHERES WHERE no_utilisateur=?";
 	private static final String GET_REMPORTES_PAR_ENCHERISSEUR = "SELECT * FROM ENCHERES WHERE no_utilisateur=? AND remporte=?";
 	private static final String UPDATE = "UPDATE ENCHERES SET date_enchere=?, montant_enchere=?,"  +
-											"no_article=?, no_utilisateur=?";
+											"no_article=?, no_utilisateur=?, remporte=?";
 	private static final String DELETE = "DELETE ENCHERES WHERE no_enchere=?";
 	
 	private static ArticleVenduDAO articleDao = new ArticleVenduDAOJDBCImpl();
 	private static UtilisateurDAO utilisateurDAO = new UtilisateurDAOJDBCImpl();
 	
 	@Override
-	public void insert(Enchere enchere) throws BusinessException {
+	public Enchere insert(Enchere enchere) throws BusinessException {
 		
 		if (enchere == null) {
 			BusinessException businessException = new BusinessException();
@@ -38,15 +39,23 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 			throw businessException;
 		}
 		
-		try (Connection cnx = Utils.getConnection()) {
-            PreparedStatement requete = cnx.prepareStatement(INSERT);
-            requete.setDate(1, Date.valueOf(enchere.getDate()));
-            requete.setInt(2, enchere.getMontant());
-            requete.setInt(3, enchere.getArticle().getId());
-            requete.setInt(4, enchere.getEncherisseur().getId());
-            requete.setBoolean(5, enchere.isRemporte());
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement statement = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+            statement.setDate(1, Date.valueOf(enchere.getDate()));
+            statement.setInt(2, enchere.getMontant());
+            articleDao.insert(enchere.getArticle());
+            statement.setInt(3, enchere.getArticle().getId());
+            utilisateurDAO.insert(enchere.getEncherisseur());
+            statement.setInt(4, enchere.getEncherisseur().getId());
+            statement.setBoolean(5, enchere.isRemporte());
            
-            requete.executeUpdate();
+            statement.executeUpdate();
+            
+            ResultSet rs = statement.getGeneratedKeys();
+            
+            if (rs.next()) {
+				enchere.setId(rs.getInt(1));
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,6 +63,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_ECHEC);
 			throw businessException;
 		}
+		return enchere;
 	}
 
 	@Override
@@ -61,9 +71,9 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 		
 		List<Enchere> list = new ArrayList<>();
 		
-		try (Connection cnx = Utils.getConnection()) {
-			 PreparedStatement requete = cnx.prepareStatement(GET_ALL);
-			 ResultSet rs = requete.executeQuery();
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			 PreparedStatement statement = cnx.prepareStatement(GET_ALL);
+			 ResultSet rs = statement.executeQuery();
 			 
 			while (rs.next()) {
 				Enchere enchere = new Enchere();
@@ -92,10 +102,10 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 		
 		Enchere enchere = null;
 		
-		try (Connection cnx = Utils.getConnection()) {
-			PreparedStatement requete = cnx.prepareStatement(GET_BY_ID);
-			requete.setInt(1, id);
-			ResultSet rs = requete.executeQuery();
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement statement = cnx.prepareStatement(GET_BY_ID);
+			statement.setInt(1, id);
+			ResultSet rs = statement.executeQuery();
 			
 			if(rs.next()) 
 			{
@@ -125,10 +135,10 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 		
 		List<Enchere> list = new ArrayList<>();
 		
-		try (Connection cnx = Utils.getConnection()) {
-			 PreparedStatement requete = cnx.prepareStatement(GET_BY_ENCHERISSEUR);
-			 requete.setInt(1, id);
-			 ResultSet rs = requete.executeQuery();
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			 PreparedStatement statement = cnx.prepareStatement(GET_BY_ENCHERISSEUR);
+			 statement.setInt(1, id);
+			 ResultSet rs = statement.executeQuery();
 			 
 			while (rs.next()) {
 				Enchere enchere = new Enchere();
@@ -136,7 +146,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 				enchere.setDate(rs.getDate("date_enchere").toLocalDate());
 				enchere.setMontant(rs.getInt("montant_enchere"));
 				enchere.setArticle(articleDao.getById(rs.getInt("no_article")));
-				enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
+				//enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
 				enchere.setRemporte(rs.getBoolean("remporte"));
 				
 				list.add(enchere);
@@ -157,11 +167,11 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 		
 		List<Enchere> list = new ArrayList<>();
 		
-		try (Connection cnx = Utils.getConnection()) {
-			 PreparedStatement requete = cnx.prepareStatement(GET_REMPORTES_PAR_ENCHERISSEUR);
-			 requete.setInt(1, id);
-			 requete.setBoolean(2, true);
-			 ResultSet rs = requete.executeQuery();
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			 PreparedStatement statement = cnx.prepareStatement(GET_REMPORTES_PAR_ENCHERISSEUR);
+			 statement.setInt(1, id);
+			 statement.setBoolean(2, true);
+			 ResultSet rs = statement.executeQuery();
 			 
 			while (rs.next()) {
 				Enchere enchere = new Enchere();
@@ -169,8 +179,8 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 				enchere.setDate(rs.getDate("date_enchere").toLocalDate());
 				enchere.setMontant(rs.getInt("montant_enchere"));
 				enchere.setArticle(articleDao.getById(rs.getInt("no_article")));
-				enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
-				enchere.setRemporte(rs.getBoolean("remporte"));
+				//enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
+				//enchere.setRemporte(rs.getBoolean("remporte"));
 				
 				list.add(enchere);
 			}
@@ -187,15 +197,15 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 	@Override
 	public void update(Enchere enchere) throws BusinessException {
 		
-		try (Connection cnx = Utils.getConnection()) {
-			PreparedStatement requete = cnx.prepareStatement(UPDATE);
-			requete.setDate(1, Date.valueOf(enchere.getDate()));
-			requete.setInt(2, enchere.getMontant());
-            requete.setInt(3, enchere.getArticle().getId());
-            requete.setInt(4, enchere.getEncherisseur().getId());
-            requete.setBoolean(5, enchere.isRemporte());
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement statement = cnx.prepareStatement(UPDATE);
+			statement.setDate(1, Date.valueOf(enchere.getDate()));
+			statement.setInt(2, enchere.getMontant());
+			statement.setInt(3, enchere.getArticle().getId());
+			statement.setInt(4, enchere.getEncherisseur().getId());
+			statement.setBoolean(5, enchere.isRemporte());
             
-            requete.executeUpdate();
+			statement.executeUpdate();
            
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -209,10 +219,10 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 
 	@Override
 	public void delete(int id) throws BusinessException {
-		try (Connection cnx = Utils.getConnection()) {
-			PreparedStatement requete = cnx.prepareStatement(DELETE);
-            requete.setInt(1, id);
-            requete.executeUpdate();
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement statement = cnx.prepareStatement(DELETE);
+			statement.setInt(1, id);
+			statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();

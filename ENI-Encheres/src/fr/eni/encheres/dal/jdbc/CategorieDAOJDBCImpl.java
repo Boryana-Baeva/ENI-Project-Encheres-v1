@@ -22,7 +22,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 	private static final String DELETE = "delete CATEGORIES where no_categorie=?";
 
 	@Override
-	public void insert(Categorie categorie) throws BusinessException {
+	public Categorie insert(Categorie categorie) throws BusinessException {
 		
 		if(categorie == null)
 		{
@@ -31,14 +31,14 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 			throw businessException;
 		}
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 
-			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
-			pstmt.setString(1, categorie.getLibelle());
+			PreparedStatement statement = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
+			statement.setString(1, categorie.getLibelle());
 			
-			pstmt.executeUpdate();
+			statement.executeUpdate();
 			
-			ResultSet rs = pstmt.getGeneratedKeys();
+			ResultSet rs = statement.getGeneratedKeys();
 			
 			if (rs.next()) {
 				categorie.setId(rs.getInt(1));
@@ -50,6 +50,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
 			throw businessException;
 		}
+		return categorie;
 
 
 	}
@@ -59,12 +60,12 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 
 		Categorie categorie = null;
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 
-			PreparedStatement pstmt = cnx.prepareStatement(GET_BY_ID);
-			pstmt.setInt(1, id);
+			PreparedStatement statement = cnx.prepareStatement(GET_BY_ID);
+			statement.setInt(1, id);
 
-			ResultSet rs = pstmt.executeQuery();
+			ResultSet rs = statement.executeQuery();
 			
 			if(rs.next()) {
 				categorie= new Categorie();
@@ -89,16 +90,17 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 		
 		List<Categorie> categories = new ArrayList<>();
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 
-			PreparedStatement pstmt = cnx.prepareStatement(GET_ALL);
+			PreparedStatement statement = cnx.prepareStatement(GET_ALL);
 
-			ResultSet rs = pstmt.executeQuery();
+			ResultSet rs = statement.executeQuery();
 			
 			while(rs.next()) {
 				Categorie categorie = new Categorie();
 				categorie.setId(rs.getInt("no_categorie"));
 				categorie.setLibelle(rs.getString("libelle"));
+				categories.add(categorie);
 			}
 					
 
@@ -115,14 +117,14 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 	@Override
 	public void update(Categorie categorie) throws BusinessException {
 		
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 
-			PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
-			pstmt.setInt(1, categorie.getId());
-			pstmt.setString(2, categorie.getLibelle());
+			PreparedStatement statement = cnx.prepareStatement(UPDATE);
+			
+			statement.setString(1, categorie.getLibelle());
+			statement.setInt(2, categorie.getId());
 
-			pstmt.executeUpdate();
-
+			statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
@@ -130,19 +132,19 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 			throw businessException;
 
 		}
-
+		
 	}
 
 	@Override
 	public void delete(int id) throws BusinessException {
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 
-			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
+			PreparedStatement statement = cnx.prepareStatement(DELETE);
 			
-			pstmt.setInt(1, id);
+			statement.setInt(1, id);
 			
 
-			pstmt.executeUpdate();
+			statement.executeUpdate();
 
 		} catch (Exception e) {
 			e.printStackTrace();

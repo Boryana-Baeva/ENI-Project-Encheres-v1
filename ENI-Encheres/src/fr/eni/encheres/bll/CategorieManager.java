@@ -32,7 +32,7 @@ public class CategorieManager {
 		
 	}
 	
-	public static Categorie selectionnerCategorieById(int id) throws BusinessException
+	public static Categorie selectionnerCategorieById(int id ) throws BusinessException
 	{
 		return categorieDAO.getById(id);
 	}

@@ -33,6 +33,15 @@ public class Retrait implements Serializable {
 	}
 
 	// GETTERS AND SETTERS
+	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getRue() {
 		return rue;
@@ -58,13 +67,7 @@ public class Retrait implements Serializable {
 		this.ville = ville;
 	}
 
-	public int getId() {
-		return id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	// METHODE TO STRING
 	@Override
@@ -72,5 +75,4 @@ public class Retrait implements Serializable {
 		return "Retrait [id=" + id + ", rue=" + rue + ", codePostal=" + codePostal + ", ville=" + ville + "]";
 	}
 
-	
 }
