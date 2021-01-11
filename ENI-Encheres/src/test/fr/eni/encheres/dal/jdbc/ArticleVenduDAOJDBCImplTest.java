@@ -199,31 +199,8 @@ class ArticleVenduDAOJDBCImplTest {
 		article.setPrixVente(250);
 		article.setVendeur(utilisateur);
 		article.setCategorie(categorie);
-
-
-
 		article.setLieuRetrait(lieuRetrait);
-
-
-		article.setLieuRetrait(utilisateur.getLieuRetraitParDefaut());
-
-		article.setLieuRetrait(utilisateur.getLieuRetraitParDefaut());
-		
-		/*Utilisateur vendeur = new Utilisateur("yana", "Baeva", "Boryana", "b.baeva@gamail.com", "0612345678", "47 rue Lucie Aubrac", "33300", "Bordeaux", "123456", 100, true);
-		try {
-			utilisateurDao.insert(vendeur);
-		} catch (BusinessException e) {
 	
-			e.printStackTrace();
-		}
-		try {
-			article.setVendeur(utilisateurDao.getById(vendeur.getId()));
-		} catch (BusinessException e) {
-			e.printStackTrace();
-		}
-		article.setCategorie(new Categorie("Some category"));
-		*/
-		
 		return article;
 	}
 
