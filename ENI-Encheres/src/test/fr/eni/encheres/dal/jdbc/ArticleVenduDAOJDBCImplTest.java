@@ -15,6 +15,7 @@ import fr.eni.encheres.bll.CategorieManager;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.CategorieDAO;
@@ -58,7 +59,10 @@ class ArticleVenduDAOJDBCImplTest {
 			e1.printStackTrace();
 		} 
 		
-		ArticleVendu articleVendu = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur, categorie);
+		Retrait lieuRetrait = RetraitDAOJDBCImplTest.getTestRetrait();
+		
+		
+		ArticleVendu articleVendu = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur, categorie, lieuRetrait);
 		try {
 			articleVenduDao.insert(articleVendu);
 		} catch (BusinessException e) {
@@ -68,6 +72,8 @@ class ArticleVenduDAOJDBCImplTest {
 		assertNotNull(categorie.getId());
 		assertNotNull(utilisateur.getId());
 		assertNotNull(articleVendu.getId());
+		assertNotNull(lieuRetrait.getId());
+		
 		
 	}
 
@@ -117,8 +123,28 @@ class ArticleVenduDAOJDBCImplTest {
 	}
 
 	@Test
-	void testGetAll() {
-		fail("Not yet implemented");
+	void testGetAll() throws BusinessException {
+		
+		Utilisateur user1 = new Utilisateur("sanzza","maerten","prenom","maerten#gmail.com","3648836279","44 rue maurice","44567","mauriceVille","udfgfgf",600,true);
+		utilisateurDao.insert(user1);
+		Categorie cat1 = new Categorie("multimedia");
+		ArticleVendu article1 = new ArticleVendu("pc","c'est un ordinateur vraiment cool", LocalDate.of(2020, 01, 12), LocalDate.of(2020, 01, 18),200, user1, cat1);
+		ArticleVendu article2 = new ArticleVendu("macbookpro","c'est un ordinateur vraiment cool", LocalDate.of(2020, 01, 12), LocalDate.of(2020, 01, 18),200, user1, cat1);
+		ArticleVendu article3 = new ArticleVendu("imac","c'est un ordinateur vraiment cool", LocalDate.of(2020, 01, 12), LocalDate.of(2020, 01, 18),200, user1, cat1);
+		
+		List<ArticleVendu> articleVendus = articleVenduDao.getAll();
+		articleVendus.add(article1);
+		articleVendus.add(article2);
+		articleVendus.add(article3);
+		
+		articleVenduDao.insert(article1);
+		articleVenduDao.insert(article2);
+		articleVenduDao.insert(article3);
+		
+		List<ArticleVendu> allArticles = articleVenduDao.getAll();
+		
+		assertEquals(allArticles.size(), articleVendus.size());
+				
 	}
 
 	@Test
@@ -136,7 +162,7 @@ class ArticleVenduDAOJDBCImplTest {
 		fail("Not yet implemented");
 	}
 	
-	public static ArticleVendu getTestArticleVendu(Utilisateur utilisateur, Categorie categorie)
+	public static ArticleVendu getTestArticleVendu(Utilisateur utilisateur, Categorie categorie , Retrait lieuRetrait)
 	{
 		ArticleVendu article = new ArticleVendu();
 		article.setNom("HP Deskjet 2723");
@@ -147,6 +173,7 @@ class ArticleVenduDAOJDBCImplTest {
 		article.setPrixVente(250);
 		article.setVendeur(utilisateur);
 		article.setCategorie(categorie);
+		article.setLieuRetrait(lieuRetrait);
 		
 		/*Utilisateur vendeur = new Utilisateur("yana", "Baeva", "Boryana", "b.baeva@gamail.com", "0612345678", "47 rue Lucie Aubrac", "33300", "Bordeaux", "123456", 100, true);
 		try {

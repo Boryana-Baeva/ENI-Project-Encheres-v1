@@ -69,6 +69,7 @@ public class ArticleVendu implements Serializable {
 
 	}
 
+
 	// GETTERS AND SETTERS
 	public int getId() {
 		return id;
