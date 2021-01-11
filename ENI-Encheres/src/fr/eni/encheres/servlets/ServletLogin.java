@@ -74,6 +74,7 @@ public class ServletLogin extends HttpServlet {
 			Utilisateur user = UtilisateurManager.selectUserByPseudo(identifiant);
 			if(password.equals(user.getPassword())) {
 				out.println("success");
+				out.println(user);
 			}else {
 				out.println("failure");
 			}
