@@ -27,6 +27,7 @@ import fr.eni.encheres.dal.jdbc.RetraitDAOJDBCImpl;
 import fr.eni.encheres.dal.jdbc.UtilisateurDAOJDBCImpl;
 
 class ArticleVenduDAOJDBCImplTest {
+	//pour test
 
 	private static ArticleVenduDAO articleVenduDao = new ArticleVenduDAOJDBCImpl();
 	private static CategorieDAO categorieDao = new CategorieDAOJDBCImpl();
