@@ -31,7 +31,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 			throw businessException;
 		}
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement statement = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			statement.setString(1, categorie.getLibelle());
@@ -60,7 +60,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 
 		Categorie categorie = null;
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement statement = cnx.prepareStatement(GET_BY_ID);
 			statement.setInt(1, id);
@@ -90,7 +90,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 		
 		List<Categorie> categories = new ArrayList<>();
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement statement = cnx.prepareStatement(GET_ALL);
 
@@ -117,7 +117,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 	@Override
 	public void update(Categorie categorie) throws BusinessException {
 		
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement statement = cnx.prepareStatement(UPDATE);
 			
@@ -137,7 +137,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 
 	@Override
 	public void delete(int id) throws BusinessException {
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement statement = cnx.prepareStatement(DELETE);
 			

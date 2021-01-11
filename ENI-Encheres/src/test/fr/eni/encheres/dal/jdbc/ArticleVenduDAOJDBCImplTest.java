@@ -3,6 +3,7 @@ package test.fr.eni.encheres.dal.jdbc;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -130,6 +131,7 @@ class ArticleVenduDAOJDBCImplTest {
 				
 	}
 	
+	
 	@Test
 	void testGetByRetrait() throws BusinessException{
 		
@@ -241,6 +243,44 @@ class ArticleVenduDAOJDBCImplTest {
 		article.setLieuRetrait(lieuRetrait);
 	
 		return article;
+	}
+	
+	public static List<ArticleVendu> getTestListArticleVendu() throws BusinessException {
+		
+		List<ArticleVendu> listeArticleVendus = new ArrayList<ArticleVendu>();
+		
+		Utilisateur user1 = new Utilisateur("sanzza","maerten","prenom","maerten#gmail.com","3648836279","44 rue maurice","44567","mauriceVille","udfgfgf",600,true);
+		Categorie cat1 = new Categorie("multimedia");
+		Retrait ret1 = new Retrait("34 avenue des Champs Elysee","75000","Paris");
+		
+		utilisateurDao.insert(user1);
+		categorieDao.insert(cat1);
+		retraitDao.insert(ret1);
+		
+		ArticleVendu article = new ArticleVendu();
+		article.setNom("HP Deskjet 2723");
+		article.setDescription("All-in-One - imprimante multifonctions - couleur");
+		article.setDateDebutEncheres(LocalDate.now());
+		article.setDateFinEncheres(LocalDate.now().plusDays(7));
+		article.setMiseAPrix(100);
+		article.setPrixVente(250);
+		article.setVendeur(user1);
+		article.setCategorie(cat1);
+		article.setLieuRetrait(ret1);
+		
+		ArticleVendu article1 = new ArticleVendu();
+		article.setNom("ordinateur");
+		article.setDescription("ordinateur noir");
+		article.setDateDebutEncheres(LocalDate.now());
+		article.setDateFinEncheres(LocalDate.now().plusDays(4));
+		article.setMiseAPrix(300);
+		article.setPrixVente(400);
+		article.setVendeur(user1);
+		article.setCategorie(cat1);
+		article.setLieuRetrait(ret1);
+		
+		return listeArticleVendus;
+		
 	}
 
 }

@@ -33,7 +33,7 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 			throw businessException;
 		}
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			statement.setString(1, retrait.getRue());
 			statement.setString(2, retrait.getCodePostal());
@@ -64,7 +64,7 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 	{
 		Retrait retrait = null;
 		
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			
 			PreparedStatement statement = cnx.prepareStatement(GET_BY_ID);
 			statement.setInt(1, id);
@@ -93,7 +93,7 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 	{
 		List<Retrait> retraits = new ArrayList<>();
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(GET_ALL);
 			ResultSet rs = statement.executeQuery();
 
@@ -119,7 +119,7 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 	@Override
 	public void update(Retrait retrait) throws BusinessException // UPDATE
 	{
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(UPDATE);
 			
 			
@@ -141,7 +141,7 @@ public class RetraitDAOJDBCImpl implements RetraitDAO {
 	@Override
 	public void delete(int id) throws BusinessException // DELETE
 	{
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(DELETE);
 			statement.setInt(1, id);
 			

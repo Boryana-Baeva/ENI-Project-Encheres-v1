@@ -32,7 +32,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			+ "							 date_debut_encheres=?, date_fin_encheres= ?, prix_initial= ?, prix_vente= ?, "
 			+ "							 no_utilisateur= ?, no_categorie=?, no_retrait=? where no_article= ? ";
 	private static final String DELETE = "delete ARTICLES_VENDUS where no_article = ?";
-	private static final String GET_BY_RETRAIT="select * from ARTICLES_VENDUS where no_retrait=?";
+	private static final String GET_BY_RETRAIT = "select * from ARTICLES_VENDUS where no_retrait=?";
 
 	private static UtilisateurDAO utilisateurDAO = new UtilisateurDAOJDBCImpl();
 	private static CategorieDAO categorieDAO = new CategorieDAOJDBCImpl();
@@ -47,7 +47,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			throw businessException;
 		}
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement statement = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			statement.setString(1, articleVendu.getNom());
@@ -85,7 +85,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 		ArticleVendu articleVendu = null;
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(GET_BY_ID);
 			pstmt.setInt(1, id);
 
@@ -93,7 +93,6 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 			if (rs.next()) {
 				articleVendu = articleBuilder(rs);
-				
 
 			}
 
@@ -112,11 +111,11 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 		List<ArticleVendu> articlesVendus = new ArrayList<>();
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(GET_ALL);
 
 			ResultSet rs = statement.executeQuery();
-			
+
 			ArticleVendu articleVendu = null;
 
 			while (rs.next()) {
@@ -139,18 +138,18 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 		List<ArticleVendu> articlesVendus = new ArrayList<>();
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(GET_BY_VENDEUR);
 			pstmt.setInt(1, id);
 
 			ResultSet rs = pstmt.executeQuery();
-			
+
 			ArticleVendu articleVendu = null;
 
 			while (rs.next()) {
 				articleVendu = articleBuilder(rs);
 				articlesVendus.add(articleVendu);
-				
+
 			}
 
 		} catch (Exception e) {
@@ -165,12 +164,11 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 	@Override
 	public void update(ArticleVendu articleVendu) throws BusinessException {
-		
-		
-		try (Connection cnx = Utils.getConnection()) {
+
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement statement = cnx.prepareStatement(UPDATE);
-			
+
 			statement.setString(1, articleVendu.getNom());
 			statement.setString(2, articleVendu.getDescription());
 			statement.setDate(3, java.sql.Date.valueOf(articleVendu.getDateDebutEncheres()));
@@ -179,13 +177,13 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			statement.setInt(6, articleVendu.getPrixVente());
 			statement.setInt(7, articleVendu.getVendeur().getId());
 			statement.setInt(8, articleVendu.getCategorie().getId());
-			if(articleVendu.getLieuRetrait()!= null) {
+			if (articleVendu.getLieuRetrait() != null) {
 				statement.setInt(9, articleVendu.getLieuRetrait().getId());
-			}else {
+			} else {
 				statement.setNull(9, Types.INTEGER);
 			}
 			statement.setInt(10, articleVendu.getId());
-			
+
 			statement.executeUpdate();
 
 		} catch (Exception e) {
@@ -199,26 +197,25 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 	@Override
 	public void delete(int id) throws BusinessException {
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
 			pstmt.setInt(1, id);
 
-			/*// ::::Gestion des dépendances::::
-			// Supprimer l'article de la liste des articles vendus du vendeur
-			ArticleVendu article = this.getById(id);
-			Utilisateur vendeur = article.getVendeur();
-
-			vendeur.getArticlesVendus().remove(article);
-			utilisateurDAO.update(vendeur);
-			article.setVendeur(null);
-
-			// Unset de la categorie de l'article
-			article.setCategorie(null);
-
-			// Supprimer le lieu de retrait défini pour cet article
-			article.setLieuRetrait(null);
-			retraitDAO.delete(article.getLieuRetrait().getId());*/
+			/*
+			 * // ::::Gestion des dépendances:::: // Supprimer l'article de la liste des
+			 * articles vendus du vendeur ArticleVendu article = this.getById(id);
+			 * Utilisateur vendeur = article.getVendeur();
+			 * 
+			 * vendeur.getArticlesVendus().remove(article); utilisateurDAO.update(vendeur);
+			 * article.setVendeur(null);
+			 * 
+			 * // Unset de la categorie de l'article article.setCategorie(null);
+			 * 
+			 * // Supprimer le lieu de retrait défini pour cet article
+			 * article.setLieuRetrait(null);
+			 * retraitDAO.delete(article.getLieuRetrait().getId());
+			 */
 
 			// Supprimer l'article
 			pstmt.executeUpdate();
@@ -234,60 +231,57 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 	@Override
 	public List<ArticleVendu> getByRetrait(Retrait retrait) throws BusinessException {
-		
+
 		List<ArticleVendu> listeArticleVendu = new ArrayList<ArticleVendu>();
-		
-		try (Connection cnx = Utils.getConnection()) {
-			
+
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+
 			ArticleVendu articleVendu = null;
-			
+
 			PreparedStatement statement = cnx.prepareStatement(GET_BY_RETRAIT);
 			statement.setInt(1, retrait.getId());
-			
+
 			ResultSet rs = statement.executeQuery();
-			
-			while(rs.next()) {
-				articleVendu=articleBuilder(rs);
+
+			while (rs.next()) {
+				articleVendu = articleBuilder(rs);
 				listeArticleVendu.add(articleVendu);
 			}
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
 			businessException.ajouterErreur(CodesResultatDAL.LECTURE_RETRAIT_ECHEC);
 			throw businessException;
 
 		}
-		
+
 		return listeArticleVendu;
-		
+
 	}
-	
-	
-	
-public ArticleVendu articleBuilder (ResultSet rs) throws BusinessException, SQLException{
-	
-	Utilisateur vendeur= this.getVendeurArticle(rs.getInt("no_utilisateur"));
-	Categorie categorie=this.getCategorieArticle(rs.getInt("no_categorie"));
-	Retrait retrait = this.getRetraitArticle(rs.getInt("no_retrait"));
-	
-	
-	ArticleVendu articleVendu = new ArticleVendu();
-	
-	articleVendu.setId(rs.getInt("no_article"));
-	articleVendu.setNom(rs.getString("nom_article"));
-	articleVendu.setDescription(rs.getString("description"));
-	articleVendu.setDateDebutEncheres((rs.getDate("date_debut_encheres").toLocalDate()));
-	articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
-	articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
-	articleVendu.setPrixVente(rs.getInt("prix_vente"));
-	articleVendu.setVendeur(vendeur);
-	articleVendu.setCategorie(categorie);
-	articleVendu.setLieuRetrait(retrait);
-	
-	return articleVendu;
-	
-}
+
+	public ArticleVendu articleBuilder(ResultSet rs) throws BusinessException, SQLException {
+
+		Utilisateur vendeur = this.getVendeurArticle(rs.getInt("no_utilisateur"));
+		Categorie categorie = this.getCategorieArticle(rs.getInt("no_categorie"));
+		Retrait retrait = this.getRetraitArticle(rs.getInt("no_retrait"));
+
+		ArticleVendu articleVendu = new ArticleVendu();
+
+		articleVendu.setId(rs.getInt("no_article"));
+		articleVendu.setNom(rs.getString("nom_article"));
+		articleVendu.setDescription(rs.getString("description"));
+		articleVendu.setDateDebutEncheres((rs.getDate("date_debut_encheres").toLocalDate()));
+		articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
+		articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
+		articleVendu.setPrixVente(rs.getInt("prix_vente"));
+		articleVendu.setVendeur(vendeur);
+		articleVendu.setCategorie(categorie);
+		articleVendu.setLieuRetrait(retrait);
+
+		return articleVendu;
+
+	}
 
 	private Utilisateur getVendeurArticle(int vendeurId) {
 		UtilisateurDAO utilisateurDAO = DAOFactory.getUtilisateurDAO();
@@ -299,28 +293,27 @@ public ArticleVendu articleBuilder (ResultSet rs) throws BusinessException, SQLE
 		}
 		return vendeurArticle;
 	}
-	
+
 	private Categorie getCategorieArticle(int categorieId) {
 		CategorieDAO categorieDAO = DAOFactory.getCategorieDAO();
 		Categorie categorieArticle = null;
 		try {
-			categorieArticle =categorieDAO.getById(categorieId);
+			categorieArticle = categorieDAO.getById(categorieId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return categorieArticle;
 	}
-	
-	private Retrait getRetraitArticle (int retraitId) {
+
+	private Retrait getRetraitArticle(int retraitId) {
 		RetraitDAO retraitDAO = DAOFactory.getRetraitDAO();
 		Retrait retraitArticle = null;
 		try {
-			retraitArticle=retraitDAO.getById(retraitId);
+			retraitArticle = retraitDAO.getById(retraitId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return retraitArticle;
 	}
 
-	
 }

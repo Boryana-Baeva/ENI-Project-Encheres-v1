@@ -31,6 +31,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 			+ "email=?, telephone=?, rue=?, code_postal=?, ville=?," + " mot_de_passe=?, credit=?, administrateur=?";
 	private static final String DELETE = "DELETE UTILISATEURS WHERE no_utilisateur=?";
 	private static final String GET_ARTICLES_VENDUS = "select * from ARTICLES_VENDUS WHERE no_utilisateur=?";
+	private static final String GET_BY_PSEUDO ="select * from UTILISATEURS WHERE pseudo=? ";
 
 	private static EnchereDAO enchereDao = new EnchereDAOJDBCImpl();
 	private static ArticleVenduDAO articleDao = new ArticleVenduDAOJDBCImpl();
@@ -46,7 +47,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 			throw businessException;
 		}
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement statement = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, utilisateur.getPseudo());
@@ -91,7 +92,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 		List<Utilisateur> list = new ArrayList<>();
 		Utilisateur utilisateur = null;
 		
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(GET_ALL);
 			ResultSet rs = statement.executeQuery();
 
@@ -115,7 +116,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 
 		Utilisateur utilisateur = null;
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(GET_BY_ID);
 			statement.setInt(1, id);
 			ResultSet rs = statement.executeQuery();
@@ -138,7 +139,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	@Override
 	public void update(Utilisateur utilisateur) throws BusinessException {
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(UPDATE);
 			statement.setString(1, utilisateur.getPseudo());
 			statement.setString(2, utilisateur.getNom());
@@ -171,7 +172,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	@Override
 	public void delete(int id) throws BusinessException {
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			
 			PreparedStatement statement = cnx.prepareStatement(DELETE);
 			statement.setInt(1, id);
@@ -210,11 +211,12 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 		}
 	}
 
+	@Override
 	public List<ArticleVendu> getAllArticlesVendus(Utilisateur utilisateur) throws BusinessException {
 
 		List<ArticleVendu> listeArticlesVendus = new ArrayList<ArticleVendu>();
 
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(GET_ARTICLES_VENDUS);
 			statement.setInt(1, utilisateur.getId());
 			
@@ -272,6 +274,30 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 		return utilisateur;
 
 	}
+
+	@Override
+	public Utilisateur getByPseudo(String pseudo) throws BusinessException {
+		
+		Utilisateur utilisateur = null;
+		
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement statement = cnx.prepareStatement(GET_BY_PSEUDO);
+			statement.setString(1, pseudo);
+			
+			ResultSet rs = statement.executeQuery();
+			
+			if(rs.next()) {
+				utilisateur= utilisateurBuilder(rs);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.LECTURE_UTILISATEURS_ECHEC);
+			throw businessException;
+		}
+			
+		return utilisateur;
+	}
 	
 	
 	/*private List<ArticleVendu> getArticlesVendusUtilisateur(int userId)
@@ -315,5 +341,5 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 		
 		return encheres;
 	}*/
-	
-}
+	}
+

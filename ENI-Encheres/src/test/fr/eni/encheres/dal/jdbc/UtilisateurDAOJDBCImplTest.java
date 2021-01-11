@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fr.eni.encheres.BusinessException;
+import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.CategorieDAO;
@@ -74,6 +75,23 @@ class UtilisateurDAOJDBCImplTest {
 		assertEquals(allUsers.size(), utilisateurs.size());
 	
 	}
+	
+	@Test
+	void testGetAllArticlesVendus()throws BusinessException{
+
+		Utilisateur utilisateur = getTestUtilisateur();
+		
+		List<ArticleVendu> articleVendus = utilisateurDao.getAllArticlesVendus(utilisateur);
+		
+		for (ArticleVendu articleVendu : ArticleVenduDAOJDBCImplTest.getTestListArticleVendu()) {
+			articleVendus.add(articleVendu);
+			articleVenduDao.insert(articleVendu);
+		}
+			
+		List<ArticleVendu> allArticleVendus = utilisateurDao.getAllArticlesVendus(utilisateur);
+		
+		assertEquals(articleVendus.size(), allArticleVendus.size());
+	}
 
 	/**
 	 * Test method for {@link fr.eni.encheres.dal.jdbc.UtilisateurDAOJDBCImpl#getById(int)}.
@@ -90,6 +108,18 @@ class UtilisateurDAOJDBCImplTest {
 		
 		assertEquals(userAttendu.getId(), userRecupere.getId());
 			
+	}
+	
+	@Test
+	void testGetByPseudo() throws BusinessException{
+		
+		utilisateurDao.insert(getTestUtilisateur());
+		
+		List<Utilisateur> users = utilisateurDao.getAll();
+		Utilisateur userAttendu = users.get(users.size()-1);
+		Utilisateur userRecupere = utilisateurDao.getByPseudo(userAttendu.getPseudo());
+		
+		assertEquals(userAttendu.getPseudo(), userRecupere.getPseudo());
 	}
 
 	/**

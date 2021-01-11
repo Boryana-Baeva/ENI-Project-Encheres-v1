@@ -39,7 +39,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 			throw businessException;
 		}
 		
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement statement = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
             statement.setDate(1, Date.valueOf(enchere.getDate()));
             statement.setInt(2, enchere.getMontant());
@@ -71,7 +71,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 		
 		List<Enchere> list = new ArrayList<>();
 		
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			 PreparedStatement statement = cnx.prepareStatement(GET_ALL);
 			 ResultSet rs = statement.executeQuery();
 			 
@@ -102,7 +102,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 		
 		Enchere enchere = null;
 		
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(GET_BY_ID);
 			statement.setInt(1, id);
 			ResultSet rs = statement.executeQuery();
@@ -135,7 +135,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 		
 		List<Enchere> list = new ArrayList<>();
 		
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			 PreparedStatement statement = cnx.prepareStatement(GET_BY_ENCHERISSEUR);
 			 statement.setInt(1, id);
 			 ResultSet rs = statement.executeQuery();
@@ -167,7 +167,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 		
 		List<Enchere> list = new ArrayList<>();
 		
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			 PreparedStatement statement = cnx.prepareStatement(GET_REMPORTES_PAR_ENCHERISSEUR);
 			 statement.setInt(1, id);
 			 statement.setBoolean(2, true);
@@ -197,7 +197,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 	@Override
 	public void update(Enchere enchere) throws BusinessException {
 		
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(UPDATE);
 			statement.setDate(1, Date.valueOf(enchere.getDate()));
 			statement.setInt(2, enchere.getMontant());
@@ -219,7 +219,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 
 	@Override
 	public void delete(int id) throws BusinessException {
-		try (Connection cnx = Utils.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(DELETE);
 			statement.setInt(1, id);
 			statement.executeUpdate();
