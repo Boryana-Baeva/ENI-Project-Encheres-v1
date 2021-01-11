@@ -33,6 +33,7 @@ class EnchereDAOJDBCImplTest {
 	private static CategorieDAO categorieDao = new CategorieDAOJDBCImpl();
 	private static UtilisateurDAO utilisateurDao = new UtilisateurDAOJDBCImpl();
 	private static EnchereDAO enchereDao = new EnchereDAOJDBCImpl();
+	private static RetraitDAO retraitDao = new RetraitDAOJDBCImpl();
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -47,8 +48,9 @@ class EnchereDAOJDBCImplTest {
 		
 		Utilisateur utilisateur = UtilisateurDAOJDBCImplTest.getTestListUtilisateurs().get(1);
 		Categorie categorie = CategorieDAOJDBCImplTest.getTestListCategories().get(2);
-		ArticleVendu article = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur, categorie);
+		Retrait lieuRetrait = RetraitDAOJDBCImplTest.getTestListRetraits().get(1);
 		
+		ArticleVendu article = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur, categorie, lieuRetrait);
 		utilisateurDao.insert(utilisateur);
 		categorieDao.insert(categorie);
 		articleVenduDao.insert(article);
@@ -60,7 +62,7 @@ class EnchereDAOJDBCImplTest {
 		assertNotNull(enchere.getId());
 	}
 
-	/*@Test
+	@Test
 	void testGetAll() throws BusinessException {
 		List<Enchere> encheres = enchereDao.getAll();
 		
@@ -72,7 +74,7 @@ class EnchereDAOJDBCImplTest {
 		List<Enchere> allEncheres = enchereDao.getAll();
 		
 		assertEquals(encheres.size(), allEncheres.size());
-	}*/
+	}
 	
 
 	/*@Test
@@ -114,7 +116,8 @@ class EnchereDAOJDBCImplTest {
 	void testDelete() throws BusinessException {
 		Utilisateur utilisateur = UtilisateurDAOJDBCImplTest.getTestListUtilisateurs().get(0);
 		Categorie categorie = CategorieDAOJDBCImplTest.getTestListCategories().get(3);
-		ArticleVendu article = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur, categorie);
+		Retrait lieuRetrait = RetraitDAOJDBCImplTest.getTestListRetraits().get(1);
+		ArticleVendu article = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur, categorie, lieuRetrait);
 		
 		utilisateurDao.insert(utilisateur);
 		categorieDao.insert(categorie);
@@ -152,26 +155,30 @@ class EnchereDAOJDBCImplTest {
 		
 		Utilisateur utilisateur1 = UtilisateurDAOJDBCImplTest.getTestListUtilisateurs().get(0);
 		Categorie categorie1 = CategorieDAOJDBCImplTest.getTestListCategories().get(1);
-		ArticleVendu article1 = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur1, categorie1);
+		Retrait lieuRetrait = RetraitDAOJDBCImplTest.getTestListRetraits().get(1);
+		ArticleVendu article = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur1, categorie1, lieuRetrait);
 		
 		utilisateurDao.insert(utilisateur1);
 		categorieDao.insert(categorie1);
-		articleVenduDao.insert(article1);
+		articleVenduDao.insert(article);
+		retraitDao.insert(lieuRetrait);
 		
 		Enchere enchere1 = new Enchere();
 		enchere1.setDate(LocalDate.now().plusDays(5));
-		enchere1.setMontant(article1.getMiseAPrix()+20);
-		enchere1.setArticle(article1);
+		enchere1.setMontant(article.getMiseAPrix()+20);
+		enchere1.setArticle(article);
 		enchere1.setEncherisseur(utilisateur1);
 		enchere1.setRemporte(false);
 		
 		Utilisateur utilisateur2 = UtilisateurDAOJDBCImplTest.getTestListUtilisateurs().get(1);
 		Categorie categorie2 = CategorieDAOJDBCImplTest.getTestListCategories().get(0);
-		ArticleVendu article2 = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur2, categorie2);
+		Retrait lieuRetrait2 = RetraitDAOJDBCImplTest.getTestListRetraits().get(1);
+		ArticleVendu article2 = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur2, categorie2, lieuRetrait2);
 		
 		utilisateurDao.insert(utilisateur2);
 		categorieDao.insert(categorie2);
 		articleVenduDao.insert(article2);
+		retraitDao.insert(lieuRetrait);
 		
 		Enchere enchere2 = new Enchere();
 		enchere2.setDate(LocalDate.now().plusDays(10));
@@ -182,11 +189,13 @@ class EnchereDAOJDBCImplTest {
 		
 		Utilisateur utilisateur3 = UtilisateurDAOJDBCImplTest.getTestListUtilisateurs().get(2);
 		Categorie categorie3 = CategorieDAOJDBCImplTest.getTestListCategories().get(3);
-		ArticleVendu article3 = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur3, categorie3);
+		Retrait lieuRetrait3 = RetraitDAOJDBCImplTest.getTestListRetraits().get(1);
+		ArticleVendu article3 = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur3, categorie3, lieuRetrait);
 		
 		utilisateurDao.insert(utilisateur3);
 		categorieDao.insert(categorie3);
 		articleVenduDao.insert(article3);
+		retraitDao.insert(lieuRetrait3);
 		
 		Enchere enchere3 = new Enchere();
 		enchere3.setDate(LocalDate.now().plusDays(3));
