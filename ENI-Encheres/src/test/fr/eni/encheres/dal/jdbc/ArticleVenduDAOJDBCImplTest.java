@@ -163,27 +163,50 @@ class ArticleVenduDAOJDBCImplTest {
 	// 
 	@Test
 	void testUpdate() throws BusinessException {
+		
 		Utilisateur user1 = new Utilisateur("sanzza","maerten","prenom","maerten#gmail.com","3648836279","44 rue maurice","44567","mauriceVille","udfgfgf",600,true);
 		Categorie cat1 = new Categorie("multimedia");
-		Categorie cat2 = new Categorie("Peripherique");
 		Retrait ret1 = new Retrait("34 avenue des Champs Elysee","75000","Paris");
+		
 		articleVenduDao.insert(getTestArticleVendu(user1, cat1, ret1));
+		
 		List<ArticleVendu> articleVendus =articleVenduDao.getAll();
+		
 		ArticleVendu articleAUpdate = articleVendus.get(articleVendus.size()-1);
-		articleAUpdate.setCategorie(cat2);
+		
+		articleAUpdate.setNom("sac a dos");
+		
 		articleVenduDao.update(articleAUpdate);
+		
 		ArticleVendu articleUpdate = articleVenduDao.getById(articleAUpdate.getId());
-		assertEquals(articleUpdate.getCategorie(), cat2);
+		
+		assertEquals(articleUpdate.getNom(), "sac a dos");
+		
+		
 	}
 
 	@Test
 	
 	void testDelete() throws BusinessException {
 		
+		Utilisateur user1 = new Utilisateur("sanzza","maerten","prenom","maerten#gmail.com","3648836279","44 rue maurice","44567","mauriceVille","udfgfgf",600,true);
+		Categorie cat1 = new Categorie("multimedia");
+		Retrait ret1 = new Retrait("34 avenue des Champs Elysee","75000","Paris");
+		
+		utilisateurDao.insert(user1);
+		categorieDao.insert(cat1);
+		retraitDao.insert(ret1);
+		
+		articleVenduDao.insert(getTestArticleVendu(user1, cat1, ret1));
+		
 		List<ArticleVendu> articleVendus = articleVenduDao.getAll();
-		articleVendus.remove(articleVendus.size()-1);
+		
 		articleVenduDao.delete(articleVendus.size()-1);
+		
+		articleVendus.remove(articleVendus.size()-1);
+		
 		List<ArticleVendu>newArticles = articleVenduDao.getAll();
+		
 		assertEquals(articleVendus.size(), newArticles.size());
 		
 	}

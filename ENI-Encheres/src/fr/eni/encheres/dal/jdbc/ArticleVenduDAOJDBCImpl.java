@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,12 +54,12 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			statement.setDate(3, java.sql.Date.valueOf(articleVendu.getDateDebutEncheres()));
 			statement.setDate(4, java.sql.Date.valueOf(articleVendu.getDateFinEncheres()));
 			statement.setInt(5, articleVendu.getMiseAPrix());
-			utilisateurDAO.insert(articleVendu.getVendeur());
+			/*utilisateurDAO.insert(articleVendu.getVendeur());
 			statement.setInt(6, articleVendu.getVendeur().getId());
 			categorieDAO.insert(articleVendu.getCategorie());
 			statement.setInt(7, articleVendu.getCategorie().getId());
 			retraitDAO.insert(articleVendu.getLieuRetrait());
-			statement.setInt(8, articleVendu.getLieuRetrait().getId());
+			statement.setInt(8, articleVendu.getLieuRetrait().getId());*/
 
 			statement.executeUpdate();
 
@@ -89,17 +90,8 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				articleVendu = new ArticleVendu();
-				articleVendu.setId(rs.getInt("no_article"));
-				articleVendu.setNom(rs.getString("nom_article"));
-				articleVendu.setDescription(rs.getString("description"));
-				articleVendu.setDateDebutEncheres((rs.getDate("date_debut_encheres").toLocalDate()));
-				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
-				articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
-				articleVendu.setPrixVente(rs.getInt("prix_vente"));
-				// articleVendu.setVendeur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
-				articleVendu.setCategorie(categorieDAO.getById(rs.getInt("no_categorie")));
-				articleVendu.setLieuRetrait(retraitDAO.getById(rs.getInt("no_retrait")));
+				articleVendu = articleBuilder(rs);
+				
 
 			}
 
@@ -171,21 +163,24 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 	@Override
 	public void update(ArticleVendu articleVendu) throws BusinessException {
+		
+		
 		try (Connection cnx = Utils.getConnection()) {
 
-			PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
-			pstmt.setInt(1, articleVendu.getId());
-			pstmt.setString(2, articleVendu.getNom());
-			pstmt.setString(3, articleVendu.getDescription());
-			pstmt.setDate(4, java.sql.Date.valueOf(articleVendu.getDateDebutEncheres()));
-			pstmt.setDate(5, java.sql.Date.valueOf(articleVendu.getDateFinEncheres()));
-			pstmt.setInt(6, articleVendu.getMiseAPrix());
-			pstmt.setInt(7, articleVendu.getPrixVente());
-			pstmt.setInt(8, articleVendu.getVendeur().getId());
-			pstmt.setInt(9, articleVendu.getCategorie().getId());
-			pstmt.setInt(10, articleVendu.getLieuRetrait().getId());
-
-			pstmt.executeUpdate();
+			PreparedStatement statement = cnx.prepareStatement(UPDATE);
+			
+			statement.setString(1, articleVendu.getNom());
+			statement.setString(2, articleVendu.getDescription());
+			statement.setDate(3, java.sql.Date.valueOf(articleVendu.getDateDebutEncheres()));
+			statement.setDate(4, java.sql.Date.valueOf(articleVendu.getDateFinEncheres()));
+			statement.setInt(5, articleVendu.getMiseAPrix());
+			statement.setInt(6, articleVendu.getPrixVente());
+			statement.setInt(7, articleVendu.getVendeur().getId());
+			statement.setInt(8, articleVendu.getCategorie().getId());
+			statement.setInt(9, articleVendu.getLieuRetrait().getId());
+			statement.setInt(10, articleVendu.getId());
+			
+			statement.executeUpdate();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -247,9 +242,9 @@ public ArticleVendu articleBuilder (ResultSet rs) throws BusinessException, SQLE
 	articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
 	articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
 	articleVendu.setPrixVente(rs.getInt("prix_vente"));
-	articleVendu.setVendeur(vendeur);
+	/*articleVendu.setVendeur(vendeur);
 	articleVendu.setCategorie(categorie);
-	articleVendu.setLieuRetrait(retrait);
+	articleVendu.setLieuRetrait(retrait);*/
 	
 	return articleVendu;
 	
