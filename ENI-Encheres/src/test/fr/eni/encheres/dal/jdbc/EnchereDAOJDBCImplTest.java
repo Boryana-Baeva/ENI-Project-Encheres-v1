@@ -62,6 +62,7 @@ class EnchereDAOJDBCImplTest {
 		assertNotNull(enchere.getId());
 	}
 
+	//STACK OVER FLOW 
 	@Test
 	void testGetAll() throws BusinessException {
 		List<Enchere> encheres = enchereDao.getAll();
@@ -76,13 +77,14 @@ class EnchereDAOJDBCImplTest {
 		assertEquals(encheres.size(), allEncheres.size());
 	}
 	
-
-	/*@Test
+	//STACK OVER FLOW 
+	@Test
 	void testGetById() throws BusinessException {
 		
 		Utilisateur utilisateur = UtilisateurDAOJDBCImplTest.getTestListUtilisateurs().get(0);
 		Categorie categorie = CategorieDAOJDBCImplTest.getTestListCategories().get(3);
-		ArticleVendu article = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur, categorie);
+		Retrait lieuRetrait = RetraitDAOJDBCImplTest.getTestListRetraits().get(1);
+		ArticleVendu article = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur, categorie, lieuRetrait );
 		
 		utilisateurDao.insert(utilisateur);
 		categorieDao.insert(categorie);
@@ -95,7 +97,7 @@ class EnchereDAOJDBCImplTest {
 		Enchere enchereRecupere = enchereDao.getById(enchereAttendu.getId());
 		
 		assertEquals(enchereAttendu.getId(), enchereRecupere.getId());
-	} */
+	} 
 
 	@Test
 	void testGetByEncherisseur() {
@@ -112,6 +114,7 @@ class EnchereDAOJDBCImplTest {
 		fail("Not yet implemented");
 	}
 
+	//STACK OVER FLOW 
 	@Test
 	void testDelete() throws BusinessException {
 		Utilisateur utilisateur = UtilisateurDAOJDBCImplTest.getTestListUtilisateurs().get(0);
