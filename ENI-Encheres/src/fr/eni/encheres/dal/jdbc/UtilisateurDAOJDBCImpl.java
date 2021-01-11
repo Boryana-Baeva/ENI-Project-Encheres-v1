@@ -172,10 +172,17 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	public void delete(int id) throws BusinessException {
 
 		try (Connection cnx = Utils.getConnection()) {
+			
 			PreparedStatement statement = cnx.prepareStatement(DELETE);
 			statement.setInt(1, id);
-
-			Utilisateur utilisateur = this.getById(id);
+			
+			List<ArticleVendu> listeArticles=articleDao.getByVendeur(id);
+			
+			for (ArticleVendu articleVendu : listeArticles) {
+				articleDao.delete(articleVendu.getId());
+			}
+			
+		/*	Utilisateur utilisateur = this.getById(id);
 
 			// Supprimer toutes les encheres faite par cet utilisateur
 			for (Enchere enchere : enchereDao.getByEncherisseur(id)) {
@@ -190,7 +197,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 			for (ArticleVendu article : articleDao.getByVendeur(id)) {
 				articleDao.delete(article.getId());
 			}
-			utilisateur.setArticlesVendus(null);
+			utilisateur.setArticlesVendus(null);*/
 
 			statement.executeUpdate();
 
@@ -239,9 +246,9 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	
 	public Utilisateur utilisateurBuilder(ResultSet rs) throws SQLException
 	{
-		List<ArticleVendu> articlesVendus = this.getArticlesVendusUtilisateur(rs.getInt("no_utilisateur"));
+		/*List<ArticleVendu> articlesVendus = this.getArticlesVendusUtilisateur(rs.getInt("no_utilisateur"));
 		List<ArticleVendu> articlesAchetes = this.getArticlesAchetesUtilisateur(rs.getInt("no_utilisateur"));
-		List<Enchere> encheres = this.getEncheresUtilisateur(rs.getInt("no_utilisateur"));
+		List<Enchere> encheres = this.getEncheresUtilisateur(rs.getInt("no_utilisateur"));*/
 		
 		Utilisateur utilisateur = new Utilisateur();
 		
@@ -257,9 +264,9 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 		utilisateur.setPassword(rs.getString("mot_de_passe"));
 		utilisateur.setCredit(rs.getInt("credit"));
 		utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
-		utilisateur.setArticlesVendus(articlesVendus);
+		/*utilisateur.setArticlesVendus(articlesVendus);
 		utilisateur.setArticlesAchetes(articlesAchetes);
-		utilisateur.setEncheres(encheres);
+		utilisateur.setEncheres(encheres);*/
 		
 		
 		return utilisateur;
@@ -267,7 +274,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	}
 	
 	
-	private List<ArticleVendu> getArticlesVendusUtilisateur(int userId)
+	/*private List<ArticleVendu> getArticlesVendusUtilisateur(int userId)
 	{
 		List<ArticleVendu> articlesVendus = new ArrayList<>();
 		
@@ -307,6 +314,6 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 		}
 		
 		return encheres;
-	}
+	}*/
 	
 }

@@ -120,8 +120,9 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement statement = cnx.prepareStatement(UPDATE);
-			statement.setInt(1, categorie.getId());
-			statement.setString(2, categorie.getLibelle());
+			
+			statement.setString(1, categorie.getLibelle());
+			statement.setInt(2, categorie.getId());
 
 			statement.executeUpdate();
 		} catch (Exception e) {

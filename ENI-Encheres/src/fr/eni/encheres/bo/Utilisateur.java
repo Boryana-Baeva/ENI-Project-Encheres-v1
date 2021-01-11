@@ -17,9 +17,9 @@ public class Utilisateur implements Serializable {
 	private String password; 
 	private int credit;
     private boolean administrateur;
-    private List<ArticleVendu> articlesVendus;
+   /* private List<ArticleVendu> articlesVendus;
     private List<ArticleVendu> articlesAchetes;
-    private List<Enchere> encheres;
+    private List<Enchere> encheres;*/
         
     // Constructeur 
     public Utilisateur() {
@@ -59,13 +59,13 @@ public class Utilisateur implements Serializable {
 		this.password = password;
 		this.credit = credit;
 		this.administrateur = administrateur;
-		this.articlesVendus = articlesVendus;
+		/*this.articlesVendus = articlesVendus;
 		this.articlesAchetes = articlesAchetes;
-		this.encheres = encheres;
+		this.encheres = encheres;*/
 	}
 
     
-	public Utilisateur(int id, String pseudo, String nom, String prenom, String email, String telephone,
+	/*public Utilisateur(int id, String pseudo, String nom, String prenom, String email, String telephone,
 						String rue, String codePostal, String ville,
 						String password, int credit, boolean administrateur,
 						List<ArticleVendu> articlesVendus,
@@ -74,7 +74,8 @@ public class Utilisateur implements Serializable {
 		this(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, password, credit, administrateur, articlesVendus, articlesAchetes, encheres );
 		this.id = id;
 		
-	}
+	}*/
+	
 
 	
 
@@ -95,10 +96,8 @@ public class Utilisateur implements Serializable {
 		this.administrateur = administrateur;
 	}
 
-	public Utilisateur(Utilisateur byId, String string, String string2, String string3, String string4, String string5,
-			String string6, String string7, String string8, String string9, int i, boolean b) {
-		// TODO Auto-generated constructor stub
-	}
+
+	
 
 	public Retrait getLieuRetraitParDefaut()
 	{
@@ -203,7 +202,7 @@ public class Utilisateur implements Serializable {
 	}
     
 	
-    public List<ArticleVendu> getArticlesVendus() {
+    /*public List<ArticleVendu> getArticlesVendus() {
 		return articlesVendus;
 	}
 
@@ -225,7 +224,7 @@ public class Utilisateur implements Serializable {
 
 	public void setEncheres(List<Enchere> encheres) {
 		this.encheres = encheres;
-	}
+	}*/
 
 	/**
 	 * Méthode ToString 

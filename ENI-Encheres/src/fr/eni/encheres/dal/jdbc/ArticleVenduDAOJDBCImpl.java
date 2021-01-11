@@ -54,12 +54,12 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			statement.setDate(3, java.sql.Date.valueOf(articleVendu.getDateDebutEncheres()));
 			statement.setDate(4, java.sql.Date.valueOf(articleVendu.getDateFinEncheres()));
 			statement.setInt(5, articleVendu.getMiseAPrix());
-			/*utilisateurDAO.insert(articleVendu.getVendeur());
+			utilisateurDAO.insert(articleVendu.getVendeur());
 			statement.setInt(6, articleVendu.getVendeur().getId());
 			categorieDAO.insert(articleVendu.getCategorie());
 			statement.setInt(7, articleVendu.getCategorie().getId());
 			retraitDAO.insert(articleVendu.getLieuRetrait());
-			statement.setInt(8, articleVendu.getLieuRetrait().getId());*/
+			statement.setInt(8, articleVendu.getLieuRetrait().getId());
 
 			statement.executeUpdate();
 
@@ -198,7 +198,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
 			pstmt.setInt(1, id);
 
-			// ::::Gestion des dépendances::::
+			/*// ::::Gestion des dépendances::::
 			// Supprimer l'article de la liste des articles vendus du vendeur
 			ArticleVendu article = this.getById(id);
 			Utilisateur vendeur = article.getVendeur();
@@ -212,7 +212,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 			// Supprimer le lieu de retrait défini pour cet article
 			article.setLieuRetrait(null);
-			retraitDAO.delete(article.getLieuRetrait().getId());
+			retraitDAO.delete(article.getLieuRetrait().getId());*/
 
 			// Supprimer l'article
 			pstmt.executeUpdate();
@@ -242,9 +242,9 @@ public ArticleVendu articleBuilder (ResultSet rs) throws BusinessException, SQLE
 	articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
 	articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
 	articleVendu.setPrixVente(rs.getInt("prix_vente"));
-	/*articleVendu.setVendeur(vendeur);
+	articleVendu.setVendeur(vendeur);
 	articleVendu.setCategorie(categorie);
-	articleVendu.setLieuRetrait(retrait);*/
+	articleVendu.setLieuRetrait(retrait);
 	
 	return articleVendu;
 	
