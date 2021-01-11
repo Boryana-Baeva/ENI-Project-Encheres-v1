@@ -1,0 +1,31 @@
+@charset "ISO-8859-1";
+:root {
+    --primary-color: rgba(36, 47, 64) ;
+    --secondary-color: #fff;
+    --light-grey: #ccc;
+    --border: #467599;
+    --light-blue:#3b90e3; 
+    
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #e5e5e5;
+}
+
+
+
+.header {
+    padding: 180px;
+    background-image: url(img/Header-test.png);
+    background-size: cover; 
+    background-position: top;
+    
+}

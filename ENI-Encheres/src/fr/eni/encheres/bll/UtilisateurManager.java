@@ -80,13 +80,13 @@ public class UtilisateurManager {
 
 	}
 
-	public static void ventesUtilisateur(List<ArticleVendu> articlesVendus) throws BusinessException {
+	/*public static void ventesUtilisateur(List<ArticleVendu> articlesVendus) throws BusinessException {
 
 		validerListeArticlesVendus(articlesVendus);
 
 	}
 
-	private static void validerListeArticlesVendus(List<ArticleVendu> articlesVendus) {
+	/*private static void validerListeArticlesVendus(List<ArticleVendu> articlesVendus) {
 		if (utilisateur.getArticlesVendus() == null || utilisateur.getArticlesVendus().size() == 0) {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEURS_ARTICLE_VENDU_ERREUR);
 		}
@@ -96,25 +96,25 @@ public class UtilisateurManager {
 		if (utilisateur.getEncheres() == null || utilisateur.getEncheres().size() == 0) {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEURS_ENCHERES_ERREUR);
 		}
-	}
+	}*/
 
-	public static void encheresUtilisateur(List<Enchere> encheres) throws BusinessException {
+	/*public static void encheresUtilisateur(List<Enchere> encheres) throws BusinessException {
 
 		validerListeEncheres(encheres);
 
-	}
-	public static void achatsUtilisateur(List<ArticleVendu> articlesAchetes) throws BusinessException {
+	}*/
+	/*public static void achatsUtilisateur(List<ArticleVendu> articlesAchetes) throws BusinessException {
 
 		validerListeArticlesAchetes(articlesAchetes);
 
-	}
+	}*/
 
-	private static void validerListeArticlesAchetes(List<ArticleVendu> articlesAchetes) {
+	/*private static void validerListeArticlesAchetes(List<ArticleVendu> articlesAchetes) {
 		if (utilisateur.getArticlesAchetes() == null || utilisateur.getArticlesAchetes().size() == 0) {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEURS_ARTICLE_ACHETE_ERREUR);
 		}
 
-	}
+	}*/
 
 	public static Utilisateur selectUserById(int id) throws BusinessException {
 		return utilisateurDAO.getById(id);
@@ -125,4 +125,11 @@ public class UtilisateurManager {
 		return utilisateurDAO.getAll();
 	}
 
+	public static Utilisateur selectUserByPseudo(String pseudo) throws BusinessException{
+		return utilisateurDAO.getByPseudo(pseudo);
+	}
+	
+	public static List<ArticleVendu> selectArticlesVendus ()throws BusinessException{
+		return utilisateurDAO.getAllArticlesVendus(utilisateur);
+	}
 }
