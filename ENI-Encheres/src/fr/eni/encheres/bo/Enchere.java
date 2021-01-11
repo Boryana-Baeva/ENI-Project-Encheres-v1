@@ -10,7 +10,7 @@ public class Enchere implements Serializable{
 	private int montant;
 	private ArticleVendu article;
 	private Utilisateur encherisseur;
-	private boolean remporte;
+	private boolean remporte = false;
 	
 	// Constructeurs
 	

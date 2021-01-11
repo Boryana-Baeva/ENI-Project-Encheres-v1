@@ -7,7 +7,7 @@ import fr.eni.encheres.bo.Enchere;
 
 public interface EnchereDAO {
 	
-	public void insert(Enchere enchere) throws BusinessException;
+	public Enchere insert(Enchere enchere) throws BusinessException;
 	
 	public List<Enchere> getAll() throws BusinessException;
 	

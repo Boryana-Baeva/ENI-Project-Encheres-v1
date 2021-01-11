@@ -42,34 +42,34 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 
 		try (Connection cnx = Utils.getConnection()) {
 
-			PreparedStatement requete = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-			requete.setString(1, utilisateur.getPseudo());
-			requete.setString(2, utilisateur.getNom());
-			requete.setString(3, utilisateur.getPrenom());
-			requete.setString(4, utilisateur.getEmail());
+			PreparedStatement statement = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, utilisateur.getPseudo());
+			statement.setString(2, utilisateur.getNom());
+			statement.setString(3, utilisateur.getPrenom());
+			statement.setString(4, utilisateur.getEmail());
 			if (utilisateur.getTelephone() != null) {
-				requete.setString(5, utilisateur.getTelephone());
+				statement.setString(5, utilisateur.getTelephone());
 			}
 			else 
 			{
-				requete.setNull(5, Types.VARCHAR);
+				statement.setNull(5, Types.VARCHAR);
 			}
-			requete.setString(5, utilisateur.getTelephone());
-			requete.setString(6, utilisateur.getRue());
-			requete.setString(7, utilisateur.getCodePostal());
-			requete.setString(8, utilisateur.getVille());
-			requete.setString(9, utilisateur.getPassword());
-			requete.setInt(10, utilisateur.getCredit());
-			requete.setBoolean(11, utilisateur.isAdministrateur());
+			statement.setString(5, utilisateur.getTelephone());
+			statement.setString(6, utilisateur.getRue());
+			statement.setString(7, utilisateur.getCodePostal());
+			statement.setString(8, utilisateur.getVille());
+			statement.setString(9, utilisateur.getPassword());
+			statement.setInt(10, utilisateur.getCredit());
+			statement.setBoolean(11, utilisateur.isAdministrateur());
 
-			requete.executeUpdate();
-			ResultSet rs = requete.getGeneratedKeys();
+			statement.executeUpdate();
+			ResultSet rs = statement.getGeneratedKeys();
 			
 			if (rs.next()) {
 				utilisateur.setId(rs.getInt(1));
 			}
 
-			requete.close();
+			statement.close();
 			cnx.commit();
 
 		} catch (Exception e) {
@@ -88,8 +88,8 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 		List<ArticleVendu> listArticlesAchetes = new ArrayList<>();
 
 		try (Connection cnx = Utils.getConnection()) {
-			PreparedStatement requete = cnx.prepareStatement(GET_ALL);
-			ResultSet rs = requete.executeQuery();
+			PreparedStatement statement = cnx.prepareStatement(GET_ALL);
+			ResultSet rs = statement.executeQuery();
 
 			while (rs.next()) {
 				Utilisateur utilisateur = new Utilisateur();
@@ -134,9 +134,9 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 		List<ArticleVendu> listArticlesAchetes = new ArrayList<>();
 
 		try (Connection cnx = Utils.getConnection()) {
-			PreparedStatement requete = cnx.prepareStatement(GET_BY_ID);
-			requete.setInt(1, id);
-			ResultSet rs = requete.executeQuery();
+			PreparedStatement statement = cnx.prepareStatement(GET_BY_ID);
+			statement.setInt(1, id);
+			ResultSet rs = statement.executeQuery();
 
 			if (rs.next()) {
 				utilisateur = new Utilisateur();
@@ -178,26 +178,26 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	public void update(Utilisateur utilisateur) throws BusinessException {
 
 		try (Connection cnx = Utils.getConnection()) {
-			PreparedStatement requete = cnx.prepareStatement(UPDATE);
-			requete.setString(1, utilisateur.getPseudo());
-			requete.setString(2, utilisateur.getNom());
-			requete.setString(3, utilisateur.getPrenom());
-			requete.setString(4, utilisateur.getEmail());
+			PreparedStatement statement = cnx.prepareStatement(UPDATE);
+			statement.setString(1, utilisateur.getPseudo());
+			statement.setString(2, utilisateur.getNom());
+			statement.setString(3, utilisateur.getPrenom());
+			statement.setString(4, utilisateur.getEmail());
 			if (utilisateur.getTelephone() != null) {
-				requete.setString(5, utilisateur.getTelephone());
+				statement.setString(5, utilisateur.getTelephone());
 			}
 			else 
 			{
-				requete.setNull(5, Types.VARCHAR);
+				statement.setNull(5, Types.VARCHAR);
 			}
-			requete.setString(6, utilisateur.getRue());
-			requete.setString(7, utilisateur.getCodePostal());
-			requete.setString(8, utilisateur.getVille());
-			requete.setString(9, utilisateur.getPassword());
-			requete.setInt(10, utilisateur.getCredit());
-			requete.setBoolean(11, utilisateur.isAdministrateur());
+			statement.setString(6, utilisateur.getRue());
+			statement.setString(7, utilisateur.getCodePostal());
+			statement.setString(8, utilisateur.getVille());
+			statement.setString(9, utilisateur.getPassword());
+			statement.setInt(10, utilisateur.getCredit());
+			statement.setBoolean(11, utilisateur.isAdministrateur());
 
-			requete.executeUpdate();
+			statement.executeUpdate();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -213,8 +213,8 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	public void delete(int id) throws BusinessException {
 
 		try (Connection cnx = Utils.getConnection()) {
-			PreparedStatement requete = cnx.prepareStatement(DELETE);
-			requete.setInt(1, id);
+			PreparedStatement statement = cnx.prepareStatement(DELETE);
+			statement.setInt(1, id);
 			
 			Utilisateur utilisateur = this.getById(id);
 			
@@ -233,7 +233,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 			}
 			utilisateur.setArticlesVendus(null);
 			
-			requete.executeUpdate();
+			statement.executeUpdate();
 
 		} catch (Exception e) {
 			e.printStackTrace();
