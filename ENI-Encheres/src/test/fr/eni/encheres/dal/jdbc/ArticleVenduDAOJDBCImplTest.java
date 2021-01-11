@@ -174,11 +174,8 @@ class ArticleVenduDAOJDBCImplTest {
 		article.setPrixVente(250);
 		article.setVendeur(utilisateur);
 		article.setCategorie(categorie);
-<<<<<<< HEAD
 		article.setLieuRetrait(lieuRetrait);
-=======
-		article.setLieuRetrait(utilisateur.getLieuRetraitParDefaut());
->>>>>>> branch 'main' of https://github.com/Boryana-Baeva/ENI-ENCHERES
+
 		
 		/*Utilisateur vendeur = new Utilisateur("yana", "Baeva", "Boryana", "b.baeva@gamail.com", "0612345678", "47 rue Lucie Aubrac", "33300", "Bordeaux", "123456", 100, true);
 		try {
