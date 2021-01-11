@@ -100,18 +100,78 @@ class EnchereDAOJDBCImplTest {
 	} 
 
 	@Test
-	void testGetByEncherisseur() {
-		fail("Not yet implemented");
+	void testGetByEncherisseur() throws BusinessException {
+		Utilisateur utilisateur = UtilisateurDAOJDBCImplTest.getTestListUtilisateurs().get(0);
+		Categorie categorie = CategorieDAOJDBCImplTest.getTestListCategories().get(3);
+		Retrait lieuRetrait = RetraitDAOJDBCImplTest.getTestListRetraits().get(1);
+		ArticleVendu article = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur, categorie, lieuRetrait );
+		
+		utilisateurDao.insert(utilisateur);
+		categorieDao.insert(categorie);
+		retraitDao.insert(lieuRetrait);
+		articleVenduDao.insert(article);
+		
+		List<Enchere> encheres = enchereDao.getByEncherisseur(utilisateur.getId());
+		
+		Enchere enchere= enchereDao.insert(getTestEnchere(utilisateur, categorie, article));
+		
+		encheres.add(enchere);
+		
+		List<Enchere> newEncheres = enchereDao.getByEncherisseur(enchere.getEncherisseur().getId());
+		
+		
+		assertEquals(encheres.size(), newEncheres.size());
+		
 	}
 
 	@Test
-	void testGetRemportesParEncherisseur() {
-		fail("Not yet implemented");
+	void testGetRemportesParEncherisseur() throws BusinessException {
+		
+		Utilisateur utilisateur = UtilisateurDAOJDBCImplTest.getTestListUtilisateurs().get(0);
+		Categorie categorie = CategorieDAOJDBCImplTest.getTestListCategories().get(3);
+		Retrait lieuRetrait = RetraitDAOJDBCImplTest.getTestListRetraits().get(1);
+		ArticleVendu article = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur, categorie, lieuRetrait );
+		
+		utilisateurDao.insert(utilisateur);
+		categorieDao.insert(categorie);
+		retraitDao.insert(lieuRetrait);
+		articleVenduDao.insert(article);
+		
+		List<Enchere> encheres = enchereDao.getRemportesParEncherisseur(utilisateur.getId());
+		
+		Enchere enchere= enchereDao.insert(getTestEnchere(utilisateur, categorie, article));
+		enchere.setRemporte(true);
+		
+		encheres.add(enchere);
+		
+		List<Enchere> newEncheres = enchereDao.getRemportesParEncherisseur(enchere.getEncherisseur().getId());
+		
+		
+		assertEquals(encheres.size(), newEncheres.size());
+		
 	}
 
 	@Test
-	void testUpdate() {
-		fail("Not yet implemented");
+	void testUpdate() throws BusinessException {
+		
+		Utilisateur utilisateur = UtilisateurDAOJDBCImplTest.getTestListUtilisateurs().get(0);
+		Categorie categorie = CategorieDAOJDBCImplTest.getTestListCategories().get(3);
+		Retrait lieuRetrait = RetraitDAOJDBCImplTest.getTestListRetraits().get(1);
+		ArticleVendu article = ArticleVenduDAOJDBCImplTest.getTestArticleVendu(utilisateur, categorie, lieuRetrait);
+		
+		enchereDao.insert(getTestEnchere(utilisateur, categorie, article));
+		
+		List<Enchere> encheres = enchereDao.getAll();
+		
+		Enchere enchereAUpdate = encheres.get(encheres.size()-1);
+		
+		enchereAUpdate.setMontant(234);
+		
+		enchereDao.update(enchereAUpdate);
+		
+		Enchere enchereUpdate = enchereDao.getById(enchereAUpdate.getId());
+		
+		assertEquals(enchereUpdate.getMontant(), 234);
 	}
 
 	//STACK OVER FLOW 

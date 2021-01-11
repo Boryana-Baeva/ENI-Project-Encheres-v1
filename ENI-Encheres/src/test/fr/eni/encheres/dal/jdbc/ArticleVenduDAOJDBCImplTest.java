@@ -27,7 +27,6 @@ import fr.eni.encheres.dal.jdbc.RetraitDAOJDBCImpl;
 import fr.eni.encheres.dal.jdbc.UtilisateurDAOJDBCImpl;
 
 class ArticleVenduDAOJDBCImplTest {
-	//pour test
 
 	private static ArticleVenduDAO articleVenduDao = new ArticleVenduDAOJDBCImpl();
 	private static CategorieDAO categorieDao = new CategorieDAOJDBCImpl();
@@ -83,7 +82,6 @@ class ArticleVenduDAOJDBCImplTest {
 		
 	}
 
-	//STACKOVERFLOW
 	@Test
 	void testGetById() throws BusinessException {
 		Utilisateur user1 = new Utilisateur("sanzza","maerten","prenom","maerten#gmail.com","3648836279","44 rue maurice","44567","mauriceVille","udfgfgf",600,true);
@@ -91,28 +89,6 @@ class ArticleVenduDAOJDBCImplTest {
 		
 		ArticleVendu  article1 = new ArticleVendu("macbookpro","c'est un ordinateur vraiment cool", LocalDate.of(2020, 01, 12), LocalDate.of(2020, 01, 18),200, user1, categorieDao.getById(3));
 		ArticleVendu article2 = new ArticleVendu("tapis de course","c'est un tapis de course vraiment cool", LocalDate.of(2020, 01, 18), LocalDate.of(2020, 01, 23),300, user1, categorieDao.getById(4));
-		System.out.println(article1);
-		/*article1.set
-		 * Nom("macbookpro");
-		article1.setDescription("c'est un ordinateur vraiment cool");
-		article1.setDateDebutEncheres(LocalDate.of(2020, 01, 12));
-		article1.setDateFinEncheres(LocalDate.of(2020, 01, 18));
-		article1.setMiseAPrix(200);
-		article1.setVendeur(utilisateurDao.getById(3));
-		article1.setCategorie(categorieDao.getById(3));
-		article1.setLieuRetrait(retraitDao.getById(3));
-		
-		
-		ArticleVendu  article2 = new ArticleVendu();
-		article2.setNom("tapis de course");
-		article2.setDescription("capacit� d'aller jusqu'� 15 Km/h");
-		article2.setDateDebutEncheres(LocalDate.of(2020, 01, 17));
-		article2.setDateFinEncheres(LocalDate.of(2020, 02, 18));
-		article2.setMiseAPrix(100);
-		article2.setVendeur(utilisateurDao.getById(0));
-		article2.setCategorie(categorieDao.getById(0));
-		article2.setLieuRetrait(retraitDao.getById(0));*/
-		
 		
 		
 		List<ArticleVendu> articles = articleVenduDao.getAll();
@@ -128,8 +104,7 @@ class ArticleVenduDAOJDBCImplTest {
 		
 		
 	}
-
-	//STACKOVERFLOW
+	
 	@Test
 	void testGetAll() throws BusinessException {
 		
@@ -154,10 +129,51 @@ class ArticleVenduDAOJDBCImplTest {
 		assertEquals(allArticles.size(), articleVendus.size());
 				
 	}
-
+	
 	@Test
-	void testGetByVendeur() {
-		fail("Not yet implemented");
+	void testGetByRetrait() throws BusinessException{
+		
+		Utilisateur user1 = new Utilisateur("sanzza","maerten","prenom","maerten#gmail.com","3648836279","44 rue maurice","44567","mauriceVille","udfgfgf",600,true);
+		Categorie cat1 = new Categorie("multimedia");
+		Retrait ret1 = new Retrait("34 avenue des Champs Elysee","75000","Paris");
+		
+		utilisateurDao.insert(user1);
+		categorieDao.insert(cat1);
+		retraitDao.insert(ret1);
+		
+		List<ArticleVendu> listeArticleVendus = articleVenduDao.getByRetrait(ret1);
+		
+		ArticleVendu newArticleVendu = articleVenduDao.insert(getTestArticleVendu(user1, cat1, ret1));
+		
+		listeArticleVendus.add(newArticleVendu);
+		
+		List<ArticleVendu> listAllArticleVendus = articleVenduDao.getByRetrait(ret1);
+		
+		assertEquals(listAllArticleVendus.size(), listeArticleVendus.size());
+	}
+	
+	@Test
+	void testGetByVendeur() throws BusinessException {
+		
+		Utilisateur user1 = new Utilisateur("sanzza","maerten","prenom","maerten#gmail.com","3648836279","44 rue maurice","44567","mauriceVille","udfgfgf",600,true);
+		Categorie cat1 = new Categorie("multimedia");
+		Retrait ret1 = new Retrait("34 avenue des Champs Elysee","75000","Paris");
+		
+		utilisateurDao.insert(user1);
+		categorieDao.insert(cat1);
+		retraitDao.insert(ret1);
+	
+		List<ArticleVendu> listeArticleVendu = articleVenduDao.getByVendeur(user1.getId());
+		
+		ArticleVendu newArticle = articleVenduDao.insert(getTestArticleVendu(user1, cat1, ret1));
+		
+		listeArticleVendu.add(newArticle);
+		
+		List<ArticleVendu>listeAllArticleVendus = articleVenduDao.getByVendeur(user1.getId());
+		
+		assertEquals(listeArticleVendu.size(), listeAllArticleVendus.size());
+		
+	
 	}
 
 	// 
