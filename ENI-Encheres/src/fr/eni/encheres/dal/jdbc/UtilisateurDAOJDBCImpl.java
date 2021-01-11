@@ -89,35 +89,14 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	public List<Utilisateur> getAll() throws BusinessException {
 
 		List<Utilisateur> list = new ArrayList<>();
-		List<ArticleVendu> listArticlesAchetes = new ArrayList<>();
-
+		Utilisateur utilisateur = null;
+		
 		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(GET_ALL);
 			ResultSet rs = statement.executeQuery();
 
 			while (rs.next()) {
-				Utilisateur utilisateur = new Utilisateur();
-				utilisateur.setId(rs.getInt("no_utilisateur"));
-				utilisateur.setPseudo(rs.getString("pseudo"));
-				utilisateur.setNom(rs.getString("nom"));
-				utilisateur.setPrenom(rs.getString("prenom"));
-				utilisateur.setEmail(rs.getString("email"));
-				utilisateur.setTelephone(rs.getString("telephone"));
-				utilisateur.setRue(rs.getString("rue"));
-				utilisateur.setCodePostal(rs.getString("code_postal"));
-				utilisateur.setVille(rs.getString("ville"));
-				utilisateur.setPassword(rs.getString("mot_de_passe"));
-				utilisateur.setCredit(rs.getInt("credit"));
-				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
-				//utilisateur.setArticlesVendus(articleDao.getByVendeur(utilisateur.getId()));
-
-				for (Enchere enchere : enchereDao.getRemportesParEncherisseur(utilisateur.getId())) {
-					listArticlesAchetes.add(enchere.getArticle());
-				}
-
-				utilisateur.setArticlesAchetes(listArticlesAchetes);
-				utilisateur.setEncheres(enchereDao.getByEncherisseur(utilisateur.getId()));
-
+				utilisateur = utilisateurBuilder(rs);
 				list.add(utilisateur);
 			}
 
@@ -135,7 +114,6 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	public Utilisateur getById(int id) throws BusinessException {
 
 		Utilisateur utilisateur = null;
-		List<ArticleVendu> listArticlesAchetes = new ArrayList<>();
 
 		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(GET_BY_ID);
@@ -143,28 +121,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 			ResultSet rs = statement.executeQuery();
 
 			if (rs.next()) {
-				utilisateur = new Utilisateur();
-				utilisateur.setId(rs.getInt("no_utilisateur"));
-				utilisateur.setPseudo(rs.getString("pseudo"));
-				utilisateur.setNom(rs.getString("nom"));
-				utilisateur.setPrenom(rs.getString("prenom"));
-				utilisateur.setEmail(rs.getString("email"));
-				utilisateur.setTelephone(rs.getString("telephone"));
-				utilisateur.setRue(rs.getString("rue"));
-				utilisateur.setCodePostal(rs.getString("code_postal"));
-				utilisateur.setVille(rs.getString("ville"));
-				utilisateur.setPassword(rs.getString("mot_de_passe"));
-				utilisateur.setCredit(rs.getInt("credit"));
-				utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
-				// utilisateur.setArticlesVendus(articleDao.getByVendeur(utilisateur.getId()));
-				//utilisateur.setArticlesVendus(getAllArticlesVendus(utilisateur));
-
-				for (Enchere enchere : enchereDao.getRemportesParEncherisseur(utilisateur.getId())) {
-					listArticlesAchetes.add(enchere.getArticle());
-				}
-
-				utilisateur.setArticlesAchetes(listArticlesAchetes);
-				utilisateur.setEncheres(enchereDao.getByEncherisseur(utilisateur.getId()));
+				utilisateur = utilisateurBuilder(rs);
 			}
 
 		} catch (Exception e) {
@@ -279,4 +236,77 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 		return listeArticlesVendus;
 	}
 
+	
+	public Utilisateur utilisateurBuilder(ResultSet rs) throws SQLException
+	{
+		List<ArticleVendu> articlesVendus = this.getArticlesVendusUtilisateur(rs.getInt("no_utilisateur"));
+		List<ArticleVendu> articlesAchetes = this.getArticlesAchetesUtilisateur(rs.getInt("no_utilisateur"));
+		List<Enchere> encheres = this.getEncheresUtilisateur(rs.getInt("no_utilisateur"));
+		
+		Utilisateur utilisateur = new Utilisateur();
+		
+		utilisateur.setId(rs.getInt("no_utilisateur"));
+		utilisateur.setPseudo(rs.getString("pseudo"));
+		utilisateur.setNom(rs.getString("nom"));
+		utilisateur.setPrenom(rs.getString("prenom"));
+		utilisateur.setEmail(rs.getString("email"));
+		utilisateur.setTelephone(rs.getString("telephone"));
+		utilisateur.setRue(rs.getString("rue"));
+		utilisateur.setCodePostal(rs.getString("code_postal"));
+		utilisateur.setVille(rs.getString("ville"));
+		utilisateur.setPassword(rs.getString("mot_de_passe"));
+		utilisateur.setCredit(rs.getInt("credit"));
+		utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
+		utilisateur.setArticlesVendus(articlesVendus);
+		utilisateur.setArticlesAchetes(articlesAchetes);
+		utilisateur.setEncheres(encheres);
+		
+		
+		return utilisateur;
+
+	}
+	
+	
+	private List<ArticleVendu> getArticlesVendusUtilisateur(int userId)
+	{
+		List<ArticleVendu> articlesVendus = new ArrayList<>();
+		
+		try {
+			articlesVendus = articleDao.getByVendeur(userId);
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+		
+		return articlesVendus;
+		
+	}
+	
+	private List<ArticleVendu> getArticlesAchetesUtilisateur(int userId)
+	{
+		List<ArticleVendu> articlesAchetes = new ArrayList<>();
+		
+		try {
+			for (Enchere enchere : enchereDao.getRemportesParEncherisseur(userId)) {
+				articlesAchetes.add(enchere.getArticle());
+			}
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+		
+		return articlesAchetes;
+	}
+	
+	private List<Enchere> getEncheresUtilisateur(int userId)
+	{
+		List<Enchere> encheres = new ArrayList<>();
+		
+		try {
+			encheres = enchereDao.getByEncherisseur(userId);
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+		
+		return encheres;
+	}
+	
 }
