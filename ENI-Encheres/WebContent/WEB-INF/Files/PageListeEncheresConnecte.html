@@ -21,7 +21,7 @@
         <div class="navbar-links">
             <ul>
                 <li><a href="#">Enchères  <i class="fas fa-bullhorn"></i></i></a></li>
-                <li><a href="#">Vendre  <i class="fas fa-hand-holding-usd"></i></a></li>
+                <li><a href="PageVendreUnArticle.html">Vendre  <i class="fas fa-hand-holding-usd"></i></a></li>
                 <li><a href="#">Mon Profil  <i class="fas fa-user-circle"></i></a></li>
                 <li><a href="#">Déconnexion  <i class="fas fa-times"></i></a></li>
             </ul>
@@ -50,38 +50,37 @@
     </div>
     
     <div class="recherche-sup">
-        <ul>
+
 
             <div>
-                <input type="radio" id="huey" name="drone" value="huey"
-                       checked>
-                <label for="huey">Achats</label>
+                    <input type="radio" id="huey" name="drone" value="huey"
+                        checked>
+                    <label for="huey">Achats</label>
+            
+                <ul>
+                    <li>
+                        <input name="Ssdm" id="Ssdm" type="radio">
+                        <label class="ssdm" for="Ssdm">Enchères ouvertes</label>
+                    </li>
+
+                    <li>
+                        <input name="Ssdm" id="Ssdm" type="radio">
+                        <label class="ssdm" for="Ssdm">Mes enchères en cours</label>
+                    </li>
+                    
+                    <li>
+                        <input name="Ssdm" id="Ssdm" type="radio">
+                        <label class="ssdm" for="Ssdm">Mes enchères remportées</label>
+                    </li>
+                </ul>
             </div>
 
-            <ul>
-                <li>
-                    <input name="Ssdm" id="Ssdm" type="radio">
-                    <label class="ssdm" for="Ssdm">Enchères ouvertes</label>
-                </li>
-
-                <li>
-                    <input name="Ssdm" id="Ssdm" type="radio">
-                    <label class="ssdm" for="Ssdm">Mes enchères en cours</label>
-                </li>
-                
-                <li>
-                    <input name="Ssdm" id="Ssdm" type="radio">
-                    <label class="ssdm" for="Ssdm">Mes enchères remportées</label>
-                </li>
-            </ul>
-        </ul>
-        <ul>
 
             <div>
                 <input type="radio" id="huey" name="drone" value="huey"
                        checked>
                 <label for="huey">Mes Ventes</label>
-            </div>
+            
 
             <ul>
                 <li>
@@ -99,7 +98,10 @@
                     <label class="ssdm" for="Ssdm">Ventes terminées</label>
                 </li>
             </ul>
-        </ul>
+
+            </div>  
+
+        
     </div>
     <!--Banner-->
     <div class="header">
@@ -113,34 +115,52 @@
                 <div class="card-header">
                     <h1>Article-1</h1>
                 </div>
-                <div class="card-img-container">
-                    <img src="img/tournevis.jpeg" alt="">
-                </div>
                 <div class="card-body">
-                    <div class="prix"><i class="fas fa-tag"></i> 150</div>
-                    <div class="card-date-enchere">
-                        <p><i class="far fa-clock"></i> 12/05/2021</p>
+                    <div class="card-img-container">
+                        <img src="img/tournevis.jpeg" alt="">
                     </div>
-                    <div class="vendeur">
-                        <p><i class="fas fa-id-badge"></i> <a href="#">Bob</a></p>
+                    <div class="text-card">
+                        <ul>
+                            <li class="prix"> <i class="fas fa-tag fa-2x"></i> Prix: 150 points</li>
+                            <li class="date"> <i class="far fa-clock fa-2x"></i> Fin d'enchère: 12/05/2021</li>
+                            <li class="vendeur"> <i class="fas fa-id-badge fa-2x"></i> <a href="#">Vendeur Bob</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-header">
-                    <h1>Article-1</h1>
-                </div>
-                <div class="card-img-container">
-                    <img src="img/pc.jpg" alt="">
+                    <h1>Article-2</h1>
                 </div>
                 <div class="card-body">
-                    <div class="prix"><i class="fas fa-tag"></i> 150</div>
-                    <div class="card-date-enchere">
-                        <p><i class="far fa-clock"></i> 12/05/2021</p>
+                    <div class="card-img-container">
+                        <img src="img/pc.jpg" alt="">
                     </div>
-                    <div class="vendeur">
-                        <p><i class="fas fa-id-badge"></i> <a href="#">Bob</a></p>
+                    <div class="text-card">
+                        <ul>
+                            <li class="prix"> <i class="fas fa-tag fa-1x"></i> Prix: 150 points</li>
+                            <li class="date"> <i class="far fa-clock fa-1x"></i> Fin d'enchère: 12/05/2021</li>
+                            <li class="vendeur"> <i class="fas fa-id-badge fa-1x"></i> <a href="#">Vendeur Bob</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h1>Article-3</h1>
+                </div>
+                <div class="card-body">
+                    <div class="card-img-container">
+                        <img src="img/tournevis.jpeg" alt="">
+                    </div>
+                    <div class="text-card">
+                        <ul>
+                            <li class="prix"> <i class="fas fa-tag fa-2x"></i> Prix: 150 points</li>
+                            <li class="date"> <i class="far fa-clock fa-2x"></i> Fin d'enchère: 12/05/2021</li>
+                            <li class="vendeur"> <i class="fas fa-id-badge fa-2x"></i> <a href="#">Vendeur Bob</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
