@@ -160,7 +160,7 @@ class ArticleVenduDAOJDBCImplTest {
 		fail("Not yet implemented");
 	}
 
-	// L'instruction INSERT est en conflit avec la contrainte FOREIGN KEY "articles_vendus_categories_fk". Le conflit s'est produit dans la base de donn�es "encheres_db", table "dbo.CATEGORIES", column 'no_categorie'.
+	// 
 	@Test
 	void testUpdate() throws BusinessException {
 		Utilisateur user1 = new Utilisateur("sanzza","maerten","prenom","maerten#gmail.com","3648836279","44 rue maurice","44567","mauriceVille","udfgfgf",600,true);
@@ -177,7 +177,7 @@ class ArticleVenduDAOJDBCImplTest {
 	}
 
 	@Test
-	//STACKOVERFLOW
+	
 	void testDelete() throws BusinessException {
 		
 		List<ArticleVendu> articleVendus = articleVenduDao.getAll();

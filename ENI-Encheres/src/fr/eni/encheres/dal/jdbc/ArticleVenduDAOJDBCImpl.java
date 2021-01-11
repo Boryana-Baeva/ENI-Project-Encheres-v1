@@ -3,17 +3,20 @@ package fr.eni.encheres.dal.jdbc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.CategorieDAO;
 import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
+import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.RetraitDAO;
 import fr.eni.encheres.dal.UtilisateurDAO;
 import fr.eni.encheres.dal.Utils;
@@ -44,32 +47,34 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 		try (Connection cnx = Utils.getConnection()) {
 
-			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
-			pstmt.setString(1, articleVendu.getNom());
-			pstmt.setString(2, articleVendu.getDescription());
-			pstmt.setDate(3, java.sql.Date.valueOf(articleVendu.getDateDebutEncheres()));
-			pstmt.setDate(4, java.sql.Date.valueOf(articleVendu.getDateFinEncheres()));
-			pstmt.setInt(5, articleVendu.getMiseAPrix());	
-			pstmt.setInt(6, articleVendu.getVendeur().getId());
-			pstmt.setInt(7, articleVendu.getCategorie().getId());
+			PreparedStatement statement = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
+			statement.setString(1, articleVendu.getNom());
+			statement.setString(2, articleVendu.getDescription());
+			statement.setDate(3, java.sql.Date.valueOf(articleVendu.getDateDebutEncheres()));
+			statement.setDate(4, java.sql.Date.valueOf(articleVendu.getDateFinEncheres()));
+			statement.setInt(5, articleVendu.getMiseAPrix());
+			utilisateurDAO.insert(articleVendu.getVendeur());
+			statement.setInt(6, articleVendu.getVendeur().getId());
+			categorieDAO.insert(articleVendu.getCategorie());
+			statement.setInt(7, articleVendu.getCategorie().getId());
 			retraitDAO.insert(articleVendu.getLieuRetrait());
-			pstmt.setInt(8, articleVendu.getLieuRetrait().getId());
+			statement.setInt(8, articleVendu.getLieuRetrait().getId());
 
-			pstmt.executeUpdate();
-			
-			ResultSet rs = pstmt.getGeneratedKeys();
-			
+			statement.executeUpdate();
+
+			ResultSet rs = statement.getGeneratedKeys();
+
 			if (rs.next()) {
 				articleVendu.setId(rs.getInt(1));
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
 			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_ECHEC);
 			throw businessException;
 		}
-		
+
 	}
 
 	@Override
@@ -92,7 +97,7 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
 				articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
-				articleVendu.setVendeur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
+				// articleVendu.setVendeur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
 				articleVendu.setCategorie(categorieDAO.getById(rs.getInt("no_categorie")));
 				articleVendu.setLieuRetrait(retraitDAO.getById(rs.getInt("no_retrait")));
 
@@ -114,22 +119,15 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 		List<ArticleVendu> articlesVendus = new ArrayList<>();
 
 		try (Connection cnx = Utils.getConnection()) {
-			PreparedStatement pstmt = cnx.prepareStatement(GET_ALL);
+			PreparedStatement statement = cnx.prepareStatement(GET_ALL);
 
-			ResultSet rs = pstmt.executeQuery();
+			ResultSet rs = statement.executeQuery();
+			
+			ArticleVendu articleVendu = null;
 
 			while (rs.next()) {
-				ArticleVendu articleVendu = new ArticleVendu();
-				articleVendu.setId(rs.getInt("no_article"));
-				articleVendu.setNom(rs.getString("nom_article"));
-				articleVendu.setDescription(rs.getString("description"));
-				articleVendu.setDateDebutEncheres((rs.getDate("date_debut_encheres").toLocalDate()));
-				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
-				articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
-				articleVendu.setPrixVente(rs.getInt("prix_vente"));
-				articleVendu.setVendeur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
-				articleVendu.setCategorie(categorieDAO.getById(rs.getInt("no_categorie")));
-				articleVendu.setLieuRetrait(retraitDAO.getById(rs.getInt("no_retrait")));
+				articleVendu = articleBuilder(rs);
+				articlesVendus.add(articleVendu);
 			}
 
 		} catch (Exception e) {
@@ -152,19 +150,13 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			pstmt.setInt(1, id);
 
 			ResultSet rs = pstmt.executeQuery();
+			
+			ArticleVendu articleVendu = null;
 
 			while (rs.next()) {
-				ArticleVendu articleVendu = new ArticleVendu();
-				articleVendu.setId(rs.getInt("no_article"));
-				articleVendu.setNom(rs.getString("nom_article"));
-				articleVendu.setDescription(rs.getString("description"));
-				articleVendu.setDateDebutEncheres((rs.getDate("date_debut_encheres").toLocalDate()));
-				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
-				articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
-				articleVendu.setPrixVente(rs.getInt("prix_vente"));
-				articleVendu.setVendeur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
-				articleVendu.setCategorie(categorieDAO.getById(rs.getInt("no_categorie")));
-				articleVendu.setLieuRetrait(retraitDAO.getById(rs.getInt("no_retrait")));
+				articleVendu = articleBuilder(rs);
+				articlesVendus.add(articleVendu);
+				
 			}
 
 		} catch (Exception e) {
@@ -210,23 +202,23 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
 			pstmt.setInt(1, id);
-			
-			//::::Gestion des dépendances::::
+
+			// ::::Gestion des dépendances::::
 			// Supprimer l'article de la liste des articles vendus du vendeur
 			ArticleVendu article = this.getById(id);
 			Utilisateur vendeur = article.getVendeur();
-			
+
 			vendeur.getArticlesVendus().remove(article);
 			utilisateurDAO.update(vendeur);
 			article.setVendeur(null);
-			
+
 			// Unset de la categorie de l'article
 			article.setCategorie(null);
-			
+
 			// Supprimer le lieu de retrait défini pour cet article
 			article.setLieuRetrait(null);
 			retraitDAO.delete(article.getLieuRetrait().getId());
-			
+
 			// Supprimer l'article
 			pstmt.executeUpdate();
 
@@ -239,6 +231,61 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 		}
 	}
 
+public ArticleVendu articleBuilder (ResultSet rs) throws BusinessException, SQLException{
+	
+	Utilisateur vendeur= this.getVendeurArticle(rs.getInt("no_utilisateur"));
+	Categorie categorie=this.getCategorieArticle(rs.getInt("no_categorie"));
+	Retrait retrait = this.getRetraitArticle(rs.getInt("no_article"));
+	
+	
+	ArticleVendu articleVendu = new ArticleVendu();
+	
+	articleVendu.setId(rs.getInt("no_article"));
+	articleVendu.setNom(rs.getString("nom_article"));
+	articleVendu.setDescription(rs.getString("description"));
+	articleVendu.setDateDebutEncheres((rs.getDate("date_debut_encheres").toLocalDate()));
+	articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
+	articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
+	articleVendu.setPrixVente(rs.getInt("prix_vente"));
+	articleVendu.setVendeur(vendeur);
+	articleVendu.setCategorie(categorie);
+	articleVendu.setLieuRetrait(retrait);
+	
+	return articleVendu;
+	
+}
 
+	private Utilisateur getVendeurArticle(int vendeurId) {
+		UtilisateurDAO utilisateurDAO = DAOFactory.getUtilisateurDAO();
+		Utilisateur vendeurArticle = null;
+		try {
+			vendeurArticle = utilisateurDAO.getById(vendeurId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return vendeurArticle;
+	}
+	
+	private Categorie getCategorieArticle(int categorieId) {
+		CategorieDAO categorieDAO = DAOFactory.getCategorieDAO();
+		Categorie categorieArticle = null;
+		try {
+			categorieArticle =categorieDAO.getById(categorieId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return categorieArticle;
+	}
+	
+	private Retrait getRetraitArticle (int retraitId) {
+		RetraitDAO retraitDAO = DAOFactory.getRetraitDAO();
+		Retrait retraitArticle = null;
+		try {
+			retraitArticle=retraitDAO.getById(retraitId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return retraitArticle;
+	}
 
 }

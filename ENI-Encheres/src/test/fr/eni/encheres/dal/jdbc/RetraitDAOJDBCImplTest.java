@@ -71,7 +71,9 @@ class RetraitDAOJDBCImplTest {
 		
 		
 	}
-
+	
+	
+//Échec de la conversion de la valeur nvarchar 'Paris' en type de données int.
 	@Test
 	void testUpdate() throws BusinessException {
 	

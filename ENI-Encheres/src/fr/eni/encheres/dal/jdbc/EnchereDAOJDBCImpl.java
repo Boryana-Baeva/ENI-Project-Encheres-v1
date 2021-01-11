@@ -144,7 +144,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 				enchere.setDate(rs.getDate("date_enchere").toLocalDate());
 				enchere.setMontant(rs.getInt("montant_enchere"));
 				enchere.setArticle(articleDao.getById(rs.getInt("no_article")));
-				enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
+				//enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
 				enchere.setRemporte(rs.getBoolean("remporte"));
 				
 				list.add(enchere);
@@ -177,8 +177,8 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 				enchere.setDate(rs.getDate("date_enchere").toLocalDate());
 				enchere.setMontant(rs.getInt("montant_enchere"));
 				enchere.setArticle(articleDao.getById(rs.getInt("no_article")));
-				enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
-				enchere.setRemporte(rs.getBoolean("remporte"));
+				//enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
+				//enchere.setRemporte(rs.getBoolean("remporte"));
 				
 				list.add(enchere);
 			}
