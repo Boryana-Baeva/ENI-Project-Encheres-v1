@@ -1,6 +1,8 @@
 package fr.eni.encheres.servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,6 +41,9 @@ public class ServletRegister extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		Utilisateur user = null;
+		//PrintWriter out = response.getWriter();
+		
 		try {
 			
 			String nom = request.getParameter("nom");
@@ -53,48 +58,48 @@ public class ServletRegister extends HttpServlet {
 			String codePostal = request.getParameter("cp");
 			
 			if(nom.length()==0 || nom.isEmpty() ) {
-				request.setAttribute("erreur", "Le nom n'a pas été renseigné, veuillez le saisir ...");
+				request.setAttribute("erreur", "Le nom n'a pas ï¿½tï¿½ renseignï¿½, veuillez le saisir ...");
 				this.getServletContext().getRequestDispatcher("/ServletRegister").forward(request, response);
 			}
 			
 			else if (prenom.length()==0 || prenom.isEmpty() ) {
-				request.setAttribute("erreur", "Le prénom n'a pas été renseigné, veuillez le saisir ...");
+				request.setAttribute("erreur", "Le prï¿½nom n'a pas ï¿½tï¿½ renseignï¿½, veuillez le saisir ...");
 				this.getServletContext().getRequestDispatcher("/ServletRegister").forward(request, response);
 			}
 			else if (pseudo.length()==0 || pseudo.isEmpty() ) {
-				request.setAttribute("erreur", "Le pseudo n'a pas été renseigné, veuillez le saisir ...");
+				request.setAttribute("erreur", "Le pseudo n'a pas ï¿½tï¿½ renseignï¿½, veuillez le saisir ...");
 				this.getServletContext().getRequestDispatcher("/ServletRegister").forward(request, response);
 			}
 			else if (email.length()==0 || email.isEmpty() ) {
-				request.setAttribute("erreur", "L'email n'a pas été renseigné, veuillez le saisir ...");
+				request.setAttribute("erreur", "L'email n'a pas ï¿½tï¿½ renseignï¿½, veuillez le saisir ...");
 				this.getServletContext().getRequestDispatcher("/ServletRegister").forward(request, response);
 			}
 			else if (password.length()==0 || password.isEmpty() ) {
-				request.setAttribute("erreur", "Le mot de passe n'a pas été renseigné, veuillez le saisir ...");
+				request.setAttribute("erreur", "Le mot de passe n'a pas ï¿½tï¿½ renseignï¿½, veuillez le saisir ...");
 				this.getServletContext().getRequestDispatcher("/ServletRegister").forward(request, response);
 			}
 			else if (telephone.length()==0 || telephone.isEmpty() ) {
-				request.setAttribute("erreur", "Le telephone n'a pas été renseigné, veuillez le saisir ...");
+				request.setAttribute("erreur", "Le telephone n'a pas ï¿½tï¿½ renseignï¿½, veuillez le saisir ...");
 				this.getServletContext().getRequestDispatcher("/ServletRegister").forward(request, response);
 			}
 			else if (rue.length()==0 || rue.isEmpty() ) {
-				request.setAttribute("erreur", "La rue n'a pas été renseigné, veuillez le saisir ...");
+				request.setAttribute("erreur", "La rue n'a pas ï¿½tï¿½ renseignï¿½, veuillez le saisir ...");
 				this.getServletContext().getRequestDispatcher("/ServletRegister").forward(request, response);
 			}
 			else if (ville.length()==0 || ville.isEmpty() ) {
-				request.setAttribute("erreur", "La ville n'a pas été renseigné, veuillez le saisir ...");
+				request.setAttribute("erreur", "La ville n'a pas ï¿½tï¿½ renseignï¿½, veuillez le saisir ...");
 				this.getServletContext().getRequestDispatcher("/ServletRegister").forward(request, response);
 			}
 			else if (codePostal.length()==0 || codePostal.isEmpty() ) {
-				request.setAttribute("erreur", "Le code postal n'a pas été renseigné, veuillez le saisir ...");
+				request.setAttribute("erreur", "Le code postal n'a pas ï¿½tï¿½ renseignï¿½, veuillez le saisir ...");
 				this.getServletContext().getRequestDispatcher("/ServletRegister").forward(request, response);
 			}
 			else if (confirmation.equals(password)) {
 				HttpSession session = request.getSession();
 				
-				Utilisateur user = new Utilisateur();
+				user = new Utilisateur(pseudo,nom,prenom,email,telephone,rue,ville,codePostal,password);
 				
-				user.setNom(nom);
+				/*user.setNom(nom);
 				user.setPrenom(prenom);
 				user.setPseudo(pseudo);
 				user.setEmail(email);
@@ -102,19 +107,20 @@ public class ServletRegister extends HttpServlet {
 				user.setTelephone(telephone);
 				user.setRue(rue);
 				user.setVille(ville);
-				user.setCodePostal(codePostal);
+				user.setCodePostal(codePostal);*/
 				
-				session.setAttribute("RegisteredUser", user);
+				session.setAttribute("ConnectedUser", user);
 				
-				UtilisateurManager.inscriptionUtilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, password)
-				
+				UtilisateurManager.inscriptionUtilisateur(user);
+				this.getServletContext().getRequestDispatcher("/ServletRegister").forward(request, response);
+				//response.sendRedirect(request.getContextPath()+"/");
 				
 			}
 			
 		}catch (BusinessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 	}
 
 }

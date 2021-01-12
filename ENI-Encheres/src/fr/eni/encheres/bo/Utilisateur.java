@@ -27,6 +27,11 @@ public class Utilisateur implements Serializable {
 	}
     
     public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
+		String codePostal, String ville, String password) {
+    	this(pseudo, nom,prenom,email,telephone,rue, codePostal,ville,password, 200, false);
+}
+
+	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
 			String codePostal, String ville, String password, int credit, boolean administrateur) {
 		super();
 		this.pseudo = pseudo;
