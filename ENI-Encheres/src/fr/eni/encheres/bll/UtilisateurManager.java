@@ -21,6 +21,7 @@ public class UtilisateurManager {
 		UtilisateurManager.utilisateurDAO = DAOFactory.getUtilisateurDAO();
 	}
 
+	
 	public static Utilisateur inscriptionUtilisateur(Utilisateur utilisateur) throws BusinessException {
 
 		validerCoordonnees(utilisateur);

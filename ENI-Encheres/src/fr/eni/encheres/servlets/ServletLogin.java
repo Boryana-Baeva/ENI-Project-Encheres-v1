@@ -66,8 +66,8 @@ public class ServletLogin extends HttpServlet {
 		
 		if(identifiant.length()==0 || identifiant.isEmpty()){
 				
-			//création de l'erreur
-			request.setAttribute("erreur", "pseudo non renseigné. Veuillez le saisir...");
+			//crï¿½ation de l'erreur
+			request.setAttribute("erreur", "pseudo non renseignï¿½. Veuillez le saisir...");
 			erreur = (String) session.getAttribute("erreur");
 			out.println(erreur);
 			
@@ -77,8 +77,8 @@ public class ServletLogin extends HttpServlet {
 			
 		}else if(password.length()==0 || password.isEmpty()) {
 				
-			//création de l'erreur
-			request.setAttribute("erreur", "mot de passe non renseigné. Veuillez le saisir...");
+			//crï¿½ation de l'erreur
+			request.setAttribute("erreur", "mot de passe non renseignï¿½. Veuillez le saisir...");
 			erreur = (String) session.getAttribute("erreur");
 			out.println(erreur);
 			//redirection vers la page de connexion pour saisir le login
@@ -93,6 +93,7 @@ public class ServletLogin extends HttpServlet {
 				//Si la connexion est reussie
 				if(user!= null && password.equals(user.getPassword())) {
 					request.getSession().setAttribute("ConnectedUser", user);
+					//out.println(user);
 				} else {
 					request.setAttribute("erreur", "pseudo et/ou mot de passe incorrect(s)! Veuillez ressaisir vos identifiants...");
 					erreur = (String) session.getAttribute("erreur");

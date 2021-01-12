@@ -3,6 +3,7 @@ package fr.eni.encheres.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,6 +35,8 @@ public class ServletRegister extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/register.jsp");
+        dispatcher.forward(request, response);
 	}
 
 	/**
@@ -42,7 +45,6 @@ public class ServletRegister extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Utilisateur user = null;
-		//PrintWriter out = response.getWriter();
 		
 		try {
 			
@@ -57,7 +59,7 @@ public class ServletRegister extends HttpServlet {
 			String ville = request.getParameter("ville");
 			String codePostal = request.getParameter("cp");
 			
-			if(nom.length()==0 || nom.isEmpty() ) {
+			/*if(nom.length()==0 || nom.isEmpty() ) {
 				request.setAttribute("erreur", "Le nom n'a pas �t� renseign�, veuillez le saisir ...");
 				this.getServletContext().getRequestDispatcher("/ServletRegister").forward(request, response);
 			}
@@ -78,10 +80,6 @@ public class ServletRegister extends HttpServlet {
 				request.setAttribute("erreur", "Le mot de passe n'a pas �t� renseign�, veuillez le saisir ...");
 				this.getServletContext().getRequestDispatcher("/ServletRegister").forward(request, response);
 			}
-			else if (telephone.length()==0 || telephone.isEmpty() ) {
-				request.setAttribute("erreur", "Le telephone n'a pas �t� renseign�, veuillez le saisir ...");
-				this.getServletContext().getRequestDispatcher("/ServletRegister").forward(request, response);
-			}
 			else if (rue.length()==0 || rue.isEmpty() ) {
 				request.setAttribute("erreur", "La rue n'a pas �t� renseign�, veuillez le saisir ...");
 				this.getServletContext().getRequestDispatcher("/ServletRegister").forward(request, response);
@@ -94,31 +92,23 @@ public class ServletRegister extends HttpServlet {
 				request.setAttribute("erreur", "Le code postal n'a pas �t� renseign�, veuillez le saisir ...");
 				this.getServletContext().getRequestDispatcher("/ServletRegister").forward(request, response);
 			}
-			else if (confirmation.equals(password)) {
+			else*/
+			if (confirmation.equals(password)) {
 				HttpSession session = request.getSession();
 				
 				user = new Utilisateur(pseudo,nom,prenom,email,telephone,rue,ville,codePostal,password);
+				System.out.println(user);	
 				
-				/*user.setNom(nom);
-				user.setPrenom(prenom);
-				user.setPseudo(pseudo);
-				user.setEmail(email);
-				user.setPassword(password);
-				user.setTelephone(telephone);
-				user.setRue(rue);
-				user.setVille(ville);
-				user.setCodePostal(codePostal);*/
-				
+				user = UtilisateurManager.inscriptionUtilisateur(user);
+				System.out.println(user);
 				session.setAttribute("ConnectedUser", user);
 				
-				UtilisateurManager.inscriptionUtilisateur(user);
 				this.getServletContext().getRequestDispatcher("/ServletRegister").forward(request, response);
-				//response.sendRedirect(request.getContextPath()+"/");
+				
 				
 			}
 			
 		}catch (BusinessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	}
