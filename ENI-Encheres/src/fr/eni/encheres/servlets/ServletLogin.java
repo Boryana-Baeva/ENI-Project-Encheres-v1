@@ -25,10 +25,7 @@ import fr.eni.encheres.bo.Utilisateur;
 /**
  * Servlet implementation class ServletLogin
  */
-@WebServlet(
-		name="ServletLogin",
-		urlPatterns="/ServletLogin "
-		)
+@WebServlet("/login")
 
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -45,7 +42,8 @@ public class ServletLogin extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
+        dispatcher.forward(request, response);
 	}
 
 	/**
@@ -53,7 +51,8 @@ public class ServletLogin extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
+       	
 		PrintWriter out= response.getWriter();
 		
 		HttpSession session = request.getSession();
@@ -93,7 +92,8 @@ public class ServletLogin extends HttpServlet {
 				//Si la connexion est reussie
 				if(user!= null && password.equals(user.getPassword())) {
 					request.getSession().setAttribute("ConnectedUser", user);
-					//out.println(user);
+					
+					
 				} else {
 					request.setAttribute("erreur", "pseudo et/ou mot de passe incorrect(s)! Veuillez ressaisir vos identifiants...");
 					erreur = (String) session.getAttribute("erreur");
