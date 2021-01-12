@@ -29,9 +29,6 @@
     <!--Banner-->
     <div class="header">
     </div>
-    <!--Head-->
-    <div class="head">
-      <h1>Connexion</h1>
-    </div>
+   
 </body>
 </html>

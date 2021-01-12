@@ -29,3 +29,13 @@ body {
     background-position: top;
     
 }
+
+/* head */
+
+.head {
+    padding: 20px;
+    background: var(--primary-color);
+    color: var(--secondary-color);
+    
+    text-align: center;
+}

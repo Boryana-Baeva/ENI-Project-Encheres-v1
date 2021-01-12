@@ -21,23 +21,12 @@ public class UtilisateurManager {
 		UtilisateurManager.utilisateurDAO = DAOFactory.getUtilisateurDAO();
 	}
 
-	public static Utilisateur inscriptionUtilisateur(String pseudo, String nom,String prenom, String email, String telephone, String rue, String codePostal, String ville, String password) throws BusinessException {
+	public static Utilisateur inscriptionUtilisateur(Utilisateur utilisateur) throws BusinessException {
 
-		validerCoordonnees(pseudo, nom, prenom, email, rue, codePostal, ville, password);
+		validerCoordonnees(utilisateur);
 
-		Utilisateur utilisateur = null;
 
 		if (!businessException.hasErreurs()) {
-			utilisateur = new Utilisateur();
-			utilisateur.setPseudo(pseudo);
-			utilisateur.setNom(nom);
-			utilisateur.setPrenom(prenom);
-			utilisateur.setEmail(email);
-			utilisateur.setTelephone(telephone);
-			utilisateur.setRue(rue);
-			utilisateur.setCodePostal(codePostal);
-			utilisateur.setVille(ville);
-			utilisateur.setPassword(password);
 			utilisateurDAO.insert(utilisateur);
 
 		} else {
@@ -47,20 +36,20 @@ public class UtilisateurManager {
 		return utilisateur;
 	}
 
-	private static void validerCoordonnees(String pseudo, String nom,String prenom, String email, String rue, String codePostal, String ville, String password) {
+	private static void validerCoordonnees(Utilisateur utilisateur) {
 
-		if (pseudo.trim().equals("") || nom.trim().equals("")
-				|| prenom.trim().equals("") || email.trim().equals("")
-				|| rue.trim().equals("") || codePostal.trim().equals("")
-				|| ville.trim().equals("") || password.trim().equals("")) {
+		if (utilisateur.getPseudo().trim().equals("") || utilisateur.getNom().trim().equals("")
+				|| utilisateur.getPrenom().trim().equals("") || utilisateur.getEmail().trim().equals("")
+				|| utilisateur.getRue().trim().equals("") || utilisateur.getCodePostal().trim().equals("")
+				|| utilisateur.getVille().trim().equals("") || utilisateur.getPassword().trim().equals("")) {
 
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEURS_COORDONNEES_ERREUR);
 		}
 	}
 
-	public static void modifierUtilisateur(String nom,String prenom, String email, String rue, String codePostal, String ville, String password) throws BusinessException {
+	public static void modifierUtilisateur(Utilisateur utilisateur) throws BusinessException {
 
-		modifierCoordonnees(nom, prenom, email, rue, codePostal, ville, password, businessException);
+		modifierCoordonnees(utilisateur, businessException);
 
 		if (!businessException.hasErreurs()) {
 			utilisateurDAO.update(utilisateur);
@@ -69,12 +58,13 @@ public class UtilisateurManager {
 
 	}
 
-	private static void modifierCoordonnees(String nom,String prenom, String email, String rue, String codePostal, String ville, String password, BusinessException businessException) {
+	private static void modifierCoordonnees(Utilisateur utilisateur, BusinessException businessException) {
 
-		if (nom.trim().equals("") || prenom.trim().equals("")
-				|| email.trim().equals("") ||rue.trim().equals("")
-				|| codePostal.trim().equals("") || ville.trim().equals("")
-				|| password.trim().equals("")) {
+		if ( utilisateur.getNom().trim().equals("")
+				|| utilisateur.getPrenom().trim().equals("") || utilisateur.getEmail().trim().equals("")
+				|| utilisateur.getRue().trim().equals("") || utilisateur.getCodePostal().trim().equals("")
+				|| utilisateur.getVille().trim().equals("") || utilisateur.getPassword().trim().equals("")) {
+			
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_UTILISATEURS_COORDONNEES_ERREUR);
 		}
 

@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import javax.naming.Context;
 
@@ -24,7 +25,11 @@ import fr.eni.encheres.bo.Utilisateur;
 /**
  * Servlet implementation class ServletLogin
  */
-@WebServlet("/ServletLogin")
+@WebServlet(
+		name="ServletLogin",
+		urlPatterns="/ServletLogin "
+		)
+
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -40,10 +45,7 @@ public class ServletLogin extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/login.jsp");
-		rd.forward(request, response);
+	
 	}
 
 	/**
@@ -51,38 +53,58 @@ public class ServletLogin extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
 		PrintWriter out= response.getWriter();
 		
-		try {
-			Context context = new InitialContext();
-			
-			DataSource dataSource = (DataSource)context.lookup("java:comp/env/jdbc/pool_cnx");
-			
-			Connection cnx = dataSource.getConnection();
-			
-		}catch (NamingException | SQLException e) {
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			e.printStackTrace();
-			out.println("Une erreur est survenue lors de l'utilisation de la base de donnÃ©es : " + e.getMessage());
-		}
+		HttpSession session = request.getSession();
+		
+		String erreur = null;
+		
 		String identifiant = request.getParameter("id");
 		String password = request.getParameter("mdp");
 		
-		/*out.println(identifiant);
-		out.println(password);*/
-		try {
-			Utilisateur user = UtilisateurManager.selectUserByPseudo(identifiant);
-			if(password.equals(user.getPassword())) {
-				out.println("success");
-				out.println(user);
-			}else {
-				out.println("failure");
-			}
-		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
-	}
+		if(identifiant.length()==0 || identifiant.isEmpty()){
+				
+			//création de l'erreur
+			request.setAttribute("erreur", "pseudo non renseigné. Veuillez le saisir...");
+			erreur = (String) session.getAttribute("erreur");
+			out.println(erreur);
+			
+			//redirection vers la page de connexion pour saisir le login
+			this.getServletContext().getRequestDispatcher("/ServletLogin").forward(request, response);
+			
+			
+		}else if(password.length()==0 || password.isEmpty()) {
+				
+			//création de l'erreur
+			request.setAttribute("erreur", "mot de passe non renseigné. Veuillez le saisir...");
+			erreur = (String) session.getAttribute("erreur");
+			out.println(erreur);
+			//redirection vers la page de connexion pour saisir le login
+			this.getServletContext().getRequestDispatcher("/ServletLogin").forward(request, response);
+			
+		}else {
+			
+			try {
+		
+				//Valider pseudo utilisateur, verification si il est bien dans la bdd
+				Utilisateur user = UtilisateurManager.selectUserByPseudo(identifiant);
+				//Si la connexion est reussie
+				if(user!= null && password.equals(user.getPassword())) {
+					request.getSession().setAttribute("ConnectedUser", user);
+				} else {
+					request.setAttribute("erreur", "pseudo et/ou mot de passe incorrect(s)! Veuillez ressaisir vos identifiants...");
+					erreur = (String) session.getAttribute("erreur");
+					out.println(erreur);
+					this.getServletContext().getRequestDispatcher("/ServletLogin").forward(request, response);
+				}
+			} catch (BusinessException e) {
+				request.setAttribute("erreur", e);
+				this.getServletContext().getRequestDispatcher("/ServletErreurPage").forward(request, response);
+			}
+		
+		}
 
+	}
 }

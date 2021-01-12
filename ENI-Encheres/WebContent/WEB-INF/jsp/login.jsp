@@ -21,6 +21,11 @@
 <body>
  	<!-- Navbar -->
  	<%@ include file = "navbar.jsp" %>
+ 	
+ 	 <!--Head-->
+    <div class="head">
+      <h1>Connexion</h1>
+    </div>
 
 	<!--Logging form-->
 	
@@ -28,7 +33,7 @@
       <form class="login" action="<%=request.getContextPath() %>/ServletLogin" method="post"> <!-- change methode to POST to get results on server, i used GET to show the result in html file-->
         <div class="input-field">
           <label for="id">Identifiant: </label>
-          <input class="input" name="id" id="id" placeholder="Identifiant">
+          <input class="input" name="id" id="id" placeholder="Identifiant" required="required">
         </div>
 
         <div class="input-field">
