@@ -2,6 +2,8 @@ package fr.eni.encheres.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -60,6 +62,8 @@ public class ServletRegister extends HttpServlet {
 			String ville = request.getParameter("ville");
 			String codePostal = request.getParameter("cp");
 			
+			List<String> allPseudos = UtilisateurManager.selectAllPseudos();
+			
 			if(nom.length()==0 || nom.isEmpty() ) {
 				request.setAttribute("erreur", "Le nom n'a pas �t� renseign�, veuillez le saisir ...");
 				dispatcher.forward(request, response);
@@ -69,7 +73,13 @@ public class ServletRegister extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 			else if (pseudo.length()==0 || pseudo.isEmpty() ) {
-				request.setAttribute("erreur", "Le pseudo n'a pas �t� renseign�, veuillez le saisir ...");
+				
+				request.setAttribute("erreur", "Le pseudo n'a pas �t� renseign�, veuillez le saisir ...");			
+				dispatcher.forward(request, response);
+			}
+			else if (allPseudos.contains(pseudo)) {
+				request.setAttribute("erreur", "Ce pseudo est déjà utilisé, veuillez le saisir ...");
+									
 				dispatcher.forward(request, response);
 			}
 			else if (email.length()==0 || email.isEmpty() ) {

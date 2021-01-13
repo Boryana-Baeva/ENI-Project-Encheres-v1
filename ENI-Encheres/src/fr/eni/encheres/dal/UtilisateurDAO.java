@@ -22,5 +22,5 @@ public interface UtilisateurDAO {
 	
 	public List<ArticleVendu> getAllArticlesVendus(Utilisateur utilisateur) throws BusinessException;
 
-	
+	public List<String> getAllPseudos() throws BusinessException;
 }

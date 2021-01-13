@@ -95,6 +95,8 @@
     </div>
     <div class="container">
         <div class="card-grid">
+        
+        <%foreach(ArticleVendu article : ArticleVenduManager.selectAllArticles()) %> 
             <div class="card">
                 <div class="card-header">
                     <h1>Article-1</h1>
