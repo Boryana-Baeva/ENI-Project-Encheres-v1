@@ -32,6 +32,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	private static final String DELETE = "DELETE UTILISATEURS WHERE no_utilisateur=?";
 	private static final String GET_ARTICLES_VENDUS = "select * from ARTICLES_VENDUS WHERE no_utilisateur=?";
 	private static final String GET_BY_PSEUDO ="select * from UTILISATEURS WHERE pseudo=? ";
+	private static final String GET_ALL_PSEUDOS = "SELECT pseudo FROM UTILISATEURS";
 
 	private static EnchereDAO enchereDao = new EnchereDAOJDBCImpl();
 	private static ArticleVenduDAO articleDao = new ArticleVenduDAOJDBCImpl();
@@ -297,6 +298,26 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 		}
 			
 		return utilisateur;
+	}
+
+	@Override
+	public List<String> getAllPseudos() throws BusinessException {
+		
+		List<String> pseudos = new ArrayList<>();
+		
+		try(Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement statement = cnx.prepareStatement(GET_ALL_PSEUDOS);
+			
+			ResultSet rs = statement.executeQuery();
+			
+			while (rs.next()) {
+				pseudos.add(rs.getString("pseudo"));
+			}
+					
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return pseudos;
 	}
 	
 	

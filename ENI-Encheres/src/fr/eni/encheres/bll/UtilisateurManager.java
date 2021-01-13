@@ -123,4 +123,8 @@ public class UtilisateurManager {
 	public static List<ArticleVendu> selectArticlesVendus ()throws BusinessException{
 		return utilisateurDAO.getAllArticlesVendus(utilisateur);
 	}
+	
+	public static List<String> selectAllPseudos() throws BusinessException{
+		return utilisateurDAO.getAllPseudos();
+	}
 }
