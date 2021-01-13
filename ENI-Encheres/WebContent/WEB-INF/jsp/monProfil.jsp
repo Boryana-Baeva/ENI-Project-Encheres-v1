@@ -17,13 +17,16 @@
     </head>
 
     <body>
-
+    
+	<!-- Navbar -->
+ 	<%@ include file = "navbar.jsp" %>
+ 	
     <header>
       <h1>ENI-Enchères</h1>
     </header>
     <%if(session.getAttribute("ConnectedUser")!=null){
 	Utilisateur connectedUser = (Utilisateur) session.getAttribute("ConnectedUser");
- 	 Utilisateur utilisateur = UtilisateurManager.selectUserById(connectedUser.getId()); %>
+ 	 Utilisateur utilisateur = UtilisateurManager.selectUserById(); %>
     <section class="Profil">
    
    

@@ -22,10 +22,7 @@
  	<!-- Navbar -->
  	<%@ include file = "navbar.jsp" %>
  	
- 	 <!--Head-->
-    <div class="head">
-      <h1>Connexion</h1>
-    </div>
+ 	
 
 	<!--Logging form-->
 	
