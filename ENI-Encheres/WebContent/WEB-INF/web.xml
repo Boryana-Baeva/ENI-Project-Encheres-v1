@@ -16,7 +16,7 @@
   </servlet>
   <servlet-mapping>
   	<servlet-name>Login</servlet-name>
-  	<url-pattern>/ServletLogin</url-pattern>
+  	<url-pattern>/JSPLogin</url-pattern>
   </servlet-mapping>
   
   <servlet>
@@ -25,8 +25,16 @@
   </servlet>
   <servlet-mapping>
   	<servlet-name>Register</servlet-name>
-  	<url-pattern>/ServletRegister</url-pattern>
+  	<url-pattern>/JSPRegister</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>ListeEncheres</servlet-name>
+	<jsp-file>/WEB-INF/jsp/listeEncheresConnecte.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ListeEncheres</servlet-name>
+  	<url-pattern>/ServletListeEncheres</url-pattern>
+  </servlet-mapping>
   
 </web-app>

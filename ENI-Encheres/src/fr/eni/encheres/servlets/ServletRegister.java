@@ -101,7 +101,7 @@ public class ServletRegister extends HttpServlet {
 					HttpSession session = request.getSession();
 					session.setAttribute("ConnectedUser", user);
 					
-					//dispatcher.forward(request, response);
+					response.sendRedirect("/listeEncheres");
 				} 
 				else 
 				{

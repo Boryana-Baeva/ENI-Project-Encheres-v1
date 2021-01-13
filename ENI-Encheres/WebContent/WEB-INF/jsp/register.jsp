@@ -27,7 +27,7 @@
 
     <!--Form Créer un compte-->
     <section class="register-form">
-      <form class="register" action="<%=request.getContextPath() %>/ServletRegister" method="post">
+      <form class="register" action="<%=request.getContextPath() %>/register" method="post">
         <div class="input-field">
           <label for="nom">Nom :</label>
           <input class="input" name="nom" id="nom" required>

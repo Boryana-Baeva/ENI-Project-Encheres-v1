@@ -1,12 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>NavBar</title>
-</head>
-<body>
+
  <!--Navbar-->
     <nav class="navbar">
       <div class="brand-title">Eni-Enchères</div>
@@ -30,5 +22,3 @@
     <div class="header">
     </div>
    
-</body>
-</html>

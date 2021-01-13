@@ -1,0 +1,156 @@
+@charset "ISO-8859-1";
+
+/* Search-bar */
+
+.search-bar {
+    margin:0px;
+    padding: 20px;
+    width: 100%;
+    display: inline-flex;
+    background-color: var(--primary-color);
+    border-bottom: 4px var(--border) solid;
+    justify-content: center;
+}
+
+.search-box {
+    display: inline-flex;
+    margin: 0px 5px;
+}
+
+.search{
+    width:50vw;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.search-btn {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: 2px var(--light-grey) solid;
+    border-radius: 10px;
+    margin: 0px;
+    padding: 10px;
+}
+
+.search-btn:hover {
+    background-color: var(--light-blue);
+}
+
+.search, .search-btn, .categories{
+    outline-style: none;
+}
+
+.categories {
+    border-radius: 10px;
+    padding: 10px 5px;
+}
+
+
+/* cards */
+
+.container {
+    margin-bottom: 100px;
+    margin-left: 150px;
+}
+
+.card-grid { 
+    padding-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-gap: 40px;
+    margin: auto;
+}
+
+.card {
+   background: #fff;
+   border: 1px solid white;
+   border-radius: 10px 10px 10px 10px;
+   max-width: 500px;
+   height: 400px;
+   transition: 0.3s;
+   cursor: pointer;
+}
+
+.card-header {
+    text-align: center;
+    padding: 20px 20px;
+    background: #CCA43B;
+    color: #242F40;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.card-body {
+    padding: 30px 20px;
+    text-align: left;
+    font-size: 1.2rem;
+    display: flex;
+    column-gap: 1rem;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #363636;
+    color: #fff;
+}
+
+
+.card-image-container {
+   display: block;
+   padding: 20px;
+}
+
+.card-img-container > img {
+    height: 250px;
+    width: 250px;
+}
+
+img {
+    /* border: 5px solid blue; */
+}
+
+.text-card {
+    font-size: 16px;
+    /* border: 1px solid red; */
+    padding: auto;
+    text-align: left;
+}
+
+.text-card li {
+    list-style: none;
+    padding: 20px 0;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 40px -10px rgba(0,0,0,0.25);
+}
+
+a {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+
+
+/* Media Queries */
+/* cards */
+@media (max-width: 900px) {
+    .card-grid {
+        grid-auto-flow: column;
+        grid-template-rows: repeat(10000000, 1fr);
+        width: 80%;
+        display: flex;
+        grid-gap: 50px;
+        flex-direction: column;
+        border: 1px red;
+    }
+
+    .header{
+        display: none;
+    }
+    
+    .card {
+        width: 100%;
+    }
+}

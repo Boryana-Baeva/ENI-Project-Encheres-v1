@@ -30,7 +30,7 @@
 	<!--Logging form-->
 	
       <section class="login-form">
-      <form class="login" action="<%=request.getContextPath() %>/ServletLogin" method="post"> <!-- change methode to POST to get results on server, i used GET to show the result in html file-->
+      <form class="login" action="<%=request.getContextPath() %>/login" method="post"> <!-- change methode to POST to get results on server, i used GET to show the result in html file-->
         <div class="input-field">
           <label for="id">Identifiant: </label>
           <input class="input" name="id" id="id" placeholder="Identifiant" required="required">
