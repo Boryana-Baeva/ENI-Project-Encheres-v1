@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
+<%@ page import="fr.eni.encheres.bo.ArticleVendu" %>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,7 +99,8 @@
     <div class="container">
         <div class="card-grid">
         
-        <%foreach(ArticleVendu article : ArticleVenduManager.selectAllArticles()) %> 
+        <% List<ArticleVendu> listeArticles = request.getAttribute("listeArticles"); %>
+        <% for(ArticleVendu article : listeArticles) %> 
             <div class="card">
                 <div class="card-header">
                     <h1>Article-1</h1>

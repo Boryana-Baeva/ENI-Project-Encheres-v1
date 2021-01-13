@@ -23,9 +23,7 @@
           </ul>
       </div>
     </nav>
-    <!--Banner-->
-    <div class="header">
-    </div>
+ 
  	<% } else {  %>
 
    
@@ -48,3 +46,7 @@
         </div>
     </nav>
     <% } %>
+    
+       <!--Banner-->
+    <div class="header">
+    </div>

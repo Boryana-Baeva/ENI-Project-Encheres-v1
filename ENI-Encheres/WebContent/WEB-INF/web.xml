@@ -29,12 +29,12 @@
   </servlet-mapping>
   
   <servlet>
-  	<servlet-name>ListeEncheres</servlet-name>
-	<jsp-file>/WEB-INF/jsp/listeEncheresConnecte.jsp</jsp-file>
+  	<servlet-name>Accueil</servlet-name>
+	<jsp-file>/WEB-INF/jsp/accueilConnected.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>ListeEncheres</servlet-name>
-  	<url-pattern>/ServletListeEncheres</url-pattern>
+  	<servlet-name>Accueil</servlet-name>
+  	<url-pattern>/JSPAccueil</url-pattern>
   </servlet-mapping>
   
 </web-app>
