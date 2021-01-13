@@ -27,7 +27,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	private static final String INSERT = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String GET_ALL = "SELECT * FROM UTILISATEURS";
 	private static final String GET_BY_ID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur=?";
-	private static final String UPDATE = "UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?,"
+	private static final String UPDATE = "UPDATE UTILISATEURS SET nom=?, prenom=?,"
 			+ "email=?, telephone=?, rue=?, code_postal=?, ville=?," + " mot_de_passe=?, credit=?, administrateur=?";
 	private static final String DELETE = "DELETE UTILISATEURS WHERE no_utilisateur=?";
 	private static final String GET_ARTICLES_VENDUS = "select * from ARTICLES_VENDUS WHERE no_utilisateur=?";
@@ -142,21 +142,20 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = cnx.prepareStatement(UPDATE);
-			statement.setString(1, utilisateur.getPseudo());
-			statement.setString(2, utilisateur.getNom());
-			statement.setString(3, utilisateur.getPrenom());
-			statement.setString(4, utilisateur.getEmail());
+			statement.setString(1, utilisateur.getNom());
+			statement.setString(2, utilisateur.getPrenom());
+			statement.setString(3, utilisateur.getEmail());
 			if (utilisateur.getTelephone() != null) {
-				statement.setString(5, utilisateur.getTelephone());
+				statement.setString(4, utilisateur.getTelephone());
 			} else {
-				statement.setNull(5, Types.VARCHAR);
+				statement.setNull(4, Types.VARCHAR);
 			}
-			statement.setString(6, utilisateur.getRue());
-			statement.setString(7, utilisateur.getCodePostal());
-			statement.setString(8, utilisateur.getVille());
-			statement.setString(9, utilisateur.getPassword());
-			statement.setInt(10, utilisateur.getCredit());
-			statement.setBoolean(11, utilisateur.isAdministrateur());
+			statement.setString(5, utilisateur.getRue());
+			statement.setString(6, utilisateur.getCodePostal());
+			statement.setString(7, utilisateur.getVille());
+			statement.setString(8, utilisateur.getPassword());
+			statement.setInt(9, utilisateur.getCredit());
+			statement.setBoolean(10, utilisateur.isAdministrateur());
 
 			statement.executeUpdate();
 

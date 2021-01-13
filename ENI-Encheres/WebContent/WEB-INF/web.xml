@@ -55,4 +55,13 @@
   	<url-pattern>/JSPMonProfil</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>UpdateProfil</servlet-name>
+	<jsp-file>/WEB-INF/jsp/updateProfil.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>UpdateProfil</servlet-name>
+  	<url-pattern>/JSPUpdateProfil</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
