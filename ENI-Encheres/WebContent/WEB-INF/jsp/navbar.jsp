@@ -19,7 +19,7 @@
               <li><a href="PageListeEncheresNonConnecte.html">Enchères  <i class="fas fa-bullhorn"></i></a></li>
               <li><a href="PageConnexion.html">Vendre  <i class="fas fa-hand-holding-usd"></i></a></li>
               <li><a href="PageConnexion.html">Mon Profil  <i class="fas fa-user-circle"></i></a></li>
-              <li><a href="<%=request.getContextPath()%>/S">Deconnexion  <i class="fas fa-sign-in-alt"></i></a></li>
+              <li><a href="<%=request.getContextPath()%>/accueil">Deconnexion  <i class="fas fa-sign-in-alt"></i></a></li>
           </ul>
       </div>
     </nav>
@@ -41,7 +41,8 @@
         </a>
         <div class="navbar-links">
             <ul>
-                <li><a href="PageConnexion.html">Créer Un Compte / Se Connecter  <i class="fas fa-sign-in-alt"></i></a></li>
+                <li><a href="<%=request.getContextPath()%>/register"> Créer Un Compte <i class="fas fa-sign-in-alt"></i></a></li>
+                 <li><a href="<%=request.getContextPath()%>/login"> Se Connecter  <i class="fas fa-sign-in-alt"></i></a></li>
             </ul>
         </div>
     </nav>
