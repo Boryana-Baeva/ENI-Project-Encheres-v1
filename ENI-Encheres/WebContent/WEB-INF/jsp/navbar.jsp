@@ -1,7 +1,7 @@
 
 
 <!-- Connected page  -->
-
+<!-- commit -->
  	<% if( session.getAttribute("ConnectedUser") != null){ %>
  		<!--Navbar-->
  
