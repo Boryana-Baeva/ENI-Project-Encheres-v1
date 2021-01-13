@@ -93,7 +93,7 @@ public class ServletLogin extends HttpServlet {
 				if(user!= null && password.equals(user.getPassword())) {
 					request.getSession().setAttribute("ConnectedUser", user);
 					
-					response.sendRedirect("/accueil");
+					this.getServletContext().getRequestDispatcher("/accueilConnected").forward(request, response);
 					
 				} else {
 					request.setAttribute("erreur", "pseudo et/ou mot de passe incorrect(s)! Veuillez ressaisir vos identifiants...");

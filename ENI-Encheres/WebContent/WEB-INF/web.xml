@@ -29,12 +29,21 @@
   </servlet-mapping>
   
   <servlet>
-  	<servlet-name>Accueil</servlet-name>
+  	<servlet-name>AccueilConnected</servlet-name>
 	<jsp-file>/WEB-INF/jsp/accueilConnected.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>Accueil</servlet-name>
-  	<url-pattern>/JSPAccueil</url-pattern>
+  	<servlet-name>AccueilConnected</servlet-name>
+  	<url-pattern>/JSPAccueilConnected</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>AccueilDeconnected</servlet-name>
+	<jsp-file>/WEB-INF/jsp/accueilDeconnected.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AccueilDeconnected</servlet-name>
+  	<url-pattern>/JSPAccueilDeconnected</url-pattern>
   </servlet-mapping>
   
 </web-app>
