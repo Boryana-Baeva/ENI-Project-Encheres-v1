@@ -33,10 +33,7 @@
         <button type="submit" class="search-btn">
             <i class="fas fa-search"></i>
         </button>
-    </div>
-    <!--Banner-->
-    <div class="header">
-    </div>
+	</div>
 
     <div class="head">
         <h1>Enchères En Cours</h1>

@@ -1,0 +1,98 @@
+@charset "UTF-8";
+
+/* Register Form */
+
+.vente-form {
+    max-width: 1100px;
+    width: 100%;
+    background: #fff;
+    margin: 60px auto;
+    padding: 30px;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.125);
+    border: 5px solid var(--border);
+    border-radius: 10px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+.vente-form .vente {
+   width: 100%;
+}
+
+.vente-form .vente .input-field {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center; 
+ }
+
+ .vente-form .vente .input-field label {
+    width: 200px;
+    margin-right: 10px;
+    font-size: 1.2rem;
+ }
+
+ .vente-form .vente .input-field .input {
+     width: 100%;
+     outline: none;
+     border: 1px solid #d5dbd9;
+     border-radius: 3px;
+     font-size: 15px;
+     padding: 8px 10px;
+ }
+
+ .vente-form .vente .input-field .input:focus {
+     border: 1px solid var(--border);
+ }
+
+ .btn-sorter {
+     margin-top: 30px;
+     display: flex;
+     justify-content: space-around;
+     padding: 20px 10px;
+ }
+
+ .btn {
+    width: 100%;
+    border-radius: 10px;
+    padding: 20px 25px;
+    font-size: 20px;
+    outline: none;
+ }
+
+ .btn-login {
+    width: 100%;
+    border-radius: 10px;
+    margin: 10px 0px;
+    padding: 20px 25px;
+    font-size: 20px;
+    outline: none;
+ }
+
+ .btn:hover {
+    cursor: pointer;
+ }
+
+ .ssdm {
+    font-size: 1.2rem;
+ }
+
+ .mdpo {
+     font-size: 1.2rem;
+ }
+
+ input[type=radio] {
+    border: 1px solid #fff;
+    padding: 0.5em;
+    -webkit-appearance: none;
+  }
+
+.retrait h1 {
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+
+.categories {
+    border-radius: 10px;
+    padding: 10px 5px;
+}

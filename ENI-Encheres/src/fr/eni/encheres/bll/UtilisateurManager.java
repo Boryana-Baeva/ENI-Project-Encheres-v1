@@ -127,4 +127,8 @@ public class UtilisateurManager {
 	public static List<String> selectAllPseudos() throws BusinessException{
 		return utilisateurDAO.getAllPseudos();
 	}
+	
+	public static void supprimerUtilisateur(int id) throws BusinessException{
+		utilisateurDAO.delete(id);
+	}
 }

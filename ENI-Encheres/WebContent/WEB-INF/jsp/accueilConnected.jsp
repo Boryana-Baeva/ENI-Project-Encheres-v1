@@ -94,10 +94,6 @@
             </div>  
 
         
-    </div>
-    <!--Banner-->
-    <div class="header">
-    </div>
     <div class="head">
         <h1>Enchères En Cours</h1>
     </div>

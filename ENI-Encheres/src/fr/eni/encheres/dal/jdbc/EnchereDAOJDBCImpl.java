@@ -24,7 +24,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 	private static final String GET_BY_ENCHERISSEUR = "SELECT * FROM ENCHERES WHERE no_utilisateur=?";
 	private static final String GET_REMPORTES_PAR_ENCHERISSEUR = "SELECT * FROM ENCHERES WHERE no_utilisateur=? AND remporte=?";
 	private static final String UPDATE = "UPDATE ENCHERES SET date_enchere=?, montant_enchere=?,"  +
-											"no_article=?, no_utilisateur=?, remporte=?";
+											"no_article=?, no_utilisateur=?, remporte=? WHERE no_enchere=?";
 	private static final String DELETE = "DELETE ENCHERES WHERE no_enchere=?";
 	
 	private static ArticleVenduDAO articleDao = new ArticleVenduDAOJDBCImpl();
@@ -204,6 +204,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 			statement.setInt(3, enchere.getArticle().getId());
 			statement.setInt(4, enchere.getEncherisseur().getId());
 			statement.setBoolean(5, enchere.isRemporte());
+			statement.setInt(6, enchere.getId());
             
 			statement.executeUpdate();
            

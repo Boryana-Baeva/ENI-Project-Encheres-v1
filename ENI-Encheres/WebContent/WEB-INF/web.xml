@@ -64,4 +64,22 @@
   	<url-pattern>/JSPUpdateProfil</url-pattern>
   </servlet-mapping>
   
+   <servlet>
+  	<servlet-name>DeleteProfil</servlet-name>
+	<jsp-file>/WEB-INF/deleteProfil.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>DeleteProfil</servlet-name>
+  	<url-pattern>/JSPDeleteProfil</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>VendreArticle</servlet-name>
+	<jsp-file>/WEB-INF/vendreArticle.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>VendreArticle</servlet-name>
+  	<url-pattern>/JSPVendreArticle</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

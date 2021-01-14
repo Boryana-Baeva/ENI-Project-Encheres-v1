@@ -76,6 +76,11 @@
         </button>
         </a>
     </div>
+    <div class=btn-large>
+    	<form action="<%=request.getContextPath()%>/deleteProfil" method="post">
+    		<input class="btn" type="submit" name="buttonDelete" value="Supprimer mon compte"/>
+    	</form>       
+    </div>
 </section>
 <%}
 }%>

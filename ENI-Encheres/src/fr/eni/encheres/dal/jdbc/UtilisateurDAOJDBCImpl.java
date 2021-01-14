@@ -28,7 +28,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 	private static final String GET_ALL = "SELECT * FROM UTILISATEURS";
 	private static final String GET_BY_ID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur=?";
 	private static final String UPDATE = "UPDATE UTILISATEURS SET nom=?, prenom=?,"
-			+ "email=?, telephone=?, rue=?, code_postal=?, ville=?," + " mot_de_passe=?, credit=?, administrateur=?";
+			+ "email=?, telephone=?, rue=?, code_postal=?, ville=?," + " mot_de_passe=?, credit=?, administrateur=? WHERE no_utilisateur=?";
 	private static final String DELETE = "DELETE UTILISATEURS WHERE no_utilisateur=?";
 	private static final String GET_ARTICLES_VENDUS = "select * from ARTICLES_VENDUS WHERE no_utilisateur=?";
 	private static final String GET_BY_PSEUDO ="select * from UTILISATEURS WHERE pseudo=? ";
@@ -156,6 +156,7 @@ public class UtilisateurDAOJDBCImpl implements UtilisateurDAO {
 			statement.setString(8, utilisateur.getPassword());
 			statement.setInt(9, utilisateur.getCredit());
 			statement.setBoolean(10, utilisateur.isAdministrateur());
+			statement.setInt(11, utilisateur.getId());
 
 			statement.executeUpdate();
 

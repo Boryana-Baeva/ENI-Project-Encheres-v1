@@ -17,7 +17,8 @@
     </head>
 
 <body>
-
+<!-- Navbar -->
+ 	<%@ include file = "navbar.jsp" %>
 <header>
       <h1>ENI-Enchères</h1>
     </header>
@@ -37,19 +38,19 @@
 
         <div>
             <label for="pNom">Prénom :</label>
-            <input name="prenom" id="pNom" required>
+            <input name="prenom" id="pNom" value="<%=user.getPrenom()%>" required>
         </div>
 
         <div>
             <label for="tel">Teléphone :</label>
             <input name="telephone" id="tel" type="tel" 
-            maxlength= 10  minlength= 10 required>
+            maxlength= 10 value="<%=user.getTelephone()%>"  required>
         </div>
 
         <div>
             <label for="cp">Code Postale :</label>
             <input name="codepostale" id="cp" type="number" 
-            maxlength= 5  minlength= 5 required>
+            maxlength= 5  value="<%=user.getCodePostal()%>" required>
         </div>
         
         <div>
@@ -65,22 +66,22 @@
 <!-- Colonee de droite-->
         <div>
             <label for="nom">Nom :</label>
-            <input name="nom" id="nom" required>
+            <input name="nom" id="nom" value="<%=user.getNom()%>" required>
         </div>
 
         <div>
             <label for="email">Email :</label>
-            <input name="email" id="email" type ="email" required>
+            <input name="email" id="email" type ="email" value="<%=user.getEmail()%>" required>
         </div>
 
         <div>
             <label for="rue">Rue :</label>
-            <input name="rue" id="rue" type="text" required>
+            <input name="rue" id="rue" type="text" value="<%=user.getRue()%>" required>
         </div>
 
         <div>
             <label for="ville">Ville :</label>
-            <input name="ville" id="ville" type="text" required>
+            <input name="ville" id="ville" type="text" value="<%=user.getVille()%>" required>
         </div>
 
         <div>
@@ -91,14 +92,10 @@
         <p>crédit : <%=user.getCredit() %></p>
 
         <div class=btn-large>
-          <button class="btn" type="submit">Enregistrer</button>
+          <button class="btn" type="submit" name="update">Enregistrer</button>
         </div>
 
-        <div class=btn-large>
-         <button class="btn" type="button"> <!--change that with index.html file location-->
-            Supprimer mon compte
-          </button>
-        </div>
+
 
       </form>
 
