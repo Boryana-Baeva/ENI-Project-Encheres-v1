@@ -47,7 +47,6 @@ public class ServletVendreArticle extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/vendreArticle.jsp");
 		
 		HttpSession session = request.getSession();
 		ArticleVendu article = new ArticleVendu();
@@ -85,7 +84,8 @@ public class ServletVendreArticle extends HttpServlet {
 			
 			ArticleVenduManager.nouvelleVente(article);
 			
-			//dispatcher.forward(request, response);
+			request.setAttribute("Article", article);
+			this.getServletContext().getRequestDispatcher("/detailVente").forward(request, response);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

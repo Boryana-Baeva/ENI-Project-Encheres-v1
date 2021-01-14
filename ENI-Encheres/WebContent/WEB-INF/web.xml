@@ -82,4 +82,13 @@
   	<url-pattern>/JSPVendreArticle</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>DetailVente</servlet-name>
+	<jsp-file>/WEB-INF/jsp/detailVente.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>DetailVente</servlet-name>
+  	<url-pattern>/JSPDetailVente</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
