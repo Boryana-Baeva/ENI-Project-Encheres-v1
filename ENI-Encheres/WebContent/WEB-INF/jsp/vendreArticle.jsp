@@ -1,3 +1,6 @@
+<%@page import="fr.eni.encheres.bo.Categorie"%>
+<%@page import="java.util.List"%>
+<%@page import="fr.eni.encheres.bll.CategorieManager"%>
 <%@page import="fr.eni.encheres.bo.Utilisateur"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -25,7 +28,9 @@
  <!-- Formulaire Vendre un article-->
  
     <section class="vente-form">
-    	<% Utilisateur connectedUser = (Utilisateur) session.getAttribute("ConnectedUser"); %>    
+    	<% Utilisateur connectedUser = (Utilisateur) session.getAttribute("ConnectedUser"); 
+    	   List<Categorie> allCategories = CategorieManager.selectionnerToutesLesCategories();
+    	%>    
       <form class="vente" action="<%=request.getContextPath() %>/vendre" method="post"> <!-- change methode to POST to get results on server, i used GET to show the result in html file-->
       
         <div class="input-field">
@@ -41,12 +46,9 @@
         <div class="input-field"> <!--Un div peut être?-->
           <label for="categorie">Catégorie :</label>
           <select class="input" id="categorie">
-            <option name="categorie" value ="">--Choisir une option--</option>
-            <option name="categorie" value ="">Voiture</option>
-            <option name="categorie" value ="">éléctronique</option>
-            <option name="categorie" value ="">Vélo</option>
-            <option name="categorie" value ="">Mobilier</option>
-            <option name="categorie" value ="">Animaux</option>
+          <% for(Categorie categorie : allCategories) { %>
+            <option name="categorie" value ="<%=categorie.getLibelle()%>">--Choisir une option--</option>
+            <% } %>
           </select>
         </div>
       

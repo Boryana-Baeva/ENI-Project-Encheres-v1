@@ -71,15 +71,8 @@ public class ServletVendreArticle extends HttpServlet {
 				RetraitManager.ajouterLieuRetrait(retrait);				
 			} 
 			
-			List<Categorie> allCategories = CategorieManager.selectionnerToutesLesCategories();
-			Categorie newCategorie = null;
 			
-			if (!allCategories.contains(categorie)) {
-				newCategorie = new Categorie();
-				newCategorie.setLibelle(categorie);
-				
-				CategorieManager.ajouterCategorie(newCategorie);
-			}
+			
 			
 			if (retrait == null) {
 				

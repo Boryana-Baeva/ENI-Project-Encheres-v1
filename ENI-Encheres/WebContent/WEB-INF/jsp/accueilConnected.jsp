@@ -67,7 +67,7 @@
                 </ul>
             </div>
 
-
+	</div>
             <div>
                 <input type="radio" id="huey" name="drone" value="huey"
                        checked>
