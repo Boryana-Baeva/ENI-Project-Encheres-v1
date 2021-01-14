@@ -68,8 +68,4 @@ public class CategorieManager {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_CATEGORIES_LIBELLE_ERREUR);
 		}
 	}
-	
-	public static Categorie getByLibelle(String libelle) throws BusinessException{
-		return categorieDAO.getByLibelle(libelle);
-	}
 }

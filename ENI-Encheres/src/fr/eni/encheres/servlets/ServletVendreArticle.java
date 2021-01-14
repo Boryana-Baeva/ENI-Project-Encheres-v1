@@ -47,6 +47,8 @@ public class ServletVendreArticle extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/vendreArticle.jsp");
+		
 		HttpSession session = request.getSession();
 		ArticleVendu article = new ArticleVendu();
 		
@@ -56,12 +58,12 @@ public class ServletVendreArticle extends HttpServlet {
 			LocalDate dateDebutEncheres = LocalDate.parse(request.getParameter("dEnchere"));
 			LocalDate dateFinEncheres = LocalDate.parse(request.getParameter("fEnchere"));
 			int miseAPrix = Integer.parseInt(request.getParameter("mPrix"));
-			String libelle = request.getParameter("categorie");
+			int categerieId = Integer.parseInt(request.getParameter("categorie"));
 			String rue = request.getParameter("rue");
 			String codePostal = request.getParameter("codePostal");
 			String ville = request.getParameter("ville");
 			
-			Categorie categorie = CategorieManager.getByLibelle(libelle);
+			Categorie categorie = CategorieManager.selectionnerCategorieById(categerieId);
 			Utilisateur utilisateur = (Utilisateur) session.getAttribute("ConnectedUser");
 			Retrait retrait = new Retrait();
 				
@@ -83,7 +85,7 @@ public class ServletVendreArticle extends HttpServlet {
 			
 			ArticleVenduManager.nouvelleVente(article);
 			
-			
+			//dispatcher.forward(request, response);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html;"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang= fr>
     <head>
-        <meta charset="UTF-8">
+    	<meta charset="UTF-8">
   	    <meta name="viewport"content="width=device-width, initial-scale=1.">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <!--StyleSheet-->
@@ -14,7 +14,7 @@
         <script src="https://kit.fontawesome.com/1cbc331981.js" crossorigin="anonymous"></script>
         <!--Script-->
         <script src="script.js" defer></script>
-        <title>ENI-Enchères|Sign-In</title>
+        <title>ENI-EnchÃ¨res|Sign-In</title>
     </head>
 <body>
 	<!-- Navbar -->
@@ -22,10 +22,10 @@
  	
  	 <!--Head-->
     <div class="head">
-      <h1>Création De Compte</h1>
+      <h1>CrÃ©ation De Compte</h1>
     </div>
 
-    <!--Form Créer un compte-->
+    <!--Form CrÃ©er un compte-->
     <section class="register-form">
       <form class="register" action="<%=request.getContextPath() %>/register" method="post">
         <div class="input-field">
@@ -34,7 +34,7 @@
         </div> 
 
         <div class="input-field">
-            <label for="prenom">Prénom :</label>
+            <label for="prenom">PrÃ©nom :</label>
             <input class="input" name="prenom" id="prenom" required>
         </div>
 
@@ -59,7 +59,7 @@
         </div>
 
         <div class="input-field">
-          <label for="tel">Teléphone :</label>
+          <label for="tel">TelÃ©phone :</label>
           <input class="input" name="tel" id="tel" type="tel" maxlength= 10  minlength= 10 >
         </div>
         
@@ -82,7 +82,7 @@
 
       <div class="btn-sorter">
         <div>
-          <button class="btn" type="submit">Créer Mon Compte</button> </a>
+          <button class="btn" type="submit">CrÃ©er Mon Compte</button> </a>
         </div>
         <div>
           <a href ='PageConnexion.html'><button class="btn" type="button"> <!--change that with index.html file location-->

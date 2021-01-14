@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <meta charset="UTF-8">
+    	<meta charset="UTF-8">
   	    <meta name="viewport"content="width=device-width, initial-scale=1.">
   	    <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <!-- Place your kit's code here -->
@@ -45,9 +45,9 @@
 
         <div class="input-field"> <!--Un div peut être?-->
           <label for="categorie">Catégorie :</label>
-          <select class="input" id="categorie">
+          <select name="categorie" class="input" id="categorie">
           <% for(Categorie categorie : CategorieManager.selectionnerToutesLesCategories()) { %>
-            <option name="categorie" value ="<%=categorie.getId()%>"><%=categorie.getLibelle()%></option>
+            <option  value ="<%=categorie.getId()%>"><%=categorie.getLibelle()%></option>
             <% } %>
           </select>
         </div>

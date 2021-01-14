@@ -66,7 +66,7 @@
   
    <servlet>
   	<servlet-name>DeleteProfil</servlet-name>
-	<jsp-file>/WEB-INF/deleteProfil.jsp</jsp-file>
+	<jsp-file>/WEB-INF/jsp/deleteProfil.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
   	<servlet-name>DeleteProfil</servlet-name>
@@ -75,7 +75,7 @@
   
   <servlet>
   	<servlet-name>VendreArticle</servlet-name>
-	<jsp-file>/WEB-INF/vendreArticle.jsp</jsp-file>
+	<jsp-file>/WEB-INF/jsp/vendreArticle.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
   	<servlet-name>VendreArticle</servlet-name>

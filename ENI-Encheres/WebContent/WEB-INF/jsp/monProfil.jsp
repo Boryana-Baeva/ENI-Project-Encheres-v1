@@ -1,11 +1,11 @@
 <%@page import="fr.eni.encheres.bll.UtilisateurManager"%>
 <%@page import="fr.eni.encheres.bo.Utilisateur"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html;"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
     <html lang="fr">
     <head>
-        <meta charset="UTF-8">
+    	<meta charset="UTF-8">
   	    <meta name="viewport"content="width=device-width, initial-scale=1.">
   	    <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <!-- Place your kit's code here -->
@@ -13,7 +13,7 @@
 	    <link rel="stylesheet" href="styles/style.css">
 	   	<link rel="stylesheet" href="styles/navbar.css">
 	   	<link rel="stylesheet" href="styles/profil.css">
-        <title>ENI-Enchères/Mon Profil</title>
+        <title>ENI-EnchÃ¨res/Mon Profil</title>
     </head>
 
     <body>
@@ -41,7 +41,7 @@
             <td class="td2"><p class="value-td2"><%=utilisateur.getNom()%></p></td>
         </tr>
         <tr>
-            <td class="td1"><p class="value-td1">Prénom :</td>
+            <td class="td1"><p class="value-td1">PrÃ©nom :</td>
             <td class="td2"><p class="value-td2"><%=utilisateur.getPrenom()%></td>
         </tr>
         <tr>
@@ -49,7 +49,7 @@
             <td class="td2"><p class="value-td2"><%=utilisateur.getEmail() %></p></td>
         </tr>    
         <tr>
-            <td class="td1"><p class="value-td1">Téléphone : </p></td>
+            <td class="td1"><p class="value-td1">TÃ©lÃ©phone : </p></td>
             <%if(utilisateur.getTelephone()!=null) {%>
             <td class="td2"><p class="value-td2"><%=utilisateur.getTelephone() %></td>
             <%} else { %>

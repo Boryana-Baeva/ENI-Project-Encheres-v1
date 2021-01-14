@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.encheres.bo.Utilisateur;
+
 /**
  * Servlet implementation class ServletProfil
  */

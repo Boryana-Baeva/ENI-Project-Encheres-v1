@@ -158,25 +158,5 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 
 	}
 
-	@Override
-	public Categorie getByLibelle(String libelle) throws BusinessException {
-		Categorie categorie = new Categorie();
-		try (Connection cnx = ConnectionProvider.getConnection()){
-			PreparedStatement statement = cnx.prepareStatement(GET_BY_LIBELLE);
-			statement.setString(1, libelle);
-			
-			ResultSet rs = statement.executeQuery();
-			
-			if(rs.next()) {
-				categorie.setId(rs.getInt("no_categorie"));
-				categorie.setLibelle(rs.getString("libelle"));
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
-			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatDAL.LECTURE_UTILISATEURS_ECHEC);
-			throw businessException;
-		}
-		return categorie;
-	}
+	
 }

@@ -1,11 +1,11 @@
 <%@page import="fr.eni.encheres.bll.UtilisateurManager"%>
 <%@page import="fr.eni.encheres.bo.Utilisateur"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html;"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang = fr>
 <head>
-     <meta charset="UTF-8">
+	 <meta charset="UTF-8">
   	 <meta name="viewport"content="width=device-width, initial-scale=1.">
   	 <meta http-equiv="X-UA-Compatible" content="ie=edge">
       <!-- Place your kit's code here -->
@@ -13,14 +13,14 @@
      <link rel="stylesheet" href="styles/style.css">
    	 <link rel="stylesheet" href="styles/navbar.css">
    	 
-        <title>ENI-Enchères/Mon Profil</title>
+        <title>ENI-EnchÃ¨res/Mon Profil</title>
     </head>
 
 <body>
 <!-- Navbar -->
  	<%@ include file = "navbar.jsp" %>
 <header>
-      <h1>ENI-Enchères</h1>
+      <h1>ENI-EnchÃ¨res</h1>
     </header>
 
     <h2>Mon Profil</h2>
@@ -37,12 +37,12 @@
         </div>
 
         <div>
-            <label for="pNom">Prénom :</label>
+            <label for="pNom">PrÃ©nom :</label>
             <input name="prenom" id="pNom" value="<%=user.getPrenom()%>" required>
         </div>
 
         <div>
-            <label for="tel">Teléphone :</label>
+            <label for="tel">TelÃ©phone :</label>
             <input name="telephone" id="tel" type="tel" 
             maxlength= 10 value="<%=user.getTelephone()%>"  required>
         </div>
@@ -89,7 +89,7 @@
           <input name="motDePasseConfirmation" id="mdpConf" type="password" required>
         </div>
 
-        <p>crédit : <%=user.getCredit() %></p>
+        <p>crÃ©dit : <%=user.getCredit() %></p>
 
         <div class=btn-large>
           <button class="btn" type="submit" name="update">Enregistrer</button>
