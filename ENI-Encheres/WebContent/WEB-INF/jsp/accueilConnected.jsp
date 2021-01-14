@@ -1,3 +1,5 @@
+<%@page import="fr.eni.encheres.bll.CategorieManager"%>
+<%@page import="fr.eni.encheres.bo.Categorie"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 <%@ page import="fr.eni.encheres.bo.ArticleVendu" %>
@@ -22,15 +24,11 @@
 
     <div class="search-bar">
         
-        <select class="categories" name="pets" id="pet-select">
-            <option value="">Toutes nos catégories</option>
-            <option value="dog">Dog</option>
-            <option value="cat">Cat</option>
-            <option value="hamster">Hamster</option>
-            <option value="parrot">Parrot</option>
-            <option value="spider">Spider</option>
-            <option value="goldfish">Goldfish</option>
-        </select>
+        <select class="input" id="categorie">
+          <% for(Categorie categorie : CategorieManager.selectionnerToutesLesCategories()) { %>
+            <option name="categorie" value ="<%=categorie.getId()%>"><%=categorie.getLibelle()%></option>
+            <% } %>
+         </select>
         
         <div class="search-box">
             <input type="text" class="search" placeholder="What are we looking for today?">

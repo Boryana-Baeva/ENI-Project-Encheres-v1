@@ -3,6 +3,7 @@ package fr.eni.encheres.dal.jdbc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 	private static final String GET_ALL = "select * from CATEGORIES";
 	private static final String UPDATE = "update CATEGORIES set libelle = ? where no_categorie=?";
 	private static final String DELETE = "delete CATEGORIES where no_categorie=?";
+	private static final String GET_BY_LIBELLE="select * from CATEGORIES where libelle=?";
 
 	@Override
 	public Categorie insert(Categorie categorie) throws BusinessException {
@@ -88,7 +90,7 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 	@Override
 	public List<Categorie> getAll() throws BusinessException {
 		
-		List<Categorie> categories = new ArrayList<>();
+		List<Categorie> categories = new ArrayList<Categorie>();
 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 
@@ -154,5 +156,27 @@ public class CategorieDAOJDBCImpl implements CategorieDAO {
 
 		}
 
+	}
+
+	@Override
+	public Categorie getByLibelle(String libelle) throws BusinessException {
+		Categorie categorie = new Categorie();
+		try (Connection cnx = ConnectionProvider.getConnection()){
+			PreparedStatement statement = cnx.prepareStatement(GET_BY_LIBELLE);
+			statement.setString(1, libelle);
+			
+			ResultSet rs = statement.executeQuery();
+			
+			if(rs.next()) {
+				categorie.setId(rs.getInt("no_categorie"));
+				categorie.setLibelle(rs.getString("libelle"));
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.LECTURE_UTILISATEURS_ECHEC);
+			throw businessException;
+		}
+		return categorie;
 	}
 }

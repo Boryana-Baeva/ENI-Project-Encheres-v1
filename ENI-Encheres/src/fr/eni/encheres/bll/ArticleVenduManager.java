@@ -11,18 +11,19 @@ import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.DAOFactory;
+import fr.eni.encheres.dal.jdbc.ArticleVenduDAOJDBCImpl;
 
 public class ArticleVenduManager {
 
 	
-	private static ArticleVenduDAO articleVenduDAO;
+	private static ArticleVenduDAO articleVenduDAO = new ArticleVenduDAOJDBCImpl();
 	private static ArticleVendu articleVendu = new ArticleVendu();
 	private static  EtatVente etatVente;
 			
 	private static BusinessException businessException = new BusinessException();
 	
 	public ArticleVenduManager() {
-		articleVenduDAO = DAOFactory.getArticleDAO();
+		
 	}
 
 	public static  ArticleVendu nouvelleVente(ArticleVendu articleVendu)

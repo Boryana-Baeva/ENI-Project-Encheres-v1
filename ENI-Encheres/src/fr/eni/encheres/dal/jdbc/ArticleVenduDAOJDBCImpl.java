@@ -55,11 +55,8 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			statement.setDate(3, java.sql.Date.valueOf(articleVendu.getDateDebutEncheres()));
 			statement.setDate(4, java.sql.Date.valueOf(articleVendu.getDateFinEncheres()));
 			statement.setInt(5, articleVendu.getMiseAPrix());
-			utilisateurDAO.insert(articleVendu.getVendeur());
 			statement.setInt(6, articleVendu.getVendeur().getId());
-			categorieDAO.insert(articleVendu.getCategorie());
 			statement.setInt(7, articleVendu.getCategorie().getId());
-			retraitDAO.insert(articleVendu.getLieuRetrait());
 			statement.setInt(8, articleVendu.getLieuRetrait().getId());
 
 			statement.executeUpdate();

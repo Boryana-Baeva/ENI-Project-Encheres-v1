@@ -29,7 +29,7 @@
  
     <section class="vente-form">
     	<% Utilisateur connectedUser = (Utilisateur) session.getAttribute("ConnectedUser"); 
-    	   List<Categorie> allCategories = CategorieManager.selectionnerToutesLesCategories();
+    	  /* List<Categorie> allCategories = CategorieManager.selectionnerToutesLesCategories();*/
     	%>    
       <form class="vente" action="<%=request.getContextPath() %>/vendre" method="post"> <!-- change methode to POST to get results on server, i used GET to show the result in html file-->
       
@@ -46,8 +46,8 @@
         <div class="input-field"> <!--Un div peut être?-->
           <label for="categorie">Catégorie :</label>
           <select class="input" id="categorie">
-          <% for(Categorie categorie : allCategories) { %>
-            <option name="categorie" value ="<%=categorie.getLibelle()%>">--Choisir une option--</option>
+          <% for(Categorie categorie : CategorieManager.selectionnerToutesLesCategories()) { %>
+            <option name="categorie" value ="<%=categorie.getId()%>"><%=categorie.getLibelle()%></option>
             <% } %>
           </select>
         </div>
@@ -97,14 +97,10 @@
     </div>
 
         <div>
-          <button class="btn-login" type="submit">Connexion</button>
+          <button class="btn-login" type="submit" >Vendre cet article</button>
         </div>
 
-        <div>
-          <a href ='PageCreerCompte.html'><button class="btn-login" type="button"> 
-            Créer un compte
-          </button></a>
-        </div>
+       
       </form>
     </section>
 

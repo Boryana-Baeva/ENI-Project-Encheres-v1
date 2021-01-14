@@ -6,15 +6,16 @@ import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.dal.CategorieDAO;
 import fr.eni.encheres.dal.DAOFactory;
+import fr.eni.encheres.dal.jdbc.CategorieDAOJDBCImpl;
 
 public class CategorieManager {
 	
 	
-	private static CategorieDAO categorieDAO;
+	private static CategorieDAO categorieDAO = new CategorieDAOJDBCImpl();
 	private static BusinessException businessException = new BusinessException();
 	
 	public CategorieManager() {
-		categorieDAO = DAOFactory.getCategorieDAO();
+
 	}
 	
 	public static Categorie ajouterCategorie (Categorie categorie) throws BusinessException{
@@ -68,4 +69,7 @@ public class CategorieManager {
 		}
 	}
 	
+	public static Categorie getByLibelle(String libelle) throws BusinessException{
+		return categorieDAO.getByLibelle(libelle);
+	}
 }

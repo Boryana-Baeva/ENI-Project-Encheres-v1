@@ -18,5 +18,7 @@ public interface CategorieDAO {
 	public void update (Categorie categorie) throws BusinessException;
 	
 	public void delete (int id) throws BusinessException;
+	
+	public Categorie getByLibelle( String libelle) throws BusinessException;
 
 }

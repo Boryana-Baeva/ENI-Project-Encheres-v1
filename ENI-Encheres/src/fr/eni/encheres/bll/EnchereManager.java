@@ -7,16 +7,16 @@ import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.EnchereDAO;
+import fr.eni.encheres.dal.jdbc.EnchereDAOJDBCImpl;
 
 public class EnchereManager {
 	
 	
-	private static EnchereDAO enchereDAO;
+	private static EnchereDAO enchereDAO = new EnchereDAOJDBCImpl();
 	private static BusinessException businessException = new BusinessException();
 	
 	public EnchereManager() {
 		
-		enchereDAO=DAOFactory.getEnchereDAO();
 	}
 	
 	public Enchere ajoutEnchere (Enchere enchere) throws BusinessException {

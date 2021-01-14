@@ -4,14 +4,14 @@ import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.RetraitDAO;
+import fr.eni.encheres.dal.jdbc.RetraitDAOJDBCImpl;
 
 public class RetraitManager {
 	
-	private static RetraitDAO retraitDAO;
+	private static RetraitDAO retraitDAO = new RetraitDAOJDBCImpl();
 	private static BusinessException businessException = new BusinessException();
 	
 	public RetraitManager() {
-		retraitDAO = DAOFactory.getRetraitDAO();
 	}
 	
 	public static Retrait ajouterLieuRetrait (Retrait retrait) throws BusinessException {

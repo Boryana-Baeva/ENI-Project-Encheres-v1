@@ -1,6 +1,7 @@
 package fr.eni.encheres.servlets;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -9,12 +10,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.CategorieManager;
 import fr.eni.encheres.bll.RetraitManager;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
+import fr.eni.encheres.bo.Utilisateur;
 
 /**
  * Servlet implementation class ServletVendreArticle
@@ -43,44 +47,46 @@ public class ServletVendreArticle extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		ArticleVendu article = null;
+		HttpSession session = request.getSession();
+		ArticleVendu article = new ArticleVendu();
 		
 		try {
 			String nom = request.getParameter("article");
 			String description = request.getParameter("description");
-			String dateDebutEncheres = request.getParameter("dEnchere");
-			String dateFinEncheres = request.getParameter("fEnchere");
-			String miseAPrix = request.getParameter("mPrix");
-			String categorie = request.getParameter("categorie");
+			LocalDate dateDebutEncheres = LocalDate.parse(request.getParameter("dEnchere"));
+			LocalDate dateFinEncheres = LocalDate.parse(request.getParameter("fEnchere"));
+			int miseAPrix = Integer.parseInt(request.getParameter("mPrix"));
+			String libelle = request.getParameter("categorie");
 			String rue = request.getParameter("rue");
 			String codePostal = request.getParameter("codePostal");
 			String ville = request.getParameter("ville");
 			
-			Retrait retrait = null;
-			
-			if (!rue.trim().equals("") || !rue.isEmpty() 
-					|| !codePostal.trim().equals("") || !codePostal.isEmpty()
-					|| !ville.trim().equals("") || !ville.isEmpty()) {
+			Categorie categorie = CategorieManager.getByLibelle(libelle);
+			Utilisateur utilisateur = (Utilisateur) session.getAttribute("ConnectedUser");
+			Retrait retrait = new Retrait();
 				
-				retrait = new Retrait();
-				retrait.setRue(rue);
-				retrait.setCodePostal(codePostal);
-				retrait.setVille(ville);
+			retrait = new Retrait();
+			retrait.setRue(rue);
+			retrait.setCodePostal(codePostal);
+			retrait.setVille(ville);
 				
-				RetraitManager.ajouterLieuRetrait(retrait);				
-			} 
+			RetraitManager.ajouterLieuRetrait(retrait);				
 			
+			article.setNom(nom);
+			article.setDescription(description);
+			article.setDateDebutEncheres(dateDebutEncheres);
+			article.setDateFinEncheres(dateFinEncheres);
+			article.setMiseAPrix(miseAPrix);
+			article.setCategorie(categorie);
+			article.setLieuRetrait(retrait);
+			article.setVendeur(utilisateur);
 			
+			ArticleVenduManager.nouvelleVente(article);
 			
-			
-			if (retrait == null) {
-				
-			}
 			
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
