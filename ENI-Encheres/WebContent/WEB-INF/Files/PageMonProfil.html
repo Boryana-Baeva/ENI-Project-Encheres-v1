@@ -6,61 +6,77 @@
   	    <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <!-- Place your kit's code here -->
         <script src="https://kit.fontawesome.com/1cbc331981.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="style.css">
         <title>ENI-Enchères/Mon Profil</title>
     </head>
 
     <body>
 
-    <header>
-      <h1>ENI-Enchères</h1>
-    </header>
+     <!--Navbar-->
+     <nav class="navbar">
+        <div class="brand-title">Eni-Enchères</div>
+        
+        <a href="#" class="toggle-button">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </a>
+        </div>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="PageListeEncheresNonConnecte.html">Enchères  <i class="fas fa-bullhorn"></i></i></a></li>
+                <li><a href="PageConnexion.html">Vendre  <i class="fas fa-hand-holding-usd"></i></a></li>
+                <li><a href="PageConnexion.html">Mon Profil  <i class="fas fa-user-circle"></i></a></li>
+                <li><a href="PageConnexion.html">Connexion  <i class="fas fa-sign-in-alt"></i></a></li>
+            </ul>
+        </div>
+      </nav>
+      <!--Banner-->
+      <div class="header">
+      </div>
+      <!--Head-->
+      <div class="head">
+        <h1>Profile</h1>
+      </div>
 
-    <section class="Profil">
+    <section class="profile">
         <table>
-
         <tr>
-            <td>Pseudo :</td>
-            <td>Ruru</td>
+            <td class="td1"><p class="value-td1">Description de l'article</p></td>
+            <td class="td2"><p class="value-td2">Ruru</p></td>
         </tr>
-
         <tr>
-            <td>Nom :</td>
-            <td>Alex</td>
+            <td class="td1"><p class="value-td1">Nom</p></td>
+            <td class="td2"><p class="value-td2">Alex</p></td>
         </tr>
-
         <tr>
-            <td>Email :</td>
-            <td>test@gmail.com</td>
+            <td class="td1"><p class="value-td1">Email</p></td>
+            <td class="td2"><p class="value-td2">test@gmail.com</p></td>
+        </tr>    
+        <tr>
+            <td class="td1"><p class="value-td1">Téléphone</p></td>
+            <td class="td2"><p class="value-td2">04.56.63.25.85</p></td>
         </tr>
-             
         <tr>
-            <td>Téléphone</td>
-            <td>04.56.63.25.85</td>
+            <td class="td1"><p class="value-td1">Rue</p></td>
+            <td class="td2"><p class="value-td2">c'est la rue frère faut faire du biff</p></td>
         </tr>
-
         <tr>
-            <td>Rue :</td>
-            <td>22 chapiteau</td>
-        </tr>
-
+            <td class="td1"><p class="value-td1">Code Postal</p></td>
+            <td class="td2"><p class="value-td2">85695</p></td>
+        </tr> 
         <tr>
-            <td>Code postal :</td>
-            <td>85695</td>
-        </tr>
-          
-        <tr>
-            <td>Ville : </td>
-            <td>Ville du painu</td>
+            <td class="td1"><p class="value-td1">Ville</p></td>
+            <td class="td2"><p class="value-td2">Ville du painu</p></td>
         </tr>
     </table>
+    <div class=btn-large>
+        <a href ='PageModifierProfil.html'><button class="btn" type="button"> <!--change that with index.html file location-->
+          Modifier
+        </button>
+        </a>
+    </div>
 </section>
 
-<div class=btn-large>
-    <a href ='PageModifierProfil.html'><button class="btn" type="button"> <!--change that with index.html file location-->
-      Modifier
-    </button>
-    </a>
-</div>
 </body>
 </html>
