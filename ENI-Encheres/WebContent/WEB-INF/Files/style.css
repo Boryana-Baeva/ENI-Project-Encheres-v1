@@ -421,6 +421,13 @@ table {
      border: 1px solid var(--border);
  }
 
+ /* Aquisition*/
+
+.encherisseur {
+    color: white;
+    font-size: 28px;
+    text-align: center;
+}
 /* Media Queries */
 
 @media (max-width: 700px) {
