@@ -77,7 +77,7 @@
     </table>
     
     <div class=btn-large>
-        <a href ="<%=request.getContextPath()%>/updateProfil"><button class="btn" type="button"> <!--change that with index.html file location-->
+        <a href ="<%=request.getContextPath()%>/updateProfil?pseudo=<%=userAffiche.getPseudo() %>"><button class="btn" type="button"> <!--change that with index.html file location-->
           Modifier
         </button>
         </a>

@@ -65,16 +65,16 @@ public class ServletRegister extends HttpServlet {
 			List<String> allPseudos = UtilisateurManager.selectAllPseudos();
 			
 			if(nom.length()==0 || nom.isEmpty() ) {
-				request.setAttribute("erreur", "Le nom n'a pas �t� renseign�, veuillez le saisir ...");
+				request.setAttribute("erreur", "Le nom n'a pas été renseigné, veuillez le saisir ...");
 				dispatcher.forward(request, response);
 			}	
 			else if (prenom.length()==0 || prenom.isEmpty() ) {
-				request.setAttribute("erreur", "Le pr�nom n'a pas �t� renseign�, veuillez le saisir ...");
+				request.setAttribute("erreur", "Le pr�nom n'a pas été renseigné, veuillez le saisir ...");
 				dispatcher.forward(request, response);
 			}
 			else if (pseudo.length()==0 || pseudo.isEmpty() ) {
 				
-				request.setAttribute("erreur", "Le pseudo n'a pas �t� renseign�, veuillez le saisir ...");			
+				request.setAttribute("erreur", "Le pseudo n'a pas été renseigné, veuillez le saisir ...");			
 				dispatcher.forward(request, response);
 			}
 			else if (allPseudos.contains(pseudo)) {
@@ -83,28 +83,28 @@ public class ServletRegister extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 			else if (email.length()==0 || email.isEmpty() ) {
-				request.setAttribute("erreur", "L'email n'a pas �t� renseign�, veuillez le saisir ...");
+				request.setAttribute("erreur", "L'email n'a pas été renseigné, veuillez le saisir ...");
 				dispatcher.forward(request, response);
 			}
 			else if (password.length()==0 || password.isEmpty() ) {
-				request.setAttribute("erreur", "Le mot de passe n'a pas �t� renseign�, veuillez le saisir ...");
+				request.setAttribute("erreur", "Le mot de passe n'a pas été renseigné, veuillez le saisir ...");
 				dispatcher.forward(request, response);
 			}
 			else if (rue.length()==0 || rue.isEmpty() ) {
-				request.setAttribute("erreur", "La rue n'a pas �t� renseign�, veuillez le saisir ...");
+				request.setAttribute("erreur", "La rue n'a pas été renseigné, veuillez le saisir ...");
 				dispatcher.forward(request, response);
 			}
 			else if (ville.length()==0 || ville.isEmpty() ) {
-				request.setAttribute("erreur", "La ville n'a pas �t� renseign�, veuillez le saisir ...");
+				request.setAttribute("erreur", "La ville n'a pas été renseigné, veuillez le saisir ...");
 				dispatcher.forward(request, response);
 			}
 			else if (codePostal.length()==0 || codePostal.isEmpty() ) {
-				request.setAttribute("erreur", "Le code postal n'a pas �t� renseign�, veuillez le saisir ...");
+				request.setAttribute("erreur", "Le code postal n'a pas été renseigné, veuillez le saisir ...");
 				dispatcher.forward(request, response);
 			}
 			else if (confirmation.equals(password)) {
 			
-				user = new Utilisateur(pseudo,nom,prenom,email,telephone,rue,ville,codePostal,password);
+				user = new Utilisateur(pseudo,nom,prenom,email,telephone,rue,codePostal,ville,password);
 				user = UtilisateurManager.inscriptionUtilisateur(user);
 				
 				if (user != null) {

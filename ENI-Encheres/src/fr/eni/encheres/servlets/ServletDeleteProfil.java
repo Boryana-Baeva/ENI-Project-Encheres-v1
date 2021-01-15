@@ -34,9 +34,7 @@ public class ServletDeleteProfil extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/monProfil.jsp");
 		
-        //dispatcher.forward(request, response);
 	}
 
 	/**
@@ -53,11 +51,11 @@ public class ServletDeleteProfil extends HttpServlet {
 				session.removeAttribute("ConnectedUser");
 				session.invalidate();
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/accueilDeconnected.jsp");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/accueilDeconnected");
 				dispatcher.forward(request, response);
 			} catch (BusinessException e) {
 				e.printStackTrace();
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/monProfil.jsp");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/profil");
 				dispatcher.forward(request, response);
 				
 			}

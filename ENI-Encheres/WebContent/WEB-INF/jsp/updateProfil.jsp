@@ -29,7 +29,7 @@
     
     <section class="LoggingForm">
       
-      <form action="<%=request.getContextPath() %>/updateProfil" method="post"> <!-- change methode to POST to get results on server, i used GET to show the result in html file-->
+      <form action="<%=request.getContextPath() %>/updateProfil?pseudo=<%=user.getPseudo() %>" method="post"> <!-- change methode to POST to get results on server, i used GET to show the result in html file-->
 
 <!-- Colonee de gauche-->
         <div>
@@ -55,12 +55,12 @@
         
         <div>
             <label for="mdp">Mot de passe actuel :</label>
-            <input name="motDePasseActuel" id="mdp" type="password" required>
+            <input name="motDePasseActuel" id="mdp" type="password" >
           </div>
 
         <div>
             <label for="mdp">Mot de passe :</label>
-            <input name="newMotDePasse" id="mdp" type="password" required>
+            <input name="newMotDePasse" id="mdp" type="password" >
           </div>
 
 <!-- Colonee de droite-->
@@ -86,7 +86,7 @@
 
         <div>
           <label for="mdpConf">Confirmation :</label>
-          <input name="motDePasseConfirmation" id="mdpConf" type="password" required>
+          <input name="motDePasseConfirmation" id="mdpConf" type="password" >
         </div>
 
         <p>crédit : <%=user.getCredit() %></p>

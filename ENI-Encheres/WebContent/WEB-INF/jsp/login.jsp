@@ -52,7 +52,7 @@
         </div>
 
         <div>
-          <a href ='PageCreerCompte.html'><button class="btn-login" type="button"> 
+          <a href ="<%=request.getContextPath() %>/register"><button class="btn-login" type="button"> 
             Créer un compte
           </button></a>
         </div>
