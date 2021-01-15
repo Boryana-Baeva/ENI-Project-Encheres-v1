@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.encheres.BusinessException;
+import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.Utilisateur;
 
 /**
@@ -31,8 +33,30 @@ public class ServletProfil extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/monProfil.jsp");
-		dispatcher.forward(request, response);
+		HttpSession session = request.getSession();
+		Utilisateur connectedUser = (Utilisateur) session.getAttribute("ConnectedUser");
+				
+		String pseudo = request.getParameter("pseudo");	
+		Utilisateur userAffiche = null;
+		
+		
+		try {
+			userAffiche = UtilisateurManager.selectUserByPseudo(pseudo);
+						
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		if (userAffiche != null && connectedUser != null) {
+			
+			request.setAttribute("UserAffiche", userAffiche);
+			request.getRequestDispatcher("/WEB-INF/jsp/profil.jsp").forward(request, response);	
+					
+		} 
+		
+		
 	}
 
 	/**

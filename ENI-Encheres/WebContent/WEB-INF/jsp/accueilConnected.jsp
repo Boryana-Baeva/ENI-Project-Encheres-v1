@@ -104,18 +104,18 @@
 		        <% for(ArticleVendu article : listeArticles) { %> 
 		              <div class="card">
 		                <div class="card-header">
-		                    <h1><%=article.getNom()%></h1>
+		                    <h1><a href="<%=request.getContextPath()%>/detailVente?idArticle=<%=article.getId() %>"><%=article.getNom()%></a></h1>
 		                </div>
 		                <div class="card-img-container">
 		                    <img src="img/tournevis.jpeg" alt="">
 		                </div>
 		                <div class="card-body">
-		                    <div class="prix"><i class="fas fa-tag"></i><%=article.getMiseAPrix()%></div>
+		                   	 <div class="prix"><i class="fas fa-tag"></i><%=article.getMiseAPrix()%></div> 
 		                    <div class="card-date-enchere">
 		                        <p><i class="far fa-clock"></i><%=article.getDateDebutEncheres().format(DateTimeFormatter.ofPattern("dd/MM/YYYY", Locale.FRANCE))%></p>
 		                    </div>
 		                    <div class="vendeur">
-		                        <p><i class="fas fa-id-badge"></i> <a href="#"><%=article.getVendeur().getPseudo()%></a></p>
+		                        <p><i class="fas fa-id-badge"></i><a href="<%=request.getContextPath()%>/profil?pseudo=<%=article.getVendeur().getPseudo() %>"><%=article.getVendeur().getPseudo()%></a></p>
 		                    </div>
 		                </div>
 		            </div>

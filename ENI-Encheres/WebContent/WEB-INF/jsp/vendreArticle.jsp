@@ -63,7 +63,7 @@
         <div class="input-field">
               <label for="mPrix">Mise à prix :</label>
               <input class="input" type="number" name="mPrix" id="mPrix" 
-              step="5" max= "10000" required>
+              step="1" max= "10000" required>
         </div>
 
         <div class="input-field">

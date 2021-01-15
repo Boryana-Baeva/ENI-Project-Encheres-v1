@@ -53,12 +53,12 @@ public class ArticleVenduManager {
 	}
 	
 	
-	public static void modifierArticlesVendus (LocalDate dateDebutEncheres, LocalDate dateFinEncheres) throws BusinessException{
+	public static void modifierArticlesVendus (ArticleVendu article) throws BusinessException{
 		
-		validerDate(articleVendu);
+		validerDate(article);
 		if(!businessException.hasErreurs())
 		{
-			articleVenduDAO.update(articleVendu);
+			articleVenduDAO.update(article);
 		}
 	}
 		

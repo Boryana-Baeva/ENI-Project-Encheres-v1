@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.BusinessException;
+import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bo.ArticleVendu;
 
 /**
@@ -30,12 +32,25 @@ public class ServletDetailVente extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/detailVente.jsp");
 		
-		ArticleVendu article = (ArticleVendu) request.getAttribute("Article");
-		request.setAttribute("Article", article);
 		
-		dispatcher.forward(request, response);
+		ArticleVendu articleAffiche = null;
+		
+		int id = Integer.parseInt(request.getParameter("idArticle"));
+		
+		try {
+			articleAffiche = ArticleVenduManager.selectArticleById(id);
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (articleAffiche != null) {
+			request.setAttribute("ArticleAffiche", articleAffiche);
+			request.getRequestDispatcher("/WEB-INF/jsp/detailVente.jsp").forward(request, response);;
+		
+		}
+		
+		
 	}
 
 	/**

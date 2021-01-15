@@ -19,9 +19,9 @@ public class EnchereManager {
 		
 	}
 	
-	public Enchere ajoutEnchere (Enchere enchere) throws BusinessException {
+	public static Enchere ajoutEnchere (Enchere enchere) throws BusinessException {
 
-		this.validerDate(enchere.getDate(), businessException);
+		validerDate(enchere.getDate(), businessException);
 		
 		if(!businessException.hasErreurs())
 		{
@@ -45,7 +45,7 @@ public class EnchereManager {
 		return enchereDAO.getAll();
 	}
 	
-	private void validerDate(LocalDate date, BusinessException businessException) {
+	private static void validerDate(LocalDate date, BusinessException businessException) {
 		
 		if(date == null || date.isAfter(LocalDate.now()))
 		{

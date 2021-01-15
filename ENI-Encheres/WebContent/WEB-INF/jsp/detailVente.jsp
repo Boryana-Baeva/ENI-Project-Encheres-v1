@@ -23,7 +23,7 @@
     <div class="head">
       <h1>Détail Vente</h1>
     </div>
-	<% ArticleVendu article = (ArticleVendu)request.getAttribute("Article"); %>
+	<% ArticleVendu article = (ArticleVendu)request.getAttribute("ArticleAffiche"); %>
     <div class="container-vente">
         <div class="card-img-container">
             <img src="img/tournevis.jpeg" alt="">
@@ -59,17 +59,19 @@
             </tr> 
         </table>
 
+	<form action="<%=request.getContextPath()%>/encherir" method="post">
         <div class="input-field">
             <label for="mPrix">Ma Proposition :</label>
             <input class="input" type="number" name="mPrix" id="mPrix" 
-            step="5" max= "10000" required>
+            step="1" max= "10000" required>
         </div>
 
       <div>
         <button class="btn-login" type="submit">Enchérir</button>
       </div>
-
-      <a href ='PageConnexion.html'><button class="btn" type="button"> <!--change that with index.html file location-->
+      <input value="<%=article.getId()%>" type="text" id="idArticle" name="idArticle" style="visibility:hidden;">
+	</form>
+      <a href ="<%=request.getContextPath()%>/accueilConnected"><button class="btn" type="button"> <!--change that with index.html file location-->
         Back
       </button>
       </a>

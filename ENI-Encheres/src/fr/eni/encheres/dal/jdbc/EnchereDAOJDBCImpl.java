@@ -43,9 +43,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
             PreparedStatement statement = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
             statement.setDate(1, Date.valueOf(enchere.getDate()));
             statement.setInt(2, enchere.getMontant());
-            articleDao.insert(enchere.getArticle());
             statement.setInt(3, enchere.getArticle().getId());
-            utilisateurDAO.insert(enchere.getEncherisseur());
             statement.setInt(4, enchere.getEncherisseur().getId());
             statement.setBoolean(5, enchere.isRemporte());
            

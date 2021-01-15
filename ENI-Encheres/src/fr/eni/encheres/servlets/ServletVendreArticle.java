@@ -84,8 +84,8 @@ public class ServletVendreArticle extends HttpServlet {
 			
 			ArticleVenduManager.nouvelleVente(article);
 			
-			request.setAttribute("Article", article);
-			this.getServletContext().getRequestDispatcher("/detailVente").forward(request, response);
+			request.setAttribute("ArticleAffiche", article);
+			this.getServletContext().getRequestDispatcher("/accueilConnected").forward(request, response);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

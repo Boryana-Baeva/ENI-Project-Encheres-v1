@@ -28,48 +28,49 @@
 
 	<%if(session.getAttribute("ConnectedUser")!=null){
 		Utilisateur connectedUser = (Utilisateur) session.getAttribute("ConnectedUser");
-	 	Utilisateur utilisateur = UtilisateurManager.selectUserById(connectedUser.getId()); %>
+		Utilisateur userAffiche = (Utilisateur) request.getAttribute("UserAffiche");
+		%>
 
     <section class="profile">
         <table>
         <tr>
             <td class="td1"><p class="value-td1">Pseudo : </p></td>
-            <td class="td2"><p class="value-td2"><%=utilisateur.getPseudo() %></p></td>
+            <td class="td2"><p class="value-td2"><%=userAffiche.getPseudo() %></p></td>
         </tr>
         <tr>
             <td class="td1"><p class="value-td1">Nom : </p></td>
-            <td class="td2"><p class="value-td2"><%=utilisateur.getNom()%></p></td>
+            <td class="td2"><p class="value-td2"><%=userAffiche.getNom()%></p></td>
         </tr>
         <tr>
             <td class="td1"><p class="value-td1">Prénom :</td>
-            <td class="td2"><p class="value-td2"><%=utilisateur.getPrenom()%></td>
+            <td class="td2"><p class="value-td2"><%=userAffiche.getPrenom()%></td>
         </tr>
         <tr>
             <td class="td1"><p class="value-td1">Email : </p></td>
-            <td class="td2"><p class="value-td2"><%=utilisateur.getEmail() %></p></td>
+            <td class="td2"><p class="value-td2"><%=userAffiche.getEmail() %></p></td>
         </tr>    
         <tr>
             <td class="td1"><p class="value-td1">Téléphone : </p></td>
-            <%if(utilisateur.getTelephone()!=null) {%>
-            <td class="td2"><p class="value-td2"><%=utilisateur.getTelephone() %></td>
+            <%if(userAffiche.getTelephone()!=null) {%>
+            <td class="td2"><p class="value-td2"><%=userAffiche.getTelephone() %></td>
             <%} else { %>
             <td class="td2"><p class="value-td2"></td> 
             <% } %>
         </tr>
         <tr>
             <td class="td1"><p class="value-td1">Rue : </p></td>
-            <td class="td2"><p class="value-td2"><%=utilisateur.getRue() %></p></td>
+            <td class="td2"><p class="value-td2"><%=userAffiche.getRue() %></p></td>
         </tr>
         <tr>
             <td class="td1"><p class="value-td1">Code Postal : </p></td>
-            <td class="td2"><p class="value-td2"><%=utilisateur.getCodePostal() %></p></td>
+            <td class="td2"><p class="value-td2"><%=userAffiche.getCodePostal() %></p></td>
         </tr> 
         <tr>
             <td class="td1"><p class="value-td1">Ville : </p></td>
-            <td class="td2"><p class="value-td2"><%=utilisateur.getVille() %></p></td>
+            <td class="td2"><p class="value-td2"><%=userAffiche.getVille() %></p></td>
         </tr>
     </table>
-    <% if(connectedUser.getId()==utilisateur.getId() ){%>
+    <% if(connectedUser.getId()==userAffiche.getId() ){%>
     <div class=btn-large>
         <a href ="<%=request.getContextPath()%>/updateProfil"><button class="btn" type="button"> <!--change that with index.html file location-->
           Modifier
