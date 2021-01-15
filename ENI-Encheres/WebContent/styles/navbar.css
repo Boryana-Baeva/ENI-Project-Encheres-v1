@@ -13,6 +13,16 @@
 .brand-title {
     font-size: 2rem;
     margin: 1rem;
+    
+}
+
+.brand-title a {
+    text-decoration: none;
+    color: white;
+}
+
+.brand-title a:visited {
+    color: white;
 }
 
 .navbar-links ul {

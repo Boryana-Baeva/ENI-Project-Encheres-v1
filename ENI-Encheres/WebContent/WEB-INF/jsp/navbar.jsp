@@ -7,7 +7,7 @@
  		<!--Navbar-->
  
     <nav class="navbar">
-      <div class="brand-title">Eni-Enchères</div>
+      <div class="brand-title"> <a href="<%=request.getContextPath()%>/accueilConnected"> Eni-Enchères </a></div>
       
       <a href="#" class="toggle-button">
           <span class="bar"></span>
