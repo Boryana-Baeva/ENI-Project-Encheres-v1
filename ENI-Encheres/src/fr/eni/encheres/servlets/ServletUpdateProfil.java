@@ -40,7 +40,7 @@ public class ServletUpdateProfil extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/updateProfil.jsp");
+		//RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/updateProfil.jsp");
 		
 		HttpSession session = request.getSession();
 		Utilisateur connectedUser = (Utilisateur) session.getAttribute("ConnectedUser");

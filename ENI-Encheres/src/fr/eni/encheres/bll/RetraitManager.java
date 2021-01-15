@@ -29,6 +29,10 @@ public class RetraitManager {
 		
 	}
 
+	public static Retrait selectionnerRetraitById(int id) throws BusinessException {
+		return retraitDAO.getById(id);
+	}
+	
 	public static void modifierRetrait(Retrait retrait) throws BusinessException
 	{
 		validerAdresse(retrait, businessException);

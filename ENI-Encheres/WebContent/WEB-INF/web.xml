@@ -100,4 +100,13 @@
   	<url-pattern>/JSPRemporterVente</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>UpdateVente</servlet-name>
+	<jsp-file>/WEB-INF/jsp/updateVente.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>UpdateVente</servlet-name>
+  	<url-pattern>/JSPUpdateVente</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
