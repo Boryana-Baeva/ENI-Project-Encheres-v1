@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.EnchereManager;
+import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
@@ -71,6 +72,7 @@ public class ServletEncherir extends HttpServlet {
 				
 				ArticleVenduManager.modifierArticlesVendus(articleAffiche);
 				connectedUser.setCredit(currentCredit - prixEnchere);
+				UtilisateurManager.modifierUtilisateur(connectedUser);
 			} catch (BusinessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
