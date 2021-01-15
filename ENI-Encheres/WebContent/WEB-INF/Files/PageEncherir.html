@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
         <!--Script-->
         <script src="script.js" defer></script>
-        <title>Eni-Enchères | Connexion</title>
+        <title>Eni-Enchères | Enchérir</title>
         
     </head>
 
@@ -43,9 +43,13 @@
     </div>
 
     <div class="container-vente">
-
-        <div class="card-img-container">
-            <img src="img/tournevis.jpeg" alt="">
+        <div class="nom-article">
+          <h1>Tournevis du futur</h1>
+        </div>
+        <div class="top-container-vente">
+          <div class="card-img-container">
+              <img src="img/tournevis.jpeg" alt="">
+          </div>
         </div>
         <table>
             <tr>
@@ -74,14 +78,14 @@
             </tr> 
         </table>
 
-        <div class="input-field">
+        <div class="input-field-2">
             <label for="mPrix">Ma Proposition :</label>
             <input class="input" type="number" name="mPrix" id="mPrix" 
-            step="5" max= "10000" required>
+            step="5" max= "10000" min="0" required>
         </div>
 
       <div>
-        <button class="btn-login" type="submit">Connexion</button> </a>
+        <button class="btn-login" type="submit">Enchérir</button> </a>
       </div>
 
       <a href ='PageConnexion.html'><button class="btn" type="button"> <!--change that with index.html file location-->
