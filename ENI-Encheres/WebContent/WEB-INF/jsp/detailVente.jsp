@@ -1,3 +1,7 @@
+<%@page import="fr.eni.encheres.bo.Enchere"%>
+<%@page import="java.util.Locale"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="fr.eni.encheres.bo.ArticleVendu"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -24,6 +28,7 @@
       <h1>Détail Vente</h1>
     </div>
 	<% ArticleVendu article = (ArticleVendu)request.getAttribute("ArticleAffiche"); %>
+	<%Enchere enchere = (Enchere)request.getAttribute("meilleureEnchere"); %>
     <div class="container-vente">
         <div class="card-img-container">
             <img src="img/tournevis.jpeg" alt="">
@@ -37,17 +42,19 @@
                 <td class="td1"><p class="value-td1">Description:</p></td>
                 <td class="td2"><p class="value-td2"><%=article.getDescription() %></p></td>
             </tr>
+            <%if(article.getPrixVente() != 0) { %>
             <tr>
                 <td class="td1"><p class="value-td1">Meilleure offre:</p></td>
-                <td class="td2"><p class="value-td2">210 pts par bob</p></td>
+                <td class="td2"><p class="value-td2"><%=article.getPrixVente()%> pts par <%=enchere.getEncherisseur().getPseudo() %></p></td>
             </tr>
+            <% } %>
             <tr>
                 <td class="td1"><p class="value-td1">Mise à prix:</p></td>
                 <td class="td2"><p class="value-td2"><%=article.getMiseAPrix() %></p></td>
-            </tr>    
+            </tr>  
             <tr>
                 <td class="td1"><p class="value-td1">Fin de l'enchère:</p></td>
-                <td class="td2"><p class="value-td2">09/10/2018</p></td>
+                <td class="td2"><p class="value-td2"><%=article.getDateFinEncheres().format(DateTimeFormatter.ofPattern("dd/MM/YYYY", Locale.FRANCE)) %></p></td>
             </tr>
             <tr>
                 <td class="td1"><p class="value-td1">Retrait:</p></td>

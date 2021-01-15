@@ -56,6 +56,9 @@
 		                </div>
 		                <div class="card-body">
 		                    <div class="prix"><i class="fas fa-tag"></i><%=article.getMiseAPrix()%></div>
+		                    <% if(article.getPrixVente() != 0) { %> 
+		                   	 <div class="prix"><i class="fas fa-tag"></i><%=article.getPrixVente()%></div> 
+		                   	 <%} %>
 		                    <div class="card-date-enchere">
 		                        <p><i class="far fa-clock"></i><%=article.getDateDebutEncheres().format(DateTimeFormatter.ofPattern("dd/MM/YYYY", Locale.FRANCE))%></p>
 		                    </div>

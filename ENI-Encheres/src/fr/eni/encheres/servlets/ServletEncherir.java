@@ -64,12 +64,13 @@ public class ServletEncherir extends HttpServlet {
 		if (articleAffiche != null && prixEnchere > articleAffiche.getMiseAPrix()
 				&& connectedUser.getCredit() >= prixEnchere) {
 			Enchere enchere = new Enchere(LocalDate.now(), prixEnchere, articleAffiche, connectedUser);
-			articleAffiche.setMiseAPrix(prixEnchere);
+			articleAffiche.setPrixVente(prixEnchere);
+			
 			
 			try {
 				EnchereManager.ajoutEnchere(enchere);
 				request.setAttribute("mPrix", prixEnchere);
-				
+				request.setAttribute("meilleureEnchere", enchere);
 				ArticleVenduManager.modifierArticlesVendus(articleAffiche);
 				connectedUser.setCredit(currentCredit - prixEnchere);
 				UtilisateurManager.modifierUtilisateur(connectedUser);
