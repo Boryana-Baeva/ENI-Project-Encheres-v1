@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+  	    <meta name="viewport"content="width=device-width, initial-scale=1.">
+  	    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <!-- Place your kit's code here -->
+        <script src="https://kit.fontawesome.com/1cbc331981.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="style.css">
+        <title>Eni-Enchères | Enchère Non Commencée</title>
+    </head>
+
+    <body>
+
+      <nav class="navbar">
+      <div class="brand-title">Eni-Enchères</div>
+      
+      <a href="#" class="toggle-button">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+      </a>
+      </div>
+      <div class="navbar-links">
+          <ul> 
+              <li><a href="PageListeEncheresNonConnecte.html">Enchères  <i class="fas fa-bullhorn"></i></i></a></li>
+              <li><a href="PageConnexion.html">Vendre  <i class="fas fa-hand-holding-usd"></i></a></li>
+              <li><a href="PageConnexion.html">Mon Profil  <i class="fas fa-user-circle"></i></a></li>
+              <li><a href="PageConnexion.html">Connexion  <i class="fas fa-sign-in-alt"></i></a></li>
+          </ul>
+      </div>
+    </nav>
+    <!--Banner-->
+    <div class="header">
+    </div>
+    <!--Head-->
+    <div class="head">
+      <h1>Nouvelle vente</h1>
+    </div>
+
+
+    <!-- Formulaire Vendre un article-->
+
+    <section class="register-form">
+      <form class="register" action="result.html" method="GET"> <!-- change methode to POST to get results on server, i used GET to show the result in html file-->
+      
+        <div class="input-field">
+          <label for="article">Article :</label>
+          <input class="input" type="text" name="article" id="article"  placeholder="Article" required>
+        </div>
+
+        <div class="input-field">
+          <label for="description">Description :</label>
+          <textarea class="input"name="description" id="description">Entrez une description de l'article</textarea>
+        </div>
+
+        <div class="input-field"> <!--Un div peut être?-->
+          <label for="categorie">Catégorie :</label>
+          <select class="input" id="categorie">
+            <option value ="">--Choisir une option--</option>
+            <option value ="">Voiture</option>
+            <option value ="">éléctronique</option>
+            <option value ="">Vélo</option>
+            <option value ="">Mobilier</option>
+            <option value ="">Animaux</option>
+          </select>
+        </div>
+      
+        <div class="input-field"> <!-- ça marche pas-->
+          <label for="file">Photo de l'article :</label>
+          </div class="input"> 
+            <input type="file" name="file" id="file" accept="image/*"> <!--Only helps the user, need to put protection in the backend-->
+            <input type="submit">
+        </div>
+
+        
+        
+        <div class="input-field">
+              <label for="mPrix">Mise à prix :</label>
+              <input class="input" type="number" name="mPrix" id="mPrix" 
+              step="5" max= "10000" required>
+        </div>
+
+        <div class="input-field">
+            <label for="dEnchere">Début de l'enchère :</label>
+            <input class="input" type="date" name="dEnchere" id="dEnchere" required> 
+        </div>
+
+        <div class="input-field">
+            <label for="fEnchere">Fin de l'enchère :</label>
+            <input class= "input" type="date" name="fEnchere" id="fEnchere" required> 
+        </div>
+
+    <!-- Retrait-->
+    <div class="retrait">
+      <h1>Retrait de l'objet</h1>
+      <div class="input-field">
+          <label for="rue">Rue :</label>
+          <input class="input" type="text" name="rue" id="rue" maxlength="100" required>
+      </div>
+
+      <div class="input-field">
+          <label for="cp">Code Postale :</label>
+          <input class="input" type="text" name="codepostale" id="cp" 
+          step="1000" min="0" maxlength="5" minlength="5" required>
+      </div>
+
+      <div class="input-field">
+          <label for="ville">Ville :</label>
+          <input class="input" type="text" name="ville" id="ville" required>
+      </div>
+    </div>
+
+        <div>
+          <button class="btn-login" type="submit">Enregistrer</button> </a>
+        </div>
+
+        <div>
+          <a href ='PageEcheresConnecte.html'><button class="btn-login" type="button"> 
+            Annuler
+          </button></a>
+        </div>
+
+        <div>
+          <button class="btn-login" type="submit">Annuler la vente</button> </a>
+        </div>
+
+      </form>
+    </section>
+    
+</body>
+</html>
