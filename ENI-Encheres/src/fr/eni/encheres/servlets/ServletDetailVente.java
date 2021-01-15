@@ -46,7 +46,8 @@ public class ServletDetailVente extends HttpServlet {
 		}
 		if (articleAffiche != null) {
 			request.setAttribute("ArticleAffiche", articleAffiche);
-			request.getRequestDispatcher("/WEB-INF/jsp/detailVente.jsp").forward(request, response);;
+			
+			request.getRequestDispatcher("/WEB-INF/jsp/detailVente.jsp").forward(request, response);
 		
 		}
 		

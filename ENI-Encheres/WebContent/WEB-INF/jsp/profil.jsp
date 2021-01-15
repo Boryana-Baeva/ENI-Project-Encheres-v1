@@ -69,8 +69,13 @@
             <td class="td1"><p class="value-td1">Ville : </p></td>
             <td class="td2"><p class="value-td2"><%=userAffiche.getVille() %></p></td>
         </tr>
-    </table>
     <% if(connectedUser.getId()==userAffiche.getId() ){%>
+        <tr>
+            <td class="td1"><p class="value-td1">Crédit : </p></td>
+            <td class="td2"><p class="value-td2"><%=userAffiche.getCredit() %></p></td>
+        </tr>
+    </table>
+    
     <div class=btn-large>
         <a href ="<%=request.getContextPath()%>/updateProfil"><button class="btn" type="button"> <!--change that with index.html file location-->
           Modifier

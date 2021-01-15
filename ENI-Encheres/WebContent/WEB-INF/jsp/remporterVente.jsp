@@ -28,10 +28,17 @@
     <div class="head">
       <h1>Vente Remportée</h1>
     </div>
-
+    <%ArticleVendu article = (ArticleVendu)request.getAttribute("articleRemporte"); %>
+    <%Enchere enchere = (Enchere)request.getAttribute("meilleureEnchere"); %>
+	<% Utilisateur connectedUser = (Utilisateur) session.getAttribute("ConnectedUser"); %>
+	<% Utilisateur encherisseurRemporte = enchere.getEncherisseur(); %>
     <div class="container-vente">
       <div class="encherisseur">
+      <% if(connectedUser == encherisseurRemporte) { %>
         <h1>Vous avez remporté la vente</h1>
+       <% } else {%>
+        <h1><%=encherisseurRemporte.getPseudo() %> a remporté la vente</h1>
+       <% } %>
       </div>
         
         <div class="top-container-vente">
@@ -39,8 +46,7 @@
               <img src="img/tournevis.jpeg" alt="">
           </div>
         </div>
-        <%ArticleVendu article = (ArticleVendu)request.getAttribute("articleRemporte"); %>
-        <%Enchere enchere = (Enchere)request.getAttribute("meilleureEnchere"); %>
+        
         <table>
             <tr>
               <td class="td1"><p class="value-td1">Nom de l'article:</p></td>
@@ -58,7 +64,7 @@
              <% } %>
             <tr>
                 <td class="td1"><p class="value-td1">Mise à prix:</p></td>
-                <td class="td2"><p class="value-td2"><%=article.getMiseAPrix()%></p></td>
+                <td class="td2"><p class="value-td2"><%=article.getMiseAPrix()%> pts </p></td>
             </tr> 
             <tr>
                 <td class="td1"><p class="value-td1">Retrait:</p></td>

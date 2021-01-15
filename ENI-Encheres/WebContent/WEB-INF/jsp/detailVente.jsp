@@ -28,7 +28,6 @@
       <h1>Détail Vente</h1>
     </div>
 	<% ArticleVendu article = (ArticleVendu)request.getAttribute("ArticleAffiche"); %>
-	<%Enchere enchere = (Enchere)request.getAttribute("meilleureEnchere"); %>
     <div class="container-vente">
         <div class="card-img-container">
             <img src="img/tournevis.jpeg" alt="">
@@ -45,12 +44,12 @@
             <%if(article.getPrixVente() != 0) { %>
             <tr>
                 <td class="td1"><p class="value-td1">Meilleure offre:</p></td>
-                <td class="td2"><p class="value-td2"><%=article.getPrixVente()%> pts par <%=enchere.getEncherisseur().getPseudo() %></p></td>
+                <td class="td2"><p class="value-td2"><%=article.getPrixVente()%> pts </p></td>
             </tr>
             <% } %>
             <tr>
                 <td class="td1"><p class="value-td1">Mise à prix:</p></td>
-                <td class="td2"><p class="value-td2"><%=article.getMiseAPrix() %></p></td>
+                <td class="td2"><p class="value-td2"><%=article.getMiseAPrix()  %> pts</p></td>
             </tr>  
             <tr>
                 <td class="td1"><p class="value-td1">Fin de l'enchère:</p></td>

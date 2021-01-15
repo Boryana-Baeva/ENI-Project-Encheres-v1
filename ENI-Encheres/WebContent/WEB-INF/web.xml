@@ -91,4 +91,13 @@
   	<url-pattern>/JSPDetailVente</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>RemporterVente</servlet-name>
+	<jsp-file>/WEB-INF/jsp/remporterVente.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>RemporterVente</servlet-name>
+  	<url-pattern>/JSPRemporterVente</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
