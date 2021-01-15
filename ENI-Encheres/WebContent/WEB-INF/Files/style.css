@@ -247,19 +247,19 @@ a:active {
    width: 100%;
 }
 
-.register-form .register .input-field {
+.input-field {
     margin-bottom: 15px;
     display: flex;
     align-items: center; 
  }
 
- .register-form .register .input-field label {
+ .input-field label {
     width: 200px;
     margin-right: 10px;
     font-size: 1.2rem;
  }
 
- .register-form .register .input-field .input {
+ .input-field .input {
      width: 100%;
      outline: none;
      border: 1px solid #d5dbd9;
@@ -268,7 +268,7 @@ a:active {
      padding: 8px 10px;
  }
 
- .register-form .register .input-field .input:focus {
+ .input-field .input:focus {
      border: 1px solid var(--border);
  }
 
@@ -315,10 +315,111 @@ a:active {
   }
 
 .retrait h1 {
-    text-align: center;
     padding-top: 20px;
     padding-bottom: 30px;
 }
+
+/* Profile */
+.profile {
+    margin-top: 60px;
+    border-spacing: 20px;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+table {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    margin-bottom: 20px;
+    border-spacing: 10px;
+}
+
+.td1 {
+    border:1px solid black;
+    width: 30%;
+    max-width: 75px;
+    font-size: 18px;
+    background-color: white;
+    border-radius: 5px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.td2 {
+    width:70%;
+    border:1px solid black;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 16px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.value-td1 {
+    padding-left: 10px;
+}
+
+.value-td2 {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Détail Vente */
+
+.container-vente {
+    max-width: 1100px;
+    width: 100%;
+    background: #fff;
+    margin: 60px auto;
+    padding: 30px;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.125);
+    border: 5px solid var(--border);
+    border-radius: 10px;
+    background-color: var(--primary-color);
+    color: black;
+}
+
+.top-container-vente {
+    width: 100%;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.nom-article {
+    text-align: center;
+    color: white;
+    font-size: 28px;
+}
+
+.input-field-2 {
+    margin: 40px 15%;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+
+ }
+
+ .input-field-2 label {
+    width: 40%;
+    font-size: 24px;
+    color: white;
+    margin-right: 50px;
+ }
+
+ .input-field-2 .input {
+     width: 40%;
+     outline: none;
+     border: 1px solid #d5dbd9;
+     border-radius: 3px;
+     font-size: 15px;
+     padding: 8px 10px;
+ }
+
+ .input-field-2 .input:focus {
+     border: 1px solid var(--border);
+ }
 
 /* Media Queries */
 
@@ -382,7 +483,6 @@ a:active {
         display: flex;
         grid-gap: 50px;
         flex-direction: column;
-        border: 1px red;
     }
 
     .header{
