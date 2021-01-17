@@ -22,8 +22,12 @@
  	<!-- Navbar -->
  	<%@ include file = "navbar.jsp" %>
  	
+ 	 <!--Head-->
+    <div class="head">
+      <h1>Se Connecter</h1>
+    </div>
  	
-
+ 	
 	<!--Logging form-->
 	
       <section class="login-form">
