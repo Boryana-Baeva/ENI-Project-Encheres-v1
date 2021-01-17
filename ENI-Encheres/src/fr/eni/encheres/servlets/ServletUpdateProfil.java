@@ -95,7 +95,7 @@ public class ServletUpdateProfil extends HttpServlet {
 				connectedUser.setCodePostal(codePostal);
 				connectedUser.setVille(ville);
 				
-				if (newPassword.equals(confirmation)) {
+				if (password.equals(connectedUser.getPassword()) && newPassword.equals(confirmation)) {
 					connectedUser.setPassword(newPassword);
 				} 
 							
