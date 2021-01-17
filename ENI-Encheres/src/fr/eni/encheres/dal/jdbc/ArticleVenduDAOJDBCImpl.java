@@ -199,20 +199,12 @@ public class ArticleVenduDAOJDBCImpl implements ArticleVenduDAO {
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
 			pstmt.setInt(1, id);
 
-			/*
-			 * // ::::Gestion des dépendances:::: // Supprimer l'article de la liste des
-			 * articles vendus du vendeur ArticleVendu article = this.getById(id);
-			 * Utilisateur vendeur = article.getVendeur();
-			 * 
-			 * vendeur.getArticlesVendus().remove(article); utilisateurDAO.update(vendeur);
-			 * article.setVendeur(null);
-			 * 
-			 * // Unset de la categorie de l'article article.setCategorie(null);
-			 * 
-			 * // Supprimer le lieu de retrait défini pour cet article
-			 * article.setLieuRetrait(null);
-			 * retraitDAO.delete(article.getLieuRetrait().getId());
-			 */
+			// Gestion des dépendances
+			ArticleVendu article = this.getById(id);
+			article.setVendeur(null);
+ 			article.setCategorie(null);
+          	        article.setLieuRetrait(null);
+			retraitDAO.delete(article.getLieuRetrait().getId());
 
 			// Supprimer l'article
 			pstmt.executeUpdate();
