@@ -26,6 +26,7 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 	private static final String UPDATE = "UPDATE ENCHERES SET date_enchere=?, montant_enchere=?,"  +
 											"no_article=?, no_utilisateur=?, remporte=? WHERE no_enchere=?";
 	private static final String DELETE = "DELETE ENCHERES WHERE no_enchere=?";
+	private static final String GET_ALL_BY_ARTICLE = "SELECT * FROM ENCHERES WHERE no_article=?";
 	
 	private static ArticleVenduDAO articleDao = new ArticleVenduDAOJDBCImpl();
 	private static UtilisateurDAO utilisateurDAO = new UtilisateurDAOJDBCImpl();
@@ -230,6 +231,41 @@ public class EnchereDAOJDBCImpl implements EnchereDAO{
 
 		}
 	}
+
+	@Override
+	public List<Enchere> getAllByArticle(int id) throws BusinessException {
+		
+		List<Enchere> encheres = new ArrayList<>();
+		
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			 PreparedStatement statement = cnx.prepareStatement(GET_ALL_BY_ARTICLE);
+			 statement.setInt(1, id);
+			
+			 ResultSet rs = statement.executeQuery();
+			 
+			while (rs.next()) {
+				Enchere enchere = new Enchere();
+				enchere.setId(rs.getInt("no_enchere"));
+				enchere.setDate(rs.getDate("date_enchere").toLocalDate());
+				enchere.setMontant(rs.getInt("montant_enchere"));
+				enchere.setArticle(articleDao.getById(rs.getInt("no_article")));
+				enchere.setEncherisseur(utilisateurDAO.getById(rs.getInt("no_utilisateur")));
+				enchere.setRemporte(rs.getBoolean("remporte"));
+				
+				encheres.add(enchere);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.LECTURE_ENCHERES_ECHEC);
+			throw businessException;
+		}
+
+		return encheres;
+	}
+	
+	
 
 	
 	

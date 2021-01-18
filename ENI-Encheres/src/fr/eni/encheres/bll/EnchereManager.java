@@ -52,4 +52,12 @@ public class EnchereManager {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_ENCHERES_DATE_ERREUR);
 		}		
 	}
+	
+	
+	public static List<Enchere> selectionnerEncheresParArticle(int id) throws BusinessException
+	{
+		
+		return enchereDAO.getAllByArticle(id);
+		
+	}
 }

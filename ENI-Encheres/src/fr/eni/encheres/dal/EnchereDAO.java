@@ -20,4 +20,6 @@ public interface EnchereDAO {
 	public void update(Enchere enchere) throws BusinessException;
 	
 	public void delete(int id) throws BusinessException;
+	
+	public List<Enchere> getAllByArticle(int id) throws BusinessException;
 }

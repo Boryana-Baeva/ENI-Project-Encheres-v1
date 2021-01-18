@@ -1,3 +1,4 @@
+<%@page import="java.time.LocalDate"%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="fr.eni.encheres.bll.ArticleVenduManager"%>
@@ -104,7 +105,11 @@
 		        <% for(ArticleVendu article : listeArticles) { %> 
 		              <div class="card">
 		                <div class="card-header">
+		                <% if(article.getDateFinEncheres().isAfter(LocalDate.now())) { %>
 		                    <h1><a href="<%=request.getContextPath()%>/detailVente?idArticle=<%=article.getId() %>"><%=article.getNom()%></a></h1>
+		                 <% } else {%>
+		                 	<h1><a href="<%=request.getContextPath()%>/venteRemporte?idArticle=<%=article.getId() %>"><%=article.getNom()%></a></h1>
+		                 <% } %>
 		                </div>
 		                <div class="card-img-container">
 		                    <img src="img/tournevis.jpeg" alt="">

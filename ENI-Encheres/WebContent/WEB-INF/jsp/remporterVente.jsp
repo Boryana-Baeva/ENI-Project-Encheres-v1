@@ -28,16 +28,19 @@
     <div class="head">
       <h1>Vente Remportée</h1>
     </div>
-    <%ArticleVendu article = (ArticleVendu)request.getAttribute("articleRemporte"); %>
-    <%Enchere enchere = (Enchere)request.getAttribute("meilleureEnchere"); %>
+    <%ArticleVendu article = (ArticleVendu)request.getAttribute("ArticleAffiche"); %>
+    <%//Enchere enchere = (Enchere)request.getAttribute("meilleureEnchere"); %>
+    <%//Utilisateur encherisseurRemporte = enchere.getEncherisseur(); %>
+    <% Enchere meilleureOffre = (Enchere)request.getAttribute("MeilleureOffre"); %>
 	<% Utilisateur connectedUser = (Utilisateur) session.getAttribute("ConnectedUser"); %>
-	<% Utilisateur encherisseurRemporte = enchere.getEncherisseur(); %>
+	<% Utilisateur gagnantEnchere = (Utilisateur) request.getAttribute("GagnantEnchere"); %>
+	
     <div class="container-vente">
       <div class="encherisseur">
-      <% if(connectedUser == encherisseurRemporte) { %>
+      <% if(connectedUser.getPseudo().equals(gagnantEnchere.getPseudo())) { %>
         <h1>Vous avez remporté la vente</h1>
        <% } else {%>
-        <h1><%=encherisseurRemporte.getPseudo() %> a remporté la vente</h1>
+        <h1><%=gagnantEnchere.getPseudo() %> a remporté la vente</h1>
        <% } %>
       </div>
         
@@ -59,7 +62,7 @@
             <%if(article.getPrixVente() != 0) { %>
             <tr>
                 <td class="td1"><p class="value-td1">Meilleure offre:</p></td>
-                <td class="td2"><p class="value-td2"><%=article.getPrixVente()%> pts par <%=enchere.getEncherisseur().getPseudo() %>  </p></td>
+                <td class="td2"><p class="value-td2"><%=article.getPrixVente()%> pts par <%=meilleureOffre.getEncherisseur().getPseudo() %>  </p></td>
             </tr>
              <% } %>
             <tr>
